@@ -1,0 +1,335 @@
+
+html, body,
+ul, ol, li,
+h1, h2, h3, h4, h5, h6, p, div {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Lucida Grande";
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* ヘッダーとメインパートで共通のクラス */
+.container {
+  width: auto;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+/* start header contents */
+header {
+  height: 65px;
+  background-color:whitesmoke;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+}
+.header-left {
+  float: left;
+}
+.header-logo {
+  padding-top: 13px;
+  width: 124px;
+}
+/*
+#list_1{ 
+  display: flex;
+  flex-direction: row; LEFT TO RIGHT
+}*/
+.nav li {
+  font-family: 'Roboto Slab', serif;
+  padding: 20px 30px 16px 60px;
+  list-style: none;
+  float: left;
+  /*margin: auto; 横に広がる原因*/
+}
+.header-right {
+  float: right;
+  font-family: 'Roboto Slab', serif;
+  background-color: whitesmoke;
+  transition: all 0.5s;
+  display: none;
+}
+
+.open {
+  display: initial;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+.header-right a {
+  float: left;
+  display: block;
+  line-height: 65px;
+  color:black;
+  padding: 0px 25px;
+  top: -4%;
+  /*position: absolute;*/
+}
+
+
+/* START SIGN IN POP UP */
+* {box-sizing: border-box}
+
+/* Full-width input fields */
+  input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* Set a style for all buttons */
+.sign_up {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+  overflow-y: scroll
+}
+
+signup:hover {
+  opacity:1;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  padding: 14px 20px;
+  background-color: #f44336;
+}
+
+
+/* Add padding to container elements */
+/* .container {
+  padding: 16px;
+} */
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+  .cancelbtn, .signupbtn {
+    width: 100%;
+  }
+}
+/* END SING UP */
+
+
+/* end header contents */
+
+.top-wrapper {
+  padding: 80px 0px 100px 0px;
+  background-image: url(/images/top_image1.jpg);
+  background-size: cover;
+  color:#07004D;
+  font-family: 'Roboto Slab', serif;
+  text-align: center;
+  height: 400px;
+  opacity: 0.9;
+}
+.top-wrapper h1 {
+  opacity: 0.9;
+  font-size: 35px;
+  letter-spacing: 3px;
+  margin-bottom: 5px;
+}
+.top-wrapper p {
+  font-size: 35px;
+  opacity: 0.9;
+  margin-bottom: 3px;
+}
+
+/*----　social media button　-------------------------------*/
+.social-media {
+  padding-top: 10px;
+  text-align: center;
+}
+.btn {
+  border-radius: 3px;
+  display: inline-block;
+  padding: 13px;
+  opacity: 0.8;
+}
+.signup-email {
+  background-color: #239b76;
+  color: white;
+}
+.signup-fb {
+  background-color: #3b5998;
+  color: white;
+  margin-right: 10px;
+}
+.signup-twitter {
+  background-color: #55acee;
+  color: white;
+}
+.btn:hover {
+  opacity: 1;
+}
+.fa {
+  margin-right: 5px;
+}
+
+/*---Middle wrapper------------------------------*/
+.middle-wrapper {
+  background-color: #EB8A90;
+  color: white;
+}
+/* .middle-wrapper h4 {
+  
+} */
+.home-bookbtn  {
+  display: inline-block;
+  width: 20px;
+  height: 10px;
+}
+
+
+/*------- start main contents --------*/
+
+/* 1 */
+.main-wrapper {
+  height: auto;
+  padding-bottom: 80px;
+  background-color: #f7f7f7;
+  text-align: center;
+}
+
+/*-------- search engine --------*/
+/* 3 */
+.search-engine {
+  padding-top: 60px;
+  padding-bottom: 30px;
+   /* text-align: center; 不要？*/ 
+  color: #202020;
+  font-family: 'Roboto Slab', serif;
+}
+.search-engine h2 {
+  font-weight: normal;
+  margin: 15px 15px;
+  /* color: #5f5d60; 上で書いてるからここには必要なし*/
+}
+input::placeholder
+{
+  font-size: 1.3em;
+}
+.search-field {
+  height: 10px;
+  padding: 20px;
+  border: 0.8px solid #808080;
+  outline: none;
+}
+.location {
+  width: 500px;
+}
+.search-btn {
+  height: 50px;
+  width: 100px;
+  background: #239b76;
+  border: none;
+  color: #000;
+  color: white;
+}
+.search-btn:hover {
+  background: #59ddb5;
+  cursor: pointer;
+}
+/* background for search engine if I will need
+.search-box {
+  background:whitesmoke;
+  padding: 10px;
+}*/
+
+
+/*--- POSTING　PROPERTIES -------------------------*/
+.result_list {
+  margin-top: 35px;
+  display: flex;
+justify-content: space-evenly;
+flex-direction: row;
+flex-wrap: wrap;
+}
+.result_list .property {
+  /* float: left; */
+  width: 25%;
+  margin-bottom: 50px;
+}
+.result_list .property img {
+  position: relative;
+  /*width: 100%;*/
+  margin-bottom: 25px;
+  width: 250px; /*画像の大きさを統一するため*/
+  height: 250px; /*画像の大きさを統一するため*/
+  object-fit: cover; /*画像の大きさを統一してトリミングするため*/
+ 
+}
+.result_list .property:hover img {
+  transform: scale(1.1);
+  box-shadow: 3px 3px #e2e2e2;
+}
+
+.result_list .property h2 {
+  color: #862020;
+  margin-bottom: 3px;
+  width: 100%; /* make the text center */
+  line-height: 25px;
+}
+.result_list .property P {
+  color: #862020;
+  width: 80%;
+  display: inline-block;
+  text-align: center; 
+}
+/*------ TOP PAGE SECTION ----------------------------*/
+.section {
+  margin-top: 35px;
+  display: flex;
+ justify-content: space-evenly;
+ flex-direction: row;
+ flex-wrap: wrap;
+}
+.section img {
+  position: relative;
+  /*width: 100%;*/
+  margin-bottom: 25px;
+  width: 250px; /*画像の大きさを統一するため*/
+  height: 250px; /*画像の大きさを統一するため*/
+  object-fit: cover; /*画像の大きさを統一してトリミングするため*/
+  border-radius: 3px;
+}
+.section_list .property h2 {
+  color: #862020;
+  margin-bottom: 3px;
+  width: 100%; /* make the text center */
+  line-height: 25px;
+}
