@@ -1,175 +1,313 @@
+/*---------------------- DEFINE RESPONSIVE DESIGN --------------------------*/
 
-html, body,
-ul, ol, li,
-h1, h2, h3, h4, h5, h6, p, div {
+/*----------------- START CONTAINER AND OTHER COMMON PART ------------------*/
+html,
+body,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+div {
   margin: 0;
   padding: 0;
 }
-
 body {
-  font-family: "Lucida Grande";
+  /* font-family: 'Lucida Grande'; */
+  font-family: 'Roboto Slab', serif;
 }
-
 li {
   list-style: none;
 }
-
 a {
   text-decoration: none;
 }
-
-/* ヘッダーとメインパートで共通のクラス */
-.container {
+/* .container {
   width: auto;
   padding: 0 15px;
   margin: 0 auto;
-}
-/* start header contents */
+} */
+/*-------------- END CONTAINER AND OTHER COMMON PART ---------------------*/
+
+/*-------------------------- START HEADER --------------------------------*/
 header {
-  height: 65px;
-  background-color:whitesmoke;
   width: 100%;
+  height: 65px;
+  background-color: whitesmoke;
   position: fixed;
   top: 0;
   z-index: 10;
-}
-.header-left {
-  float: left;
+  color: #000;
 }
 .header-logo {
   padding-top: 13px;
   width: 124px;
+  float: left;
 }
-/*
-#list_1{ 
+nav {
+  width: 100%;
+}
+#list {
   display: flex;
-  flex-direction: row; LEFT TO RIGHT
-}*/
+}
 .nav li {
   font-family: 'Roboto Slab', serif;
   padding: 20px 30px 16px 60px;
   list-style: none;
-  float: left;
+  /* float: left; */
+  color: #000;
   /*margin: auto; 横に広がる原因*/
 }
-.header-right {
+.nav li:hover {
+  opacity: 0.5;
+}
+.nav li a:visited {
+  color: #000;
+}
+/*----------------------------------------*/
+.header-container {
   float: right;
   font-family: 'Roboto Slab', serif;
   background-color: whitesmoke;
   transition: all 0.5s;
   display: none;
+  width: 50%;
+  margin-right: 70px;
 }
-
-.open {
+.header-container form {
+  margin-top: 50px;
+}
+header .open {
   display: initial;
-  overflow-y: scroll;
-  height: 100vh;
+  overflow: auto;
+  height: 75vh;
+  padding-top: 20px;
+  margin: 40px 20px;
+  overflow: scroll;
 }
+.header-container2 {
+  float: left;
+  font-family: 'Roboto Slab', serif;
+  background-color: whitesmoke;
+  transition: all 0.5s;
+  display: none;
+  width: 50%;
+  margin-left: 260px;
+  padding: 50px;
+}
+/*-------------------------- END HEADER ---------------------------------*/
 
-.header-right a {
+/*-------------------------- START LOG IN -------------------------------*/
+.login_container {
+  float: right;
+  font-family: 'Roboto Slab', serif;
+  background-color: whitesmoke;
+  transition: all 0.5s;
+  /* display: none; */
+  width: 80%;
+  margin-right: 70px;
+  border: 1px solid #69696934;
+  /* padding: 20px; */
+}
+.login_container a {
+  text-align: center;
+  margin-top: 20px;
   float: left;
   display: block;
-  line-height: 65px;
-  color:black;
+  line-height: 35px;
+  color: white;
   padding: 0px 25px;
-  top: -4%;
-  /*position: absolute;*/
+}
+.loginbtn {
+  background-color: #530f0f;
+  color: white;
+  text-align: center;
+  line-height: 30px;
+  width: 100px;
+  margin-left: 30px;
+}
+.loginbtn:hover {
+  opacity: 0.5;
+}
+.login_form {
+  text-align: center;
 }
 
+/*-------------------------- END LOG IN ---------------------------------*/
 
-/* START SIGN IN POP UP */
-* {box-sizing: border-box}
+/*-------------------------- START SIGN UP ------------------------------*/
+/*  .signup_container {
+  float: right;
+  font-family: 'Roboto Slab', serif;
+  background-color: whitesmoke;
+  transition: all 0.5s;
+  display: none; 
+  width: 80%;
+  margin-right: 70px;
+  border: 1px solid #69696934;
+}*/
+.signup_form input {
+  border: 5px solid #69696934;
+}
 
+.signup_container a {
+  text-align: center;
+  margin-top: 20px;
+  float: left;
+  display: block;
+  line-height: 35px;
+  color: white;
+  padding: 0px 25px;
+}
+
+.header-container,
+.container,
+.signup_social-media a {
+  text-align: center;
+  align-items: center;
+}
+.signup_social-media {
+  text-align: center;
+  align-items: center;
+  margin-top: 30px;
+}
+.signup_formgroup {
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.signup_form {
+  /* border: 1px solid #ccc; */
+  text-align: left;
+}
+.signup_form b {
+  margin-right: 10px;
+}
 /* Full-width input fields */
-  input[type=text], input[type=password] {
-  width: 100%;
+.signup_form input[type='text'],
+input[type='password'],
+input[type='email'] {
+  width: 50%;
   padding: 15px;
   margin: 5px 0 22px 0;
   display: inline-block;
-  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.596);
   background: #f1f1f1;
+  text-align: left;
 }
-
-input[type=text]:focus, input[type=password]:focus {
+input[type='text']:focus,
+input[type='password']:focus,
+input[type='email']:focus {
   background-color: #ddd;
   outline: none;
 }
 
 hr {
-  border: 1px solid #f1f1f1;
+  border: 1px solid #6461619d;
   margin-bottom: 25px;
 }
 
 /* Set a style for all buttons */
 .sign_up {
-  background-color: #4CAF50;
-  color: white;
+  /* background-color: #4caf50; */
   padding: 14px 20px;
   margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
+  height: 20px;
+  width: 60%;
   opacity: 0.9;
-  overflow-y: scroll
+  overflow-y: scroll;
 }
-
+.signupbtn {
+  background-color: #530f0f;
+  color: white;
+  text-align: center;
+  line-height: 30px;
+  width: 100px;
+  margin-left: 30px;
+}
 signup:hover {
-  opacity:1;
+  opacity: 1;
 }
 
 /* Extra styles for the cancel button */
 .cancelbtn {
-  padding: 14px 20px;
-  background-color: #f44336;
+  background-color: #07004d;
+  color: white;
+  text-align: center;
+  line-height: 30px;
+  width: 100px;
+  opacity: 1;
 }
-
-
-/* Add padding to container elements */
-/* .container {
-  padding: 16px;
-} */
+.cancelbtn:hover {
+  opacity: 0.5;
+}
+.log_cancelbtn {
+  background-color: #07004d;
+  color: white;
+  text-align: center;
+  line-height: 30px;
+  width: 100px;
+  opacity: 1;
+}
+.log_cancelbtn:hover {
+  opacity: 0.5;
+}
 
 /* Clear floats */
 .clearfix::after {
-  content: "";
+  content: '';
   clear: both;
   display: table;
+}
+.clearfix {
+  margin: 30px 30px;
+  font-family: 'Roboto Slab', serif;
 }
 
 /* Change styles for cancel button and signup button on extra small screens */
 @media screen and (max-width: 300px) {
-  .cancelbtn, .signupbtn {
+  .cancelbtn,
+  .signupbtn {
     width: 100%;
   }
 }
-/* END SING UP */
+/*-------------------------- END SIGN UP --------------------------------*/
 
+/*----------------------- END HEADER CONTENTS ---------------------------*/
 
-/* end header contents */
-
+/*------------ START TOP WRAPPER (TOP IMAGE AND CATCH) -------------------*/
 .top-wrapper {
   padding: 80px 0px 100px 0px;
   background-image: url(/images/top_image1.jpg);
   background-size: cover;
-  color:#07004D;
+  color: #07004d;
   font-family: 'Roboto Slab', serif;
   text-align: center;
-  height: 400px;
-  opacity: 0.9;
+  height: 650px;
+  width: 100%;
+  opacity: 0.8;
 }
 .top-wrapper h1 {
   opacity: 0.9;
   font-size: 35px;
   letter-spacing: 3px;
   margin-bottom: 5px;
+  margin-top: 30px;
 }
 .top-wrapper p {
   font-size: 35px;
   opacity: 0.9;
   margin-bottom: 3px;
 }
+/*------------ END TOP WRAPPER (TOP IMAGE AND CATCH ---------------------*/
 
-/*----　social media button　-------------------------------*/
+/*--------------- START SOCIAL MEDIA BUTTON -----------------------------*/
 .social-media {
   padding-top: 10px;
   text-align: center;
@@ -179,10 +317,6 @@ signup:hover {
   display: inline-block;
   padding: 13px;
   opacity: 0.8;
-}
-.signup-email {
-  background-color: #239b76;
-  color: white;
 }
 .signup-fb {
   background-color: #3b5998;
@@ -199,23 +333,45 @@ signup:hover {
 .fa {
   margin-right: 5px;
 }
+/*--------------- END SOCIAL MEDIA BUTTON ------------------------------*/
 
-/*---Middle wrapper------------------------------*/
+/*----------- START MIDDLE WRAPPER (PROMOTION) -------------------------*/
+#promo_link {
+  padding-top: 300px;
+  margin-top: -300px; /*プロモが中央にくるように調整*/
+}
+
 .middle-wrapper {
-  background-color: #EB8A90;
+  background-color: #1b1653;
   color: white;
+  text-align: center;
+  margin: 10px;
+  padding: 10px;
 }
-/* .middle-wrapper h4 {
-  
-} */
-.home-bookbtn  {
-  display: inline-block;
-  width: 20px;
-  height: 10px;
+.middle-wrapper h4 {
+  font-size: 20px;
 }
+.middle-wrapper h5 {
+  font-size: 25px;
+}
+.middle-wrapper .promobtn {
+  height: 30px;
+  width: 200px;
+  background: white;
+  border: none;
+  color: #1b1653;
+  margin-top: 10px;
+  font-family: 'Roboto Slab', serif;
+  box-shadow: 3px 4px 1px #04030e;
+  border-radius: 3px;
+}
+.middle-wrapper .promobtn:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+/*------------ END MIDDLE WRAPPER (PROMOTION) ----------------------------*/
 
-
-/*------- start main contents --------*/
+/*----------------- START MAIN CONTENTS ----------------------------------*/
 
 /* 1 */
 .main-wrapper {
@@ -225,12 +381,13 @@ signup:hover {
   text-align: center;
 }
 
-/*-------- search engine --------*/
+/*--------------- START HOME SEARCH ENGINE -------------------------------*/
+
 /* 3 */
 .search-engine {
   padding-top: 60px;
   padding-bottom: 30px;
-   /* text-align: center; 不要？*/ 
+  /* text-align: center; 不要？*/
   color: #202020;
   font-family: 'Roboto Slab', serif;
 }
@@ -239,21 +396,21 @@ signup:hover {
   margin: 15px 15px;
   /* color: #5f5d60; 上で書いてるからここには必要なし*/
 }
-input::placeholder
-{
+input::placeholder {
   font-size: 1.3em;
 }
 .search-field {
-  height: 10px;
+  height: 5px;
   padding: 20px;
   border: 0.8px solid #808080;
   outline: none;
+  width: 500px;
 }
 .location {
   width: 500px;
 }
 .search-btn {
-  height: 50px;
+  height: 48px;
   width: 100px;
   background: #239b76;
   border: none;
@@ -269,15 +426,46 @@ input::placeholder
   background:whitesmoke;
   padding: 10px;
 }*/
+/*--------------- END HOME SEARCH ENGINE ---------------------------------*/
 
+/*--------------- START ABOUT US -----------------------------------------*/
+.about {
+  margin-top: 5.5em;
+  background-color: #959fa52e;
+  padding: 45px;
+}
+.about h2 {
+  font-size: 2.5em;
+  margin-bottom: 16px;
+}
+.about_pic {
+  object-position: center;
+  width: 50%;
+  -webkit-filter: blur(0.5px);
+  filter: blur(0.5px);
+}
+.about p {
+  font-size: 1.2em;
+  color: #625e5e;
+  line-height: 25px;
+  margin-top: 5px;
+}
+#about_link {
+  padding-top: 190px;
+  margin-top: -190px;
+}
 
-/*--- POSTING　PROPERTIES -------------------------*/
+/*--------------- START LISTING ------------------------------------------*/
+.listing_title {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
 .result_list {
   margin-top: 35px;
   display: flex;
-justify-content: space-evenly;
-flex-direction: row;
-flex-wrap: wrap;
+  justify-content: space-evenly;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 .result_list .property {
   /* float: left; */
@@ -293,7 +481,6 @@ flex-wrap: wrap;
   width: 250px; /*画像の大きさを統一するため*/
   height: 250px; /*画像の大きさを統一するため*/
   object-fit: cover; /*画像の大きさを統一してトリミングするため*/
- 
 }
 .result_list .property:hover img {
   transform: scale(1.1);
@@ -301,24 +488,29 @@ flex-wrap: wrap;
 }
 
 .result_list .property h2 {
-  color: #862020;
+  color: #530f0f;
   margin-bottom: 3px;
   width: 100%; /* make the text center */
   line-height: 25px;
 }
 .result_list .property P {
-  color: #862020;
+  color: #530f0f;
   width: 80%;
   display: inline-block;
-  text-align: center; 
+  text-align: center;
 }
-/*------ TOP PAGE SECTION ----------------------------*/
+/*--------------- END LISTING -------------------------------------------*/
+/*------ START HOME SECTION ---------------------------------------------*/
+.main-wrapper h1 {
+  margin: 30px 30px;
+}
 .section {
-  margin-top: 35px;
+  margin-top: 35px 35px;
   display: flex;
- justify-content: space-evenly;
- flex-direction: row;
- flex-wrap: wrap;
+  justify-content: space-evenly;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background-color: whitesmoke;
 }
 .section img {
   position: relative;
@@ -330,175 +522,220 @@ flex-wrap: wrap;
   border-radius: 3px;
 }
 .section_list .property h2 {
-  color: #862020;
+  color: #530f0f;
   margin-bottom: 3px;
   width: 100%; /* make the text center */
   line-height: 25px;
 }
-.site-footer
-{
-  background-color:#26272b;
-  padding:45px 0 20px;
-  font-size:15px;
-  line-height:24px;
-  color:#737373;
+.section .section_item:hover img {
+  transform: scale(1.1);
+  box-shadow: 3px 3px #e2e2e2;
 }
-.site-footer hr
-{
-  border-top-color:#bbb;
-  opacity:0.5
+/*--------------- END HOME SECTION --------------------------------------*/
+/*--------------- START FOOTER ------------------------------------------*/
+.contact {
+  margin: 100px 80px 100px 80px;
 }
-.site-footer hr.small
-{
-  margin:20px 0
+.contact h3 {
+  font-size: 24px;
+  border-bottom: 2px solid #dee7ec;
+  padding-bottom: 15px;
+  margin-bottom: 33px;
 }
-.site-footer h6
-{
-  color:#fff;
-  font-size:16px;
-  text-transform:uppercase;
-  margin-top:5px;
-  letter-spacing:2px
+.contact p {
+  margin-bottom: 10px;
+  font-size: 15px;
 }
-.site-footer a
-{
-  color:#737373;
+.contact span {
+  color: red;
 }
-.site-footer a:hover
-{
-  color:#3366cc;
-  text-decoration:none;
+input,
+textarea {
+  margin-bottom: 30px;
+  border: 1px solid #dee7ec;
+  width: 400px;
+  padding: 6px;
+  font-size: 12px;
+  font-family: 'Roboto Slab', serif;
 }
-.footer-links
-{
-  padding-left:0;
-  list-style:none
+.contact-submit {
+  background-color: #239b76;
+  color: white;
+  font-weight: bold;
 }
-.footer-links li
-{
-  display:block
+.contact-submit:hover {
+  color: white;
+  background-color: #176951;
 }
-.footer-links a
-{
-  color:#737373
+footer {
+  /* padding: 10px 50px 10px 90px; */
+  /* float: left; */
+  /* position: absolute; */
+  background-color: #2f5167;
+  color: white;
+  height: auto;
+  width: 100%;
 }
-.footer-links a:active,.footer-links a:focus,.footer-links a:hover
-{
-  color:#3366cc;
-  text-decoration:none;
+footer li {
+  padding-bottom: 10px;
+  text-decoration: underline;
+  color: inherit;
 }
-.footer-links.inline li
-{
-  display:inline-block
+.footer_elements {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
 }
-.site-footer .social-icons
-{
-  text-align:right
+/*don't change the color to purple */
+footer a:visited {
+  color: white;
 }
-.site-footer .social-icons a
-{
-  width:40px;
-  height:40px;
-  line-height:40px;
-  margin-left:6px;
-  margin-right:0;
-  border-radius:100%;
-  background-color:#33353d
+footer p {
+  font-size: 10px;
+  margin: auto 0;
+  text-align: center;
 }
-.copyright-text
-{
-  margin:0
-}
-@media (max-width:991px)
-{
-  .site-footer [class^=col-]
-  {
-    margin-bottom:30px
+/* ------------- END FOOTER SOCIAL MEDIA ICONS ---------------- */
+
+/* @media (max-width: 767px) {
+  footer_social-media li.title {
+    display: block;
+    margin-right: 0;
+    font-weight: 600;
   }
+} */
+
+.snsButtons {
+  margin: 5px;
+  padding: 0px;
+  text-align: center;
+  /* float: right; */
 }
-@media (max-width:767px)
-{
-  .site-footer
-  {
-    padding-bottom:0
-  }
-  .site-footer .copyright-text,.site-footer .social-icons
-  {
-    text-align:center
-  }
+.snsButtons a {
+  text-decoration: none;
 }
-.social-icons
-{
-  padding-left:0;
-  margin-bottom:0;
-  list-style:none
+/* 各 SNS ボタンのボックス */
+.snsButtons li {
+  display: inline-block; /* 水平に並べる */
+  list-style-type: none; /* 先頭のポッチを消す */
+  margin: 2px;
+  padding: 6px 0px;
+  /* color: white; */
+  border-radius: 4px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
 }
-.social-icons li
-{
-  display:inline-block;
-  margin-bottom:4px
+/* マウスカーソルを重ねたとき */
+.snsButtons li:hover {
+  opacity: 0.7;
 }
-.social-icons li.title
-{
-  margin-right:15px;
-  text-transform:uppercase;
-  color:#96a2b2;
-  font-weight:700;
-  font-size:13px
+/* クリックしたとき */
+.snsButtons li:active {
+  box-shadow: inset 0 0 2px rgba(128, 128, 128, 0.1);
+  transform: translateY(2px);
 }
-.social-icons a{
-  background-color:#eceeef;
-  color:#818a91;
-  font-size:16px;
-  display:inline-block;
-  line-height:44px;
-  width:44px;
-  height:44px;
-  text-align:center;
-  margin-right:8px;
-  border-radius:100%;
-  -webkit-transition:all .2s linear;
-  -o-transition:all .2s linear;
-  transition:all .2s linear
-}
-.social-icons a:active,.social-icons a:focus,.social-icons a:hover
-{
-  color:#fff;
-  background-color:#29aafe
-}
-.social-icons.size-sm a
-{
-  line-height:34px;
-  height:34px;
-  width:34px;
-  font-size:14px
-}
-.social-icons a.facebook:hover
-{
-  background-color:#3b5998
-}
-.social-icons a.twitter:hover
-{
-  background-color:#00aced
-}
-.social-icons a.linkedin:hover
-{
-  background-color:#007bb6
-}
-.social-icons a.dribbble:hover
-{
-  background-color:#ea4c89
-}
-@media (max-width:767px)
-{
-  .social-icons li.title
-  {
-    display:block;
-    margin-right:0;
-    font-weight:600
-  }
+/* アイコン部分 */
+.snsButtons i {
+  font-size: 18pt;
+  min-width: 40px;
+  margin: 0px;
+  vertical-align: bottom;
 }
 
-details img{
-  
+/* 各 SNS のブランドカラー */
+.snsButtons_twitter {
+  background: #1da1f2;
 }
+.snsButtons_facebook {
+  background: #3b5998;
+}
+.snsButtons_instagram {
+  background: #ea4c89;
+}
+/* -------------- END FOOTER SOCIAL MEDIA ICONS ------------------ */
+/*--------------- END FOOTER --------------------------------------*/
+/*--------------- START ROOM DETAILS PAGE -------------------------*/
+.room_detail {
+  margin: 40px 40px;
+}
+.room_detail img {
+  width: 250px; /*画像の大きさを統一するため*/
+  height: 250px; /*画像の大きさを統一するため*/
+  object-fit: cover; /*画像の大きさを統一してトリミングするため*/
+  flex: 1 0;
+  margin: 10px 10px;
+}
+
+.room_detail h2 {
+  color: #1b1653;
+  margin-bottom: 3px;
+  width: 100%;
+  line-height: 25px;
+}
+.heading {
+  margin-bottom: 20px;
+}
+.booking {
+  display: inline-block;
+  text-align: center;
+  align-items: center;
+}
+.room_detail_form {
+  display: flex;
+  justify-content: center;
+}
+.form-group input {
+  margin-right: 10px;
+}
+
+.book_now {
+  margin-bottom: 15px;
+  font-size: 1em;
+}
+.labels {
+  float: left;
+  margin-left: 7em;
+}
+.comment_label {
+  margin-right: 2em;
+  margin-bottom: 7em;
+}
+.comment_section {
+  display: flex;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.bookbtn {
+  margin: 1em auto 2em;
+  padding: 1em 3em;
+  background-color: #239b76;
+  color: white;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+.form-group b {
+  margin-right: 10px;
+}
+/* Full-width input fields */
+.form-group input[type='text'],
+input[type='password'],
+input[type='email'] {
+  width: 50%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: 1px solid rgba(0, 0, 0, 0.596);
+  background: #f1f1f1;
+  text-align: left;
+}
+input[type='text']:focus,
+input[type='password']:focus,
+input[type='email']:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/*--------------- END ROOM DETAILS PAGE -------------------------*/

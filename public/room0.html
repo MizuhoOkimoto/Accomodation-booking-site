@@ -1,136 +1,210 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Room Details</title>
-    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+  <meta charset="utf-8">
+
+  <title>Details</title>
+  <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+  <!-- FOR LOADING ICONS -->
+  <script src="https://kit.fontawesome.com/39ea4545e9.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
 </head>
-<header> <!-- START HEADER -->
-    <div class="container">
-     <!-- LOGO -->
-    <a class="header-left" href="/">
-      <img class="header-logo" src="/images/logo.png" alt="header-logo" />
-     </a>
-     <!-- NAVIGATION BAR -->
-      <div class="nav">
-         <ul id="list_1">
-           <li>About</li>
-           <li>Promotion</li>
-           <li><a href="listing.html">Room Listing</a></li>
-           <li><a class="login" href="#" >Log in</a></li>
-           <li><a class="sign_up" href="#" >sign up</a></li>
-         </ul>
-       </div>
-    <!-- LOGIN -->
-    <div class="header-right">
-     <div>
-       <div class="container">
-         <h1>Sign Up</h1>
-
-         <div class="social-media">　<!-- ソーシャルメディアボタンを移動させる -->
-           <a href="#" class="signup-fb btn"><span class="fa fa-facebook"></span>Sign up with Facebook</a>　<!-- FB -->
-           <a href="#" class="signup-twitter btn"><span class="fa fa-twitter"></span>Sign up with Twitter</a> <!-- TWITTER -->
-         </div>
-         <br></br>
-         <div>Please fill in this form to create an account.</div>
-         <hr>
-     
-       </div>
-       <form name = "signup_form" action="action_page.php" style="border:1px solid #ccc">
-           <label for="f_name"><b>First Name</b></label>
-           <input type="text" placeholder="Enter First Name" name="f_name" required>
-
-           <label for="l_name"><b>Last Name</b></label>
-           <input type="text" placeholder="Enter Last Name" name="l_name" required>
-
-           <label for="email"><b>Email</b></label>
-           <input type="text" placeholder="Enter Email" name="email" required>
-       
-           <label for="psw"><b>Password</b></label>
-           <input type="password" placeholder="Create Password" name="psw" required>
-       
-           <label for="psw-repeat"><b>Repeat Password</b></label>
-           <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
-       
-           <label>
-             <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
-           </label>
-         </form><!-- END SIGN IN -->
-       
-           <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
-       
-           <div class="clearfix">
-             <button type="button" class="cancelbtn">Cancel</button>
-             <button type="submit" class="signupbtn">Sign Up</button>
-           </div>
-         </div>
-       <a class="favorite" href="#" ><span class="far fa-heart"></span></a>
-     </div>
-     <!-- SIGN IN -->
-
-   </div> <!-- END CONTAINER -->
-  </header> <!-- END HEADER -->
 
 <body>
-<div class="container">
-    <div class="detail"> </div>
-</div>  
+
+  <header> <!-- START HEADER -->
+    <div class="container">
+     <!-- LOGO -->
+    <a href="/">
+      <img class="header-logo" src="/images/logo.png" alt="header-logo" />
+   </a>
+<!-- NAVIGATION BAR --------------------------------------------------------->
+   <div class="nav">
+       <ul id="list">
+         <li><a href="#about_link">About us</a></li>
+         <li><a href="#promo_link">Promotion</a></li>
+         <li><a href="#contact_link">Contact Us</a></li>
+         <li><a href="listing.html">Room List</a></li>
+         <li><a class="login" href="#" >Log in</a></li>
+         <li><a class="sign_up" href="#" >Sign up</a></li>
+       </ul>
+   </div>
+
+      <!--- SIGN UP AND LOG IN ------------------------------>
+      <div class="header-container">
+        <!--------------- START LOGIN FORM -------------------->
+        <!-- <div class="login_container open"> -->
+        <h1>Log in</h1>
+        <form>
+          <div class="login_form">
+            <label class="labels" for="email"><b>Email</b></label>
+            <input class="inputs" type="email" placeholder="Enter Email" name="email" required> <!-- type="text" ?? -->
+          </div>
+          <div class="login_form">
+            <label class="labels" for="psw"><b>Password</b></label>
+            <input class="inputs" type="password" placeholder="Create Password" name="psw" required>
+          </div>
+        </form><!-- END LOGIN FORM -->
+
+        <div class="clearfix">
+          <button type="button" class="log_cancelbtn">Cancel</button>
+          <button type="button" class="loginbtn">Log in</button>
+          <!-- </div> -->
+        </div>
+      </div>
+      <!--END HEADER-CONTAINER -->
+      <!--- END LOGIN FORM ------------------------>
+
+      <!-- SIGN UP POP UP --------------------------------------------------------->
+      <div id="modal-overlay"></div> <!-- ?????????-->
+      <div class="header-container2">
+        <!--- START SIGN UP FORM -------------------->
+        <!-- <div class="signup_container open"> -->
+        <h1>Sign Up</h1>
+
+        <div class="signup_social-media">
+          <a href="#" class="signup-fb btn"><span class="fa fa-facebook"></span>Sign up with Facebook</a>　
+          <!-- FB -->
+          <a href="#" class="signup-twitter btn"><span class="fa fa-twitter"></span>Sign up with Twitter</a>
+          <!-- TWITTER -->
+        </div>
+        <br></br>
+        <p>OR<br>
+          Please fill in this form to create an account.</p>
+        <hr>
+        <form>
+          <div class="signup_form">
+            <label class="labels" for="f_name"><b>First Name</b></label>
+            <input class="inputs" type="text" placeholder="Enter First Name" name="f_name" required>
+          </div>
+          <div class="signup_form">
+            <label class="labels" for="l_name"><b>Last Name</b></label>
+            <input class="inputs" type="text" placeholder="Enter Last Name" name="l_name" required>
+          </div>
+          <div class="signup_form">
+            <label class="labels" for="email"><b>Email</b></label>
+            <input class="inputs" type="email" placeholder="Enter Email" name="email" required> <!-- type="text" ?? -->
+          </div>
+          <div class="signup_form">
+            <label class="labels" for="psw"><b>Password</b></label>
+            <input class="inputs" type="password" placeholder="Create Password" name="psw" required>
+          </div>
+          <div class="signup_form">
+            <label class="labels" for="psw-repeat"><b>Repeat Password</b></label>
+            <input class="inputs" type="password" placeholder="Repeat Password" name="psw-repeat" required>
+          </div>
+          <!-- <div class="signup_form">
+              <label class="labels">
+                <input class="inputs" type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+              </label>
+            </div> -->
+        </form><!-- END SIGN UP FORM -->
+
+        <!-- <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p> -->
+
+        <div class="clearfix">
+          <button type="button" class="cancelbtn">Cancel</button>
+          <button type="button" class="signupbtn">Sign Up</button>
+        </div>
+        <!-- <a class="favorite" href="#" ><span class="far fa-heart"></span></a>   お気に入りボタン？　-->
+
+        <!-- </div>  END signup_container -->
+      </div>
+    </div> <!-- END class="header-container hidden" -->
+  </header> <!-- END HEADER -->
+
+  <!-- RUN JavaScript / DETAILS PICTURE -->
+  <div class="container">
+    <div class="booking">
+      <div class="result_list"></div>
+      <!----------------- BOOKING -------------------------->
+      <h2 class="heading">Booking Now</h2>
+      <form action="" class="room_detail_form">
+        <!-- START FORM GROUP -->
+
+        <div class="form-group">
+
+          <div class="book_now">
+            <label class="labels" for="name"><b>Name</b></label><br>
+            <input class="inputs" type="text" placeholder="Enter your Name" name="name" id="name" required>
+          </div>
+          <div class="book_now">
+            <label class="labels" for="email"><b>Email</b></label><br>
+            <input class="inputs" type="email" placeholder="Enter Email" name="email" id="email" required>
+            <!-- type="text" ?? -->
+          </div>
+          <div class="book_now">
+            <label class="labels" for="phone"><b>Phone Number</b></label><br>
+            <input class="inputs" type="text" placeholder="Enter your phone number" name="phone" id="phone" required>
+          </div>
+          <div class="book_now">
+            <label class="labels" for="street"><b>Street Address</b></label><br>
+            <input class="inputs" type="text" placeholder="Enter your street address" name="street" id="street"
+              required>
+          </div>
+          <div class="book_now">
+            <label class="labels" for="city"><b>City</b></label><br>
+            <input class="inputs" type="text" placeholder="Enter your city" name="city" id="city" required>
+          </div>
+          <div class="book_now">
+            <label class="labels" for="country"><b>County</b></label><br>
+            <input class="inputs" type="text" placeholder="Enter your country address" name="country" id="country"
+              required>
+          </div>
+
+          <!--  Details -->
+          <h2 class="heading">Details</h2>
+
+          <div class="book_now">
+            <i class="fa fa-sort"></i>
+            <label for="people"><i class="fa fa-male" id="people"></i>&nbsp;&nbsp;Number of guests</label>
+            <select class="people">
+              <option value="blank"></option>
+              <option value="1">1</option>
+              <option value="2" selected>2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+
+          <div class="book_now">
+            <label for="arrive" class="label-date"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Arrive</label>
+            <input type="date" id="arrive" class="floatLabel" name="arrive" value="<?php echo date('Y-m-d'); ?>">
+          </div>
+
+          <div class="book_now">
+            <label for="depart" class="label-date"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Depart</label>
+            <input type="date" id="depart" class="floatLabel" name="depart" value="<?php echo date('Y-m-d'); ?>" />
+          </div>
+          <div class="book_now comment_section">
+            <label class="comment_label" for="comments">Comments</label>
+            <textarea name="comments" id="comments"></textarea>
+          </div>
+          <button type="submit" value="Submit" class="bookbtn">Book Now</button>
+          <!-- END FORM -->
+      </form>
+    </div>
+    <!------ END class="booking"------>
+    <!------------------------------------- -->
+  </div>
+  </div>
 </body>
 
-  <!-- Site footer -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-12 col-md-6">
-          <h6>About</h6>
-          <p class="text-justify">Scanfcode.com <i>CODE WANTS TO BE SIMPLE </i> is an initiative  to help the upcoming programmers with the code. Scanfcode focuses on providing the most efficient code or snippets as the code wants to be simple. We will help programmers build up concepts in different programming languages that include C, C++, Java, HTML, CSS, Bootstrap, JavaScript, PHP, Android, SQL and Algorithm.</p>
-        </div>
-        
-        <div class="col-xs-6 col-md-3">
-          <h6>Categories</h6>
-          <ul class="footer-links">
-            <li><a href="http://scanfcode.com/category/c-language/">C</a></li>
-            <li><a href="http://scanfcode.com/category/front-end-development/">UI Design</a></li>
-            <li><a href="http://scanfcode.com/category/back-end-development/">PHP</a></li>
-            <li><a href="http://scanfcode.com/category/java-programming-language/">Java</a></li>
-            <li><a href="http://scanfcode.com/category/android/">Android</a></li>
-            <li><a href="http://scanfcode.com/category/templates/">Templates</a></li>
-          </ul>
-        </div>
-        
-        <div class="col-xs-6 col-md-3">
-          <h6>Quick Links</h6>
-          <ul class="footer-links">
-            <li><a href="http://scanfcode.com/about/">About Us</a></li>
-            <li><a href="http://scanfcode.com/contact/">Contact Us</a></li>
-            <li><a href="http://scanfcode.com/contribute-at-scanfcode/">Contribute</a></li>
-            <li><a href="http://scanfcode.com/privacy-policy/">Privacy Policy</a></li>
-            <li><a href="http://scanfcode.com/sitemap/">Sitemap</a></li>
-          </ul>
-        </div>
-      </div>
-      <hr>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8 col-sm-6 col-xs-12">
-          <p class="copyright-text">Copyright &copy; 2017 All Rights Reserved by 
-            <a href="#">Scanfcode</a>.
-          </p>
-        </div>
-        
-        <div class="col-md-4 col-sm-6 col-xs-12">
-          <ul class="social-icons">
-            <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-            <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-            <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
-            <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>   
-          </ul>
-        </div>
-      </div>
-    </div>
+<footer>
+    <ul class="footer_elements">
+      <li></li>
+      <li><a href="/">Top</li></a>
+      <li>Search</li>
+      <li>Jobs</li>
+      <li>Contact us</li>
+    </ul>
+    <ul class="snsButtons">
+      <li class="snsButtons_twitter"><i class="fa fa-twitter"></i><span class="snsButtons_label"></span></li>
+      <li class="snsButtons_facebook"><i class="fa fa-facebook-square"></i><span class="snsButtons_label"></span></li>
+      <li class="snsButtons_instagram"><i class="fa fa-instagram"></i><span class="snsButtons_label"></span></li>
+    </ul>
+    <p>© 2020 ANY, Inc. All rights reserved<br>Mizuho Okimoto</p>
 </footer>
-<script type="text/javascript"  src="/js/room0Script.js"></script>
+<script type="text/javascript" src="/js/room0Script.js"></script>
 
 </html>
