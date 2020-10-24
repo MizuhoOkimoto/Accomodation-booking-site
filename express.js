@@ -7,17 +7,17 @@ function onHttpStart() {
   console.log('Express http server listening on: ' + HTTP_PORT);
 }
 
-app.use(express.static('public'));
+app.use(express.static('views'));
 
-// app.use('/public/stylesheet', express.static('public/stylesheet'),function(req,res,next){
+// app.use('/views/stylesheet', express.static('views/stylesheet'),function(req,res,next){
 //     next();
 // });
 
-// app.get('/public/script.js', function (req, res) {
-//     res.sendFile(path.join(__dirname, 'public/script.js'))
+// app.get('/views/script.js', function (req, res) {
+//     res.sendFile(path.join(__dirname, 'views/script.js'))
 //   });
 // app.get('/stylesheet.css', function (req, res) {
-//     res.sendFile(path.join(__dirname, 'public/stylesheet.css'))
+//     res.sendFile(path.join(__dirname, 'views/stylesheet.css'))
 //   });
 
 // app.use(express.static('views'));
@@ -27,7 +27,7 @@ app.use(express.static('public'));
 // });
 
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname + '/public/main.html'));
+  res.sendFile(path.join(__dirname + '/views/main.html'));
 });
 
 // app.listen(port, () => {
