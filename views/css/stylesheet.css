@@ -38,7 +38,6 @@ a {
   position: fixed;
   top: 0;
   z-index: 10;
-  color: #000;
 } */
 
 .container {
@@ -59,14 +58,14 @@ a {
   justify-content: space-around;
   font-family: "Roboto Slab", serif;
 }
-.login_signup {
-  float: right;
-  margin-left: 100px;
-}
+
 .navbtn {
-  width: 120px;
+  width: 100px;
   padding: 10px 10px 10px 10px;
   background-color: rgba(39, 39, 129, 0.863);
+  border-radius: 10px;
+  border: none;
+  margin-left: 20px;
 }
 .navbtn:hover {
   background-color: rgba(45, 45, 124, 0.596);
@@ -157,7 +156,7 @@ header .open {
   color: white;
   padding: 0px 25px;
 }
-.loginbtn {
+/* .loginbtn {
   background-color: #530f0f;
   color: white;
   text-align: center;
@@ -167,7 +166,7 @@ header .open {
 }
 .loginbtn:hover {
   opacity: 0.5;
-}
+} */
 .login_form {
   text-align: center;
 }
@@ -193,8 +192,13 @@ header .open {
   font-size: 0.6em;
 }
 
+.modal-content-size {
+  width: 600px;
+}
+
 .signup_top {
-  align-items: center;
+  text-align: center;
+  margin: 0 auto;
 }
 .signup_form input {
   border: 5px solid #69696934;
@@ -269,7 +273,7 @@ hr {
   opacity: 0.9;
   overflow-y: scroll;
 }
-.signupbtn {
+/* .signupbtn {
   background-color: #530f0f;
   color: white;
   text-align: center;
@@ -279,7 +283,7 @@ hr {
 }
 signup:hover {
   opacity: 1;
-}
+} */
 
 /*-------------------------- END SIGN UP --------------------------------*/
 
@@ -316,12 +320,11 @@ signup:hover {
   padding-top: 10px;
   text-align: center;
 }
-.btn {
+/* .btn {
   border-radius: 3px;
   display: inline-block;
-  /* padding: 13px; */
   opacity: 0.8;
-}
+} */
 .signup-fb {
   background-color: #3b5998;
   color: white;
@@ -414,7 +417,7 @@ input::placeholder {
   width: 500px;
 }
 .search-btn {
-  height: 48px;
+  height: 43px;
   width: 100px;
   background: #239b76;
   border: none;
@@ -425,11 +428,10 @@ input::placeholder {
   background: #59ddb5;
   cursor: pointer;
 }
-/* background for search engine if I will need
 .search-box {
-  background:whitesmoke;
+  background: whitesmoke;
   padding: 10px;
-}*/
+}
 /*--------------- END HOME SEARCH ENGINE ---------------------------------*/
 
 /*--------------- START ABOUT US -----------------------------------------*/
@@ -496,6 +498,7 @@ input::placeholder {
   margin-bottom: 3px;
   width: 100%; /* make the text center */
   line-height: 25px;
+  font-size: 1.75em;
 }
 .result_list .property P {
   color: #530f0f;
@@ -509,7 +512,7 @@ input::placeholder {
   margin: 30px 30px;
 }
 .section {
-  margin-top: 35px 35px;
+  /* margin-top: 35px 35px; */
   display: flex;
   justify-content: space-evenly;
   flex-direction: row;
@@ -525,11 +528,12 @@ input::placeholder {
   object-fit: cover; /*画像の大きさを統一してトリミングするため*/
   border-radius: 3px;
 }
-.section_list .property h2 {
+.section_item h2 {
   color: #530f0f;
   margin-bottom: 3px;
   width: 100%; /* make the text center */
   line-height: 25px;
+  font-size: 1.5em;
 }
 .section .section_item:hover img {
   transform: scale(1.1);
@@ -539,6 +543,7 @@ input::placeholder {
 /*--------------- START FOOTER ------------------------------------------*/
 .contact {
   margin: 100px 80px 100px 80px;
+  width: 50%;
 }
 .contact h3 {
   font-size: 24px;
@@ -566,6 +571,8 @@ textarea {
   background-color: #239b76;
   color: white;
   font-weight: bold;
+  width: 150px;
+  font-size: 1em;
 }
 .contact-submit:hover {
   color: white;
@@ -688,9 +695,9 @@ footer p {
   display: flex;
   justify-content: center;
 }
-.form-group input {
+/* .form-group input {
   margin-right: 10px;
-}
+} */
 
 .book_now {
   margin-bottom: 15px;
@@ -707,11 +714,10 @@ footer p {
 .comment_section {
   display: flex;
 }
-.form-group {
-  /* display: flex; */
+/* .form-group {
   flex-direction: column;
   justify-content: center;
-}
+} */
 .bookbtn {
   margin: 1em auto 2em;
   padding: 1em 3em;
@@ -724,7 +730,7 @@ footer p {
   margin-right: 10px;
 }
 /* Full-width input fields */
-.form-group input[type="text"],
+/* .form-group input[type="text"],
 input[type="password"],
 input[type="email"] {
   width: 50%;
@@ -734,12 +740,24 @@ input[type="email"] {
   border: 1px solid rgba(0, 0, 0, 0.596);
   background: #f1f1f1;
   text-align: left;
-}
+} */
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="email"]:focus {
   background-color: #ddd;
   outline: none;
+}
+.form-group input ::placeholder {
+  font-size: 0.5em;
+}
+.form-control {
+  font-size: 0.8em !important;
+  color: #625e5e;
+  height: calc(2.5em + 0.75rem + 2px) !important;
+}
+.modal-body p {
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 /*--------------- END ROOM DETAILS PAGE -------------------------*/

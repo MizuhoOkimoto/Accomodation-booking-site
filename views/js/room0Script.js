@@ -1,13 +1,13 @@
 //--- DETAIL PAGE -----------------------------------------------------------------//
 var details = [
   {
-    title: 'Modern house with a big pool',
-    category: 'Category: ' + 'Entire house',
-    main: '/images/room_image/house1.jpg',
-    sub1: '/images//room_image/room6.jpg',
-    sub2: '/images//room_image/room7.jpg',
-    hostName: 'Host: ' + 'Mizuho Okimoto',
-    price: 'Price: $ ' + '100',
+    title: "Modern house with a big pool",
+    category: "Category: " + "Entire house",
+    main: "/images/room_image/house1.jpg",
+    sub1: "/images//room_image/room6.jpg",
+    sub2: "/images//room_image/room7.jpg",
+    hostName: "Host: " + "Mizuho Okimoto",
+    price: "Price: $ " + "100",
   },
 ];
 
@@ -21,8 +21,8 @@ var details = [
 // };
 
 window.onload = function () {
-  var detailContainer = document.querySelector('.result_list');
-  var detail = '';
+  var detailContainer = document.querySelector(".result_list");
+  var detail = "";
   for (var i = 0; i < details.length; i++) {
     // detail +=
     //   // '<h1 class="title">' +
@@ -50,47 +50,37 @@ window.onload = function () {
       '<div class="room_detail">' +
       '<h2 class="title">' +
       details[i].title +
-      '</h2>' +
-      '<img src=' +
+      "</h2>" +
+      "<img src=" +
       details[i].main +
-      ' />' +
-      '<img src=' +
+      " />" +
+      "<img src=" +
       details[i].sub1 +
-      ' />' +
-      '<img src=' +
+      " />" +
+      "<img src=" +
       details[i].sub2 +
-      ' />' +
+      " />" +
       '<p class="category">' +
       details[i].category +
-      '</p>' +
+      "</p>" +
       '<p class="hostName">' +
       details[i].hostName +
-      '</p>' +
+      "</p>" +
       '<p class="price">' +
       details[i].price +
-      ' per night' +
-      '</p>' +
-      '</div>';
+      " per night" +
+      "</p>" +
+      "</div>";
   }
   detailContainer.innerHTML += detail;
 };
 
-// //LOG IN POP UP---------------------------------------------------------------------------//
-// document.querySelector('.login').addEventListener('click', function () {
-//   document.querySelector('.header-container').classList.add('open');
-// });
+//Log in Modal
+$("#login_myBtn").on("click", function () {
+  $("#login_Modal").modal("show");
+});
 
-// document.querySelector('.log_cancelbtn').addEventListener('click', function () {
-//   document.querySelector('.header-container').classList.remove('open');
-// });
-// //----------------------------------------------------------------------------------------//
-
-// //SIGN IN POP UP---------------------------------------------------------------------------//
-// document.querySelector('.sign_up').addEventListener('click', function () {
-//   document.querySelector('.header-container2').classList.add('open');
-// });
-
-// document.querySelector('.cancelbtn').addEventListener('click', function () {
-//   document.querySelector('.header-container2').classList.remove('open');
-// });
-// //----------------------------------------------------------------------------------------//
+//Sign up Modal
+$("#signup_myBtn").on("click", function () {
+  $("#signup_Modal").modal("show");
+});
