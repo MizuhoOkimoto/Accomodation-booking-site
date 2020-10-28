@@ -23,18 +23,14 @@
 
 <body>
 
-  {{> header data}}
+  {{> header }}
+  <main>
+    <div>
+      <h1>Welcome, {{data.f_name}} {{data.l_name}}</h1>
+    </div>
+  </main>
 
 
-  <!-- ROOM LISTING  -->
-  <div class="container">
-
-    <h1 class="listing_title">Find the property that suits you best</h1>
-    <div class="result_list" id="search-result"> </div>
-
-  </div>
-
-  <script type="text/javascript" src="js/listingScript.js"></script>
 </body>
 
 <!-- Site footer -->

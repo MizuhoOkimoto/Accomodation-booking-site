@@ -19,7 +19,7 @@ div {
 }
 body {
   /* font-family: 'Lucida Grande'; */
-  font-family: 'Roboto Slab', serif;
+  font-family: "Roboto Slab", serif;
 }
 li {
   list-style: none;
@@ -57,7 +57,7 @@ a {
   font-size: 20px;
   /* color: #000; */
   justify-content: space-around;
-  font-family: 'Roboto Slab', serif;
+  font-family: "Roboto Slab", serif;
 }
 .login_signup {
   float: right;
@@ -94,7 +94,7 @@ a {
 /*----------------------------------------*/
 .header-container {
   float: right;
-  font-family: 'Roboto Slab', serif;
+  font-family: "Roboto Slab", serif;
   background-color: whitesmoke;
   transition: all 0.5s;
   display: none;
@@ -114,7 +114,7 @@ header .open {
 }
 .header-container2 {
   float: left;
-  font-family: 'Roboto Slab', serif;
+  font-family: "Roboto Slab", serif;
   background-color: whitesmoke;
   transition: all 0.5s;
   display: none;
@@ -139,7 +139,7 @@ header .open {
 
 .login_container {
   float: right;
-  font-family: 'Roboto Slab', serif;
+  font-family: "Roboto Slab", serif;
   background-color: whitesmoke;
   transition: all 0.5s;
   /* display: none; */
@@ -236,9 +236,9 @@ header .open {
   margin-right: 10px;
 }
 /* Full-width input fields */
-.signup_form input[type='text'],
-input[type='password'],
-input[type='email'] {
+.signup_form input[type="text"],
+input[type="password"],
+input[type="email"] {
   width: 50%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -247,9 +247,9 @@ input[type='email'] {
   background: #f1f1f1;
   text-align: left;
 }
-input[type='text']:focus,
-input[type='password']:focus,
-input[type='email']:focus {
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
   background-color: #ddd;
   outline: none;
 }
@@ -281,37 +281,6 @@ signup:hover {
   opacity: 1;
 }
 
-/* Extra styles for the cancel button */
-/* .cancelbtn {
-  background-color: #07004d;
-  color: white;
-  text-align: center;
-  line-height: 30px;
-  width: 100px;
-  opacity: 1;
-}
-.cancelbtn:hover {
-  opacity: 0.5;
-}
-.log_cancelbtn {
-  background-color: #07004d;
-  color: white;
-  text-align: center;
-  line-height: 30px;
-  width: 100px;
-  opacity: 1;
-}
-.log_cancelbtn:hover {
-  opacity: 0.5;
-} */
-
-/* Change styles for cancel button and signup button on extra small screens */
-/* @media screen and (max-width: 300px) {
-  .cancelbtn,
-  .signupbtn {
-    width: 100%;
-  }
-} */
 /*-------------------------- END SIGN UP --------------------------------*/
 
 /*----------------------- END HEADER CONTENTS ---------------------------*/
@@ -322,7 +291,7 @@ signup:hover {
   background-image: url(/images/top_image1.jpg);
   background-size: cover;
   color: #07004d;
-  font-family: 'Roboto Slab', serif;
+  font-family: "Roboto Slab", serif;
   text-align: center;
   height: 650px;
   width: 100%;
@@ -396,7 +365,7 @@ signup:hover {
   border: none;
   color: #1b1653;
   margin-top: 10px;
-  font-family: 'Roboto Slab', serif;
+  font-family: "Roboto Slab", serif;
   box-shadow: 3px 4px 1px #04030e;
   border-radius: 3px;
 }
@@ -424,7 +393,7 @@ signup:hover {
   padding-bottom: 30px;
   /* text-align: center; 不要？*/
   color: #202020;
-  font-family: 'Roboto Slab', serif;
+  font-family: "Roboto Slab", serif;
 }
 .search-engine h2 {
   font-weight: normal;
@@ -591,7 +560,7 @@ textarea {
   /* width: 400px; */
   padding: 6px;
   font-size: 12px;
-  font-family: 'Roboto Slab', serif;
+  font-family: "Roboto Slab", serif;
 }
 .contact-submit {
   background-color: #239b76;
@@ -755,9 +724,9 @@ footer p {
   margin-right: 10px;
 }
 /* Full-width input fields */
-.form-group input[type='text'],
-input[type='password'],
-input[type='email'] {
+.form-group input[type="text"],
+input[type="password"],
+input[type="email"] {
   width: 50%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -766,9 +735,9 @@ input[type='email'] {
   background: #f1f1f1;
   text-align: left;
 }
-input[type='text']:focus,
-input[type='password']:focus,
-input[type='email']:focus {
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
   background-color: #ddd;
   outline: none;
 }
