@@ -2,8 +2,10 @@
     "cSpell.ignoreWords": [
         "bookbtn",
         "cancelbtn",
+        "fname",
         "form",
         "formgroup",
+        "lname",
         "loginbtn",
         "signup",
         "signup form",

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <!-- bootstrap -->
+  <!-- FOR USING Jquery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <!-- FOR USING BOOTSTRAP -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <!-- FOR custom css file -->
+  <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+
+  <!-- FOR LOADING ICONS -->
+  <script src="https://kit.fontawesome.com/39ea4545e9.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+  <title>-ANY- Anywhere, Anytime, there is your home</title>
+</head>
+
+<body>
+
+  {{> header}}
+
+  <!-- TOP MAIN PICTURE AND CATCH -->
+  <div class="top-wrapper">
+    <div class="header-contents">
+      <h1>Anywhere, Anytime, there are your homes all over the world</h1>
+      <p>New experience will fascinate you.</p>
+
+
+    </div> <!-- end header-contents -->
+  </div> <!-- end top-wrapper -->
+
+  <!-- PROMOTION -->
+  <div class="middle-wrapper">
+    <p id="promo_link"></p>
+    <h4>Stay Longer Pay Less</h4>
+    <h5>Visitors who stay more than a month pays 50% less</h5>
+    <button type="button" class="promobtn">Check Availability </button>
+  </div>
+
+
+
+  <div class="main-wrapper">
+    <!-- 1. start main-contents -->
+
+    <!-- <div class="container">  -->
+    <!-- START SEARCH ENGINE -->
+    <div class="search-engine">
+      <!-- 3. SEARCH ENGINE  -->
+      <h2>Explore</h2>
+      <div class="search-box">
+        <input type="text" class="search-field location" placeholder="search location">
+        <button class="search-btn" type="button">Search</button>
+      </div>
+    </div>
+    <!-- END SEARCH ENGINE -->
+
+    <!-- START SECTION  CALLS JS -->
+
+    <h1>Recommend For You</h1>
+    <div class="section"></div>
+    <!-- END SECTION -->
+
+    <!-- ABOUT -->
+    <!-- <div class="container"> -->
+    <div class="about">
+      <h2 id="about_link">ABOUT US</h2>
+      <img class="about_pic" src="images/room_image/room5.jpg" alt="picture for about company">
+      <p>ANY does more than just connect those who can provide a place with those who use it.<br>
+        We also provide people who meet at the place and wonderful experiences.<br>
+        You can visit places around the world from anywhere in the world.</p>
+    </div>
+
+    <!--/div-->
+    <!-- end container -->
+    <!-- </div>  -->
+  </div> <!-- end main-wrapper -->
+
+  <!-- FOR USING JavaScript and Bootstrap -->
+  <script type="text/javascript" src="/js/script.js"></script>
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+</body>
+
+<!-- CONTACT US -->
+
+<p id="contact_link"></p>
+<div class="contact">
+  <!-- START CONTACT -->
+  <h3>Contact Us</h3>
+  <p><span>* </span>Email (Required)</p>
+  <input required>
+  <p><span>* </span>Message (Required)</p>
+  <textarea></textarea>
+  <p><span>* </span> Required fields must be filled</p>
+  <input class="contact-submit" type="submit" value="Send" />
+</div> <!-- END CONTACT -->
+
+<!-- START FOOTER -->
+
+{{> footer}}
+
+</html>

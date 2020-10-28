@@ -27,15 +27,11 @@ li {
 a {
   text-decoration: none;
 }
-/* .container {
-  width: auto;
-  padding: 0 15px;
-  margin: 0 auto;
-} */
+
 /*-------------- END CONTAINER AND OTHER COMMON PART ---------------------*/
 
 /*-------------------------- START HEADER --------------------------------*/
-header {
+/* header {
   width: 100%;
   height: 65px;
   background-color: whitesmoke;
@@ -43,26 +39,52 @@ header {
   top: 0;
   z-index: 10;
   color: #000;
+} */
+
+.container {
+  max-width: 100%;
+  z-index: 10;
+  color: #000;
+  padding: 0px;
 }
 .header-logo {
-  padding-top: 13px;
+  /* padding-top: 13px; */
   width: 124px;
   float: left;
 }
-nav {
+.navbar-nav {
+  width: 60%;
+  font-size: 20px;
+  /* color: #000; */
+  justify-content: space-around;
+  font-family: 'Roboto Slab', serif;
+}
+.login_signup {
+  float: right;
+  margin-left: 100px;
+}
+.navbtn {
+  width: 120px;
+  padding: 10px 10px 10px 10px;
+  background-color: rgba(39, 39, 129, 0.863);
+}
+.navbtn:hover {
+  background-color: rgba(45, 45, 124, 0.596);
+}
+
+/* nav {
   width: 100%;
-}
-#list {
+} */
+/* #list {
   display: flex;
-}
-.nav li {
+} */
+/* .nav li {
   font-family: 'Roboto Slab', serif;
   padding: 20px 30px 16px 60px;
   list-style: none;
-  /* float: left; */
   color: #000;
-  /*margin: auto; 横に広がる原因*/
-}
+  /* justify-content: center; 
+} */
 .nav li:hover {
   opacity: 0.5;
 }
@@ -103,6 +125,18 @@ header .open {
 /*-------------------------- END HEADER ---------------------------------*/
 
 /*-------------------------- START LOG IN -------------------------------*/
+.modal-header,
+.modal-header h4,
+.close {
+  background-color: #5cb85c;
+  color: white !important;
+  text-align: center;
+  font-size: 30px;
+}
+.modal-footer {
+  background-color: #f9f9f9;
+}
+
 .login_container {
   float: right;
   font-family: 'Roboto Slab', serif;
@@ -137,6 +171,9 @@ header .open {
 .login_form {
   text-align: center;
 }
+.modal-header_extend {
+  display: block;
+}
 
 /*-------------------------- END LOG IN ---------------------------------*/
 
@@ -151,6 +188,14 @@ header .open {
   margin-right: 70px;
   border: 1px solid #69696934;
 }*/
+
+.modal-header_extend p {
+  font-size: 0.6em;
+}
+
+.signup_top {
+  align-items: center;
+}
 .signup_form input {
   border: 5px solid #69696934;
 }
@@ -175,6 +220,7 @@ header .open {
   text-align: center;
   align-items: center;
   margin-top: 30px;
+  display: flex;
 }
 .signup_formgroup {
   text-align: center;
@@ -236,7 +282,7 @@ signup:hover {
 }
 
 /* Extra styles for the cancel button */
-.cancelbtn {
+/* .cancelbtn {
   background-color: #07004d;
   color: white;
   text-align: center;
@@ -257,26 +303,15 @@ signup:hover {
 }
 .log_cancelbtn:hover {
   opacity: 0.5;
-}
-
-/* Clear floats */
-.clearfix::after {
-  content: '';
-  clear: both;
-  display: table;
-}
-.clearfix {
-  margin: 30px 30px;
-  font-family: 'Roboto Slab', serif;
-}
+} */
 
 /* Change styles for cancel button and signup button on extra small screens */
-@media screen and (max-width: 300px) {
+/* @media screen and (max-width: 300px) {
   .cancelbtn,
   .signupbtn {
     width: 100%;
   }
-}
+} */
 /*-------------------------- END SIGN UP --------------------------------*/
 
 /*----------------------- END HEADER CONTENTS ---------------------------*/
@@ -315,7 +350,7 @@ signup:hover {
 .btn {
   border-radius: 3px;
   display: inline-block;
-  padding: 13px;
+  /* padding: 13px; */
   opacity: 0.8;
 }
 .signup-fb {
@@ -553,7 +588,7 @@ input,
 textarea {
   margin-bottom: 30px;
   border: 1px solid #dee7ec;
-  width: 400px;
+  /* width: 400px; */
   padding: 6px;
   font-size: 12px;
   font-family: 'Roboto Slab', serif;
@@ -704,7 +739,7 @@ footer p {
   display: flex;
 }
 .form-group {
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   justify-content: center;
 }

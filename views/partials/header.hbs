@@ -1,0 +1,154 @@
+<header>
+    <!-- START HEADER -->
+    <div class="container">
+
+        <!-- NAVIGATION BAR  -->
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+            <!-- LOGO -->
+            <a class="navbar-brand" href="/">
+                <img class="header-logo" src="images/logo.png" alt="header-logo" />
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <!-- don't forget # -->
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <!-- 中央寄せ-->
+
+                <!-- navigation list -->
+                <ul class="navbar-nav" id="list">
+                    <li class="nav-item"><a class="nav-link" href="#about_link">About us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#promo_link">Promotion</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact_link">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/listing">Room List</a></li>
+                </ul>
+                <div class="login_signup">
+                    <button type="button" class="navbtn btn-info btn-lg" id="login_myBtn" data-toggle="modal"
+                        data-target="#login_Modal">Log in</button> <!-- (1) data-target -->
+                    <button type="button" class="navbtn btn-info btn-lg" id="signup_myBtn" data-toggle="modal"
+                        data-target="#signup_Modal">Sign up</button> <!-- (2) data-target -->
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!--- START LOGIN FORM --->
+
+    <!-- log in Modal -->
+    <div class="modal fade" id="login_Modal" role="dialog">
+        <!-- (1) data-target and id have to be the same name -->
+        <div class="modal-dialog">
+
+            <!-- log in Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header_extend" style="padding:35px 50px;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4><span class="glyphicon glyphicon-lock"></span> Login</h4>
+                </div>
+                <div class="modal-body" style="padding:40px 50px;">
+                    <form id="signup-form" method="POST" class="form-horizontal" action="#" role="form">
+                        <div class="form-group">
+                            <label for="usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
+                            <input type="text" class="form-control" id="usrname" placeholder="Enter email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
+                            <input type="text" class="form-control" id="psw" placeholder="Enter password" required>
+                        </div>
+
+                        <div class="form-group form-check">
+                            <input class="form-check-input" type="checkbox"> Remember me
+                            <label class="form-check-label"></label>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-block"><span
+                                class="glyphicon glyphicon-off"></span> Login</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <p>Not a member? <a href="#">Sign Up</a></p>
+                    <p>Forgot <a href="#">Password?</a></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--- END LOGIN FORM -->
+
+    <!-- SIGN UP POP UP --->
+
+    <!--- START SIGN UP FORM -->
+    <!-- sign up Modal -->
+    <div class="modal fade" id="signup_Modal" role="dialog">
+        <!-- (2) data-target and id have to be the same name -->
+        <div class="modal-dialog">
+
+            <!-- sign up Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header_extend" style="padding:35px 50px;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4><span class="glyphicon glyphicon-lock"></span> Sign up</h4>
+                </div>
+                <div class="signup_top">
+                    <div class="signup_social-media">
+                        <a href="#" class="signup-fb btn"><span class="fa fa-facebook"></span>Sign up with Facebook</a>　
+                        <a href="#" class="signup-twitter btn"><span class="fa fa-twitter"></span>Sign up with
+                            Twitter</a>
+                    </div>
+
+                    <p>OR<br>
+                        Please fill in this form to create an account.</p>
+                    <hr>
+                </div>
+                <div class="modal-body" style="padding:40px 50px;">
+                    <form role="form">
+
+                        <div class="form-group">
+                            <label for="f_name"><span class="glyphicon glyphicon-user"></span> Fist Name </label>
+                            <input type="text" class="form-control" id="f_name" placeholder="Enter first name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="l_name"><span class="glyphicon glyphicon-user"></span> Last Name </label>
+                            <input type="text" class="form-control" id="l_name" placeholder="Enter last name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email"><span class="glyphicon glyphicon-eye-open"></span> Email Address </label>
+                            <input type="text" class="form-control" id="email" placeholder="Enter email address"
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password </label>
+                            <input type="text" class="form-control" id="psw" placeholder="Create Password" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="psw-repeat"><span class="glyphicon glyphicon-eye-open"></span> Repeat Password
+                            </label>
+                            <input type="text" class="form-control" id="psw-repeat" placeholder="Repeat Password"
+                                required>
+                        </div>
+
+                        <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms &
+                                Privacy</a>.</p>
+
+                        <button type="submit" class="btn btn-success btn-block"><span
+                                class="glyphicon glyphicon-off"></span> Sign up </button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove"></span> Cancel </button>
+                    <p>Already A Member? <a href="#"> Log in </a></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</header> <!-- END HEADER -->

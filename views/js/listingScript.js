@@ -56,9 +56,9 @@ window.onload = function () {
   for (var i = 0; i < index.length; i++) {
     result +=
       '<div class="property">' +
-      '<a href="room' +
-      i +
-      '.html" >' +
+      '<a href="/room' +
+      [i] +
+      '">' +
       '<img src=' +
       index[i].url +
       ' />' +
@@ -85,22 +85,22 @@ window.onload = function () {
   imageContainer.innerHTML += result;
 };
 
-//LOG IN POP UP---------------------------------------------------------------------------//
-document.querySelector('.login').addEventListener('click', function () {
-  document.querySelector('.header-container').classList.add('open');
-});
+// //LOG IN POP UP---------------------------------------------------------------------------//
+// document.querySelector('.login').addEventListener('click', function () {
+//   document.querySelector('.header-container').classList.add('open');
+// });
 
-document.querySelector('.log_cancelbtn').addEventListener('click', function () {
-  document.querySelector('.header-container').classList.remove('open');
-});
-//----------------------------------------------------------------------------------------//
+// document.querySelector('.log_cancelbtn').addEventListener('click', function () {
+//   document.querySelector('.header-container').classList.remove('open');
+// });
+// //----------------------------------------------------------------------------------------//
 
-//SIGN IN POP UP---------------------------------------------------------------------------//
-document.querySelector('.sign_up').addEventListener('click', function () {
-  document.querySelector('.header-container2').classList.add('open');
-});
+// //SIGN IN POP UP---------------------------------------------------------------------------//
+// document.querySelector('.sign_up').addEventListener('click', function () {
+//   document.querySelector('.header-container2').classList.add('open');
+// });
 
-document.querySelector('.cancelbtn').addEventListener('click', function () {
-  document.querySelector('.header-container2').classList.remove('open');
-});
-//----------------------------------------------------------------------------------------//
+// document.querySelector('.cancelbtn').addEventListener('click', function () {
+//   document.querySelector('.header-container2').classList.remove('open');
+// });
+// //----------------------------------------------------------------------------------------//
