@@ -30,26 +30,26 @@ $("#signup_myBtn").on("click", function () {
   $("#signup_Modal").modal("show");
 });
 
-//FORM VALIDATION
-$(document).ready(function () {
-  var validator = $("#signup-form").bootstrapValidator({
-    fields: {
-      email: {
-        message: "Email address is required",
-        validators: {
-          notEmpty: {
-            message: "Please Enter your email address",
-          },
-          stringLength: {
-            min: 6,
-            max: 32,
-            message: "Email address must be between 6 and 32 characters",
-          },
-        },
-      },
-    },
-  });
-});
+// //FORM VALIDATION
+// $(document).ready(function () {
+//   var validator = $("#signup-form").bootstrapValidator({
+//     fields: {
+//       email: {
+//         message: "Email address is required",
+//         validators: {
+//           notEmpty: {
+//             message: "Please Enter your email address",
+//           },
+//           stringLength: {
+//             min: 6,
+//             max: 32,
+//             message: "Email address must be between 6 and 32 characters",
+//           },
+//         },
+//       },
+//     },
+//   });
+// });
 
 //LOG IN POP UP---------------------------------------------------------------------------//
 // document.querySelector('.login').addEventListener('click', function () {
@@ -71,27 +71,27 @@ $(document).ready(function () {
 // });
 //----------------------------------------------------------------------------------------//
 
-function validateForm() {
-  var name = document.signup_form.name.value;
-  var password = document.signup_form.password.value;
-  if (name == null || name == "") {
-    alert("Name can't be blank");
-    return false;
-  } else if (password.length < 6) {
-    alert("Password must be at least 6 characters long.");
-    return false;
-  } else {
-  }
-}
-function ValidateEmail(inputText) {
-  var mailformat = /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/;
-  if (inputText.value.match(mailformat)) {
-    alert("Valid email address!");
-    document.form1.text1.focus();
-    return true;
-  } else {
-    alert("You have entered an invalid email address!");
-    document.form1.text1.focus();
-    return false;
-  }
-}
+// function validateForm() {
+//   var name = document.signup_form.name.value;
+//   var password = document.signup_form.password.value;
+//   if (name == null || name == "") {
+//     alert("Name can't be blank");
+//     return false;
+//   } else if (password.length < 6) {
+//     alert("Password must be at least 6 characters long.");
+//     return false;
+//   } else {
+//   }
+// }
+// function ValidateEmail(inputText) {
+//   var mailformat = /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/;
+//   if (inputText.value.match(mailformat)) {
+//     alert("Valid email address!");
+//     document.form1.text1.focus();
+//     return true;
+//   } else {
+//     alert("You have entered an invalid email address!");
+//     document.form1.text1.focus();
+//     return false;
+//   }
+// }
