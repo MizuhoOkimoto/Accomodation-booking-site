@@ -462,6 +462,12 @@ input::placeholder {
 }
 
 /*--------------- START LISTING ------------------------------------------*/
+/* @media screen and (max-width: 767px) {
+  .result_list {
+    display: block;
+  }
+} */
+
 .listing_title {
   margin-top: 80px;
   margin-bottom: 80px;
@@ -521,7 +527,7 @@ input::placeholder {
 }
 .section img {
   position: relative;
-  /*width: 100%;*/
+  margin: 20px;
   margin-bottom: 25px;
   width: 250px; /*画像の大きさを統一するため*/
   height: 250px; /*画像の大きさを統一するため*/
@@ -562,7 +568,7 @@ input,
 textarea {
   margin-bottom: 30px;
   border: 1px solid #dee7ec;
-  width: 400px;
+  width: 300px;
   padding: 6px;
   font-size: 12px;
   font-family: "Roboto Slab", serif;
