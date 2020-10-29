@@ -562,7 +562,7 @@ input,
 textarea {
   margin-bottom: 30px;
   border: 1px solid #dee7ec;
-  /* width: 400px; */
+  width: 400px;
   padding: 6px;
   font-size: 12px;
   font-family: "Roboto Slab", serif;
@@ -686,18 +686,22 @@ footer p {
 .heading {
   margin-bottom: 20px;
 }
-.booking {
+/* .booking {
   display: inline-block;
   text-align: center;
   align-items: center;
-}
-.room_detail_form {
+} */
+/* .room_detail_form {
   display: flex;
   justify-content: center;
-}
+} */
 /* .form-group input {
   margin-right: 10px;
 } */
+.form_container {
+  width: 80%;
+  margin: 0 auto;
+}
 
 .book_now {
   margin-bottom: 15px;
@@ -713,6 +717,7 @@ footer p {
 }
 .comment_section {
   display: flex;
+  justify-content: center;
 }
 /* .form-group {
   flex-direction: column;
@@ -747,6 +752,10 @@ input[type="email"]:focus {
   background-color: #ddd;
   outline: none;
 }
+
+#comments {
+  width: 600px;
+}
 .form-group input ::placeholder {
   font-size: 0.5em;
 }
@@ -758,6 +767,13 @@ input[type="email"]:focus {
 .modal-body p {
   text-align: center;
   margin-bottom: 10px;
+}
+#create-psw {
+  -webkit-text-security: disc;
+  margin-bottom: 1px;
+}
+.booknow_form label {
+  display: flex !important;
 }
 
 /*--------------- END ROOM DETAILS PAGE -------------------------*/
