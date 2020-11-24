@@ -6,7 +6,50 @@ var path = require("path");
 const hbs = require("express-handlebars");
 var bodyParser = require("body-parser");
 var nodemailer = require("nodemailer");
+
+//mongoose (week7 Nov10th lecture)
 var mongoose = require("mongoose"); //create document database
+var Schema = mongoose.Schema;
+var userModel = require("./models/userModel");
+const config = require("./js/config");
+let db = mongoose.createConnection(config.dbconn, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+//example code from prof --------------------------------------------------
+var Clint = new userModel({
+  username: config.username, //using config instead
+  fname: "Clint",
+  lname: "MacDonald",
+  email: "clint.macdonald@senecacollege.ca",
+  SIN: 123456789,
+  DOB: new Date(),
+});
+
+Clint.save((err) => {
+  if (err) {
+    console.log("There was an error saving Clint!");
+  } else {
+    console.log("Clint was saves successfully!");
+
+    userModel
+      .findOne({ fname: "Clint" })
+      .exec()
+      .then((usr) => {
+        if (!usr) {
+          console.log("User could not be found!");
+        } else {
+          console.log(usr);
+        }
+        process.exit();
+      })
+      .catch((err) => {
+        console.log("There was an error: ${err}");
+      });
+  }
+});
+//-----------------------------------------------------------------------------
 
 //sequelize(week7)
 const Sequelize = require("sequelize"); //capital S means actual module, lower s means instance module
