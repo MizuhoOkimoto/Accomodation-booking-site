@@ -55,6 +55,7 @@ window.onload = function () {
   var result = "";
   for (var i = 0; i < index.length; i++) {
     result +=
+      // '<div class="row">' +
       '<div class="property">' +
       '<a href="/room' +
       [i] +
