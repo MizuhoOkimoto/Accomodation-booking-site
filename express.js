@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+//import mongoose from "mongoose";
 //REQUIRED MODULES
 const express = require("express");
 const app = express();
@@ -8,39 +8,43 @@ var bodyParser = require("body-parser");
 var nodemailer = require("nodemailer");
 
 //mongoose (week7 Nov10th lecture)
-var mongoose = require("mongoose"); //create document database
-var Schema = mongoose.Schema;
-var userModel = require("./models/userModel");
-const config = require("./js/config");
-let db = mongoose.createConnection(config.dbconn, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
 //example code from prof --------------------------------------------------
-var Clint = new userModel({
-  username: config.username, //using config instead
-  fname: "Clint",
-  lname: "MacDonald",
-  email: "clint.macdonald@senecacollege.ca",
-  SIN: 123456789,
+var mongoose = require("mongoose");
+var Schema = mongoose.Schema;
+
+var userModel = require("./models/userModel");
+//var bnbModel = require("./models/bnbModel");
+
+const config = require("./js/config");
+
+// let db = mongoose.createConnection(process.env.web322_week8, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
+
+var Mizuho = new Usr({
+  username: "MIZ",
+  fname: "Mizuho",
+  lname: "Okimoto",
+  email: "mokimoto@myseneca.ca",
+  SIN: 123456,
   DOB: new Date(),
 });
 
-Clint.save((err) => {
+Mizuho.save((err) => {
+  //it was Clint
   if (err) {
     console.log("There was an error saving Clint!");
   } else {
     console.log("Clint was saves successfully!");
 
-    userModel
-      .findOne({ fname: "Clint" })
+    Usr.findOne({ fname: "Mizuho" })
       .exec()
-      .then((usr) => {
-        if (!usr) {
+      .then((Usr) => {
+        if (!Usr) {
           console.log("User could not be found!");
         } else {
-          console.log(usr);
+          console.log(Usr);
         }
         process.exit();
       })
@@ -50,7 +54,7 @@ Clint.save((err) => {
   }
 });
 //-----------------------------------------------------------------------------
-
+/*
 //sequelize(week7)
 const Sequelize = require("sequelize"); //capital S means actual module, lower s means instance module
 const { SequelizeScopeError } = require("sequelize");
@@ -165,6 +169,7 @@ sequelize.sync().then(function () {
       }
     });
 });
+*/
 
 // body-parser モジュールを使えるようにセット
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
