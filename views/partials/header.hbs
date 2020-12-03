@@ -133,9 +133,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="create-psw"> Password </label>
-                            <input type="text" class="form-control" id="create-psw" placeholder="Create Password"
-                                pattern="[0-9a-fA-F]{6,12}" required>
+                            <label for="create_psw"> Password </label>
+                            <input type="password" class="form-control" id="create_psw" name="create_psw"
+                                placeholder="Create Password" required>
+                            {{!-- pattern="[0-9a-fA-F]{6,12}" --}}
                             <small class="form-text text-muted">*6 to 12 characters and the password must have letters
                                 and numbers only</small>
                         </div>

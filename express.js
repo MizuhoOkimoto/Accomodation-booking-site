@@ -6,30 +6,34 @@ var path = require("path");
 const hbs = require("express-handlebars");
 var bodyParser = require("body-parser");
 var nodemailer = require("nodemailer");
-
-//mongoose (week7 Nov10th lecture)
-//example code from prof --------------------------------------------------
 var mongoose = require("mongoose");
+var userModel = require("./models/userModel"); //DO I NEED IT??
 var Schema = mongoose.Schema;
+mongoose.Promise = require("bluebird");
+// const dotenv = require("dotenv").config(); //dotenv
+var bcrypt = require("bcryptjs"); //bcrypt
+require("dotenv").config({
+  path: "js/.env",
+});
+//MODULE INITIALIZATION
+//const HTTP_PORT = process.env.PORT || 8080; //DOESN'T WORK!!
 
-var userModel = require("./models/userModel");
-//var bnbModel = require("./models/bnbModel");
+var HTTP_PORT = process.env.PORT || process.env.PORTLocal;
 
-const config = require("./js/config");
+/* mongoose
 
-// let db = mongoose.createConnection(process.env.web322_week8, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
 
-var Mizuho = new Usr({
-  username: "MIZ",
+var Mizuho = new userImport.userModel({
+  username: "MIZ", //I can replace body.username (body hershel multer) or config.username
   fname: "Mizuho",
   lname: "Okimoto",
   email: "mokimoto@myseneca.ca",
-  SIN: 123456,
+  SIN: 222222,
   DOB: new Date(),
+  password: hash,
 });
+
+userImport.saveUser(Mizuho, userImport.userModel, FORM_DATA);
 
 Mizuho.save((err) => {
   //it was Clint
@@ -53,7 +57,18 @@ Mizuho.save((err) => {
       });
   }
 });
+*/
+
+//handlebars
+app.engine(".hbs", hbs({ extname: ".hbs" }));
+app.set("view engine", ".hbs");
+
+//START-UP FUNCTIONS
+function onHttpStart() {
+  console.log("Express http server listening on: " + HTTP_PORT);
+}
 //-----------------------------------------------------------------------------
+
 /*
 //sequelize(week7)
 const Sequelize = require("sequelize"); //capital S means actual module, lower s means instance module
@@ -62,9 +77,6 @@ const { SequelizeScopeError } = require("sequelize");
 //handlebars
 app.engine(".hbs", hbs({ extname: ".hbs" }));
 app.set("view engine", ".hbs");
-
-//MODULE INITIALIZATION
-const HTTP_PORT = process.env.PORT || 8080;
 
 // set up sequelize to point to our postgres database
 var sequelize = new Sequelize(
@@ -163,49 +175,41 @@ sequelize.sync().then(function () {
       data = data.map((value) => value.dataValues);
       console.log("All Records");
       for (var i = 0; i < data.length; i++) {
-        console.log(
-          data[i].title + " - " + data[i].description + " - " + data[i].UserId
-        );
+        console.log(data[i].title + " - " + data[i].description + " - " + data[i].UserId);
       }
     });
 });
 */
-
 // body-parser モジュールを使えるようにセット
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 var transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "web322.assignment.mizuho@gmail.com",
-    pass: "web322.assignment",
+    user: process.env.nodemailer_user,
+    pass: process.env.nodemailer_pass,
   },
 });
 
-//START-UP FUNCTIONS
-function onHttpStart() {
-  console.log("Express http server listening on: " + HTTP_PORT);
-}
-
 //変数を設定してページ内に名前を入れる
-var myUser = {
-  username: "Miz",
-};
+// var myUser = {
+//   username: "Miz",
+// };
 
 //ROUTES
 app.use(express.static("views"));
 app.use(express.static("public"));
 
 app.get("/", function (req, res) {
-  res.render("main", { data: myUser, layout: false });
+  res.render("main", { layout: false });
 });
 
 app.get("/listing", function (req, res) {
-  res.render("listing", { data: myUser, layout: false });
+  res.render("listing", { layout: false });
 });
 
 app.get("/room0", function (req, res) {
-  res.render("room0", { data: myUser, layout: false });
+  res.render("room0", { layout: false });
 });
 
 app.get("/registration", function (req, res) {
@@ -234,30 +238,52 @@ app.get("/viewData", function (req, res) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.post("/for-registration", function (req, res) {
-  const FORM_DATA = req.body;
-  console.log(FORM_DATA, "FORM_DATA");
+  mongoose
+    .connect(process.env.mongoDB_atlas, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    })
+    .then(() => {
+      console.log("Connected to MongoDBAtlas ");
+    });
+  const Form_data = req.body;
+  const user = {
+    f_name: Form_data.f_name,
+    l_name: Form_data.l_name,
+    email: Form_data.email,
+    create_psw: Form_data.create_psw, // Random user-defined Password to keep it in privacy
+  };
+
+  const newUser = new userModel(user);
+  newUser
+    .save()
+    .then((user) => {
+      console.log(`User Created${user}`);
+    })
+    .catch((err) => {
+      console.log(`There is an error: ${err}`);
+      process.exit(1); // Stop running and return error msg /
+    });
 
   const DATA_OUTPUT =
     "<p style='text-align:center;'>" +
     // JSON.stringify(FORM_DATA) +
     "<p style='text-align:center;'> Welcome <strong>" +
-    FORM_DATA.f_name +
+    Form_data.f_name +
     " " +
-    FORM_DATA.l_name +
+    Form_data.l_name +
     "</strong> Thank you for your registration!";
 
-  res.send(DATA_OUTPUT);
+  // res.send(DATA_OUTPUT);
 
   //sending email
   var mailOptions = {
     from: "web322.assignment.mizuho@gmail.com",
-    to: FORM_DATA.email,
+    to: Form_data.email,
     subject: "Test email from Node.js using nodemailer",
     //text: "just text",
-    html:
-      "<p>Hello " +
-      FORM_DATA.f_name +
-      "</p><p> Thank you for your registration!</p>",
+    html: "<p>Hello " + Form_data.f_name + "</p><p> Thank you for your registration!</p>",
   };
 
   //sending email
@@ -269,7 +295,7 @@ app.post("/for-registration", function (req, res) {
     }
   });
 
-  res.render("registration", { data: FORM_DATA, layout: false });
+  res.render("registration", { data: Form_data, layout: false });
 });
 
 //TURN ON THE LISTENER
