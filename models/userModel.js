@@ -37,7 +37,6 @@ var UserSchema = new Schema({
 module.exports = mongoose.model("User", UserSchema);
 
 //---------------------------------------------------------------
-
 /*
 var mongoose = require("mongoose"); //create document database
 var Schema = mongoose.Schema; //schema is object like a database
