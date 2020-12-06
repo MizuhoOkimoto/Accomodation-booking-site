@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <!-- bootstrap -->
+    <!-- FOR USING Jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <!-- FOR USING BOOTSTRAP -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- FOR custom css file -->
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+
+    <!-- FOR LOADING ICONS -->
+    <script src="https://kit.fontawesome.com/39ea4545e9.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+    <title>-ANY- Anywhere, Anytime, there is your home</title>
+</head>
+
+<body>
+
+    <!-- need to write data -->
+    {{> header }}
+
+    <!--- START LOGIN FORM --->
+
+
+    <!-- log in content-->
+    <div class="login-content">
+        <div class="login-header login-header_extend" style="padding: 10px 0px 10px 0px; margin-top: 70px;">
+            <h4><i class="fas fa-lock"></i> Login </h4>
+        </div>
+        <div class="login-body">
+            {{#if errorMsg}}
+            <p>{{errorMsg}}</p>
+            {{else}}
+            <h2>Please login below</h2>
+
+            {{/if}}
+            <form id="login-form" method="POST" class="form-horizontal" action="/login" role="form"
+                enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="login_email"> Login Email </label>
+                    <input type="text" class="form-control" name="login_email" id="login_email"
+                        placeholder="Enter email" required>
+                </div>
+                <div class="form-group">
+                    <label for="psw"> Login Password </label>
+                    <input type="text" class="form-control" id="psw" name="psw" placeholder="Enter password"
+                        minlength="6" maxlength="12" pattern="^([a-zA-Z0-9@*#]{6,12})$" required>
+                    <!--minlength="6" maxlength="12" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,12}$" -->
+                </div>
+                {{!-- <div class="form-group form-check">
+                    <input class="form-check-input" type="checkbox"> Remember me
+                    <label class="form-check-label"></label>
+                </div> --}}
+                <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span>
+                    Login </button>
+            </form>
+        </div>
+        <div class="login-footer">
+            <div>
+                <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="login"><span
+                        class="glyphicon glyphicon-remove"></span> Cancel</button>
+            </div>
+            <div>
+                <p>Not a member? <a href="#">Sign Up</a></p>
+                <p>Forgot<a href="#">Password?</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!--- END LOGIN FORM -->
+
+
+    <!-- FOR USING JavaScript and Bootstrap -->
+    <script type="text/javascript" src="/js/script.js"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+</body>
+
+<!-- START FOOTER -->
+
+{{> footer}}
+
+</html>

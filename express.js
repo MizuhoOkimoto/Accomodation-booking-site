@@ -3,9 +3,11 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const multer = require("multer");
 const hbs = require("express-handlebars");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
+const clientSessions = require("client-sessions");
 const mongoose = require("mongoose");
 const userModel = require("./models/userModel");
 const Schema = mongoose.Schema;
@@ -13,35 +15,62 @@ mongoose.Promise = require("bluebird"); //use bluebird promise library with mong
 // const dotenv = require("dotenv").config(); //dotenv
 const bcrypt = require("bcryptjs"); //bcrypt
 require("dotenv").config({ path: ".env" }); //CHANGE DIRECTORY
+const fs = require("fs");
+const PHOTODIRECTORY = "./public/photos";
 
 //MODULE INITIALIZATION
 const HTTP_PORT = process.env.PORT || process.env.PORTLocal;
-
-//handlebars
-app.engine(".hbs", hbs({ extname: ".hbs" }));
-app.set("view engine", ".hbs");
 
 //START-UP FUNCTIONS --- call this function after the server starts listening for requests ---
 function onHttpStart() {
   console.log("Express http server listening on: " + HTTP_PORT);
 }
+
+//make sure the photos folder exists and if not create it
+if (!fs.existsSync(PHOTODIRECTORY)) {
+  fs.mkdirSync(PHOTODIRECTORY);
+}
+
+//multer requires a few options to be setup to store files with file extensions
+//by default it won't store extensions for security reasons
+const storage = multer.diskStorage({
+  destination: PHOTODIRECTORY,
+  filename: (req, file, cb) => {
+    //we write the filename as the current date down to the millisecond
+    //in a large web service this world possibly cause a problem if two people
+    //upload an image at the exact same time. A better way would be to use GUID's for filename
+    //this is a simple example
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+//tell to multer to use the diskStrage function for naming files instead of the default.
+const upload = multer({ storage: storage });
+
+//handlebars --- register handlebars as the rending engine for views
+app.set("views", "./views"); //added it from 11/13 lecture
+app.engine(".hbs", hbs({ extname: ".hbs" }));
+app.set("view engine", ".hbs");
+
 //-----------------------------------------------------------------------------
 
 // body-parser モジュールを使えるようにセット
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-var transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.nodemailer_user,
-    pass: process.env.nodemailer_pass,
-  },
-});
 
-//変数を設定してページ内に名前を入れる
-// var myUser = {
-//   username: "Miz",
-// };
+
+app.use(
+  clientSessions({
+    cookieName: "session",
+    secret: "do not read my cookie",
+    duration: 2 * 60 * 1000, //2mins
+    activeDuration: 1000 * 60, //let user logout automatically after this specific duration
+  })
+);
+
+//body-parser
+app.use(bodyParser.json()); //テキストをJSONとして解析し、結果のオブジェクトをreq.bodyに公開
+app.use(bodyParser.urlencoded({ extended: false })); //not use extended feature
+
 
 //ROUTES
 app.use(express.static("views"));
@@ -59,9 +88,57 @@ app.get("/room0", function (req, res) {
   res.render("room0", { layout: false });
 });
 
+app.get("/login", function (req, res) {
+  res.render("login", { layout: false });
+});
+
+app.get("/signup", function (req, res) {
+  res.render("signup", { layout: false });
+});
+
+//I HAVE TO DELETE IT AFTER CONNECT WITH MONGODB
+const login_user = {
+  login_email: "Mizuho",
+  psw: "Mizuho1121"
+};
+
+app.get("/login", function (req, res) {
+  res.render("login", { layout: false });
+});
+
+app.post("/login", function (req, res) { //Do I need to use check???
+
+  const login_email = req.body.login_email;
+  const psw = req.body.psw;
+
+  if (login_email === "" || psw === "") {
+    return res.render("login", { errorMsg: "Both email and password are required!", layout: false });
+  }
+  if (login_email === login_user.login_email && psw === login_user.psw) {  //authenticate
+    req.session.user = {
+      login_email: user.login_email,
+      psw: user.psw
+    };
+    res.redirect("/userDashboard");
+  }
+  else {
+    res.render("login", { errorMsg: "Either the login email or password does not exist", layout: false });
+
+  }
+});
+
+app.get("/logout", (req, res) => {
+  req.session.reset();
+  res.redirect("/");
+});
+
 app.get("/registration", function (req, res) {
   res.render("registration", { layout: false });
 });
+
+// app.get("/userDashboard", checkLogin, (req, res) => {
+//   res.render('userDashboard', { user: req.session.user, layout: false });
+// });
 
 app.get("/viewData", function (req, res) {
   var Register = [
@@ -81,9 +158,7 @@ app.get("/viewData", function (req, res) {
   });
 });
 
-//body-parser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+//connect to my mongoDB database
 app.post("/for-registration", function (req, res) {
   mongoose
     .connect(process.env.mongoDB_atlas, {
@@ -92,38 +167,48 @@ app.post("/for-registration", function (req, res) {
       useCreateIndex: true,
     })
     .then(() => {
-      console.log("Connected to MongoDBAtlas ");
+      console.log("Connected to MongoDB");
     });
+
+  //FORM_DATA
   const Form_data = req.body;
+
   const user = {
     f_name: Form_data.f_name,
     l_name: Form_data.l_name,
     email: Form_data.email,
-    create_psw: Form_data.create_psw, // Random user-defined Password to keep it in privacy
+    create_psw: Form_data.create_psw, //keep it in privacy
   };
 
   const newUser = new userModel(user);
+
   newUser
     .save()
-    .then((user) => {
+    .then(user => {
       console.log(`User Created${user}`);
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(`There is an error: ${err}`);
-      process.exit(1); // Stop running and return error msg /
+      process.exit(1); //stop running and return error message
     });
 
   const DATA_OUTPUT =
-    "<p style='text-align:center;'>" + // JSON.stringify(FORM_DATA) +
+    "<p style='text-align:center;'>" + // JSON.stringify(FORM_DATA) + ????
     "<p style='text-align:center;'> Welcome <strong>" +
     Form_data.f_name +
     " " +
     Form_data.l_name +
     "</strong> Thank you for your registration!";
 
-  // res.send(DATA_OUTPUT);
-
   //sending email
+  var transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.nodemailer_user,
+      pass: process.env.nodemailer_pass,
+    },
+  });
+
   var mailOptions = {
     from: "web322.assignment.mizuho@gmail.com",
     to: Form_data.email,
@@ -146,153 +231,3 @@ app.post("/for-registration", function (req, res) {
 
 //TURN ON THE LISTENER
 app.listen(HTTP_PORT, onHttpStart);
-
-//----------------------------------------------------------------------------------------
-/* mongoose
-var Mizuho = new userImport.userModel({
-  username: "MIZ", //I can replace body.username (body hershel multer) or config.username
-  fname: "Mizuho",
-  lname: "Okimoto",
-  email: "mokimoto@myseneca.ca",
-  SIN: 222222,
-  DOB: new Date(),
-  password: hash,
-});
-
-userImport.saveUser(Mizuho, userImport.userModel, FORM_DATA);
-
-Mizuho.save((err) => {
-  //it was Clint
-  if (err) {
-    console.log("There was an error saving Clint!");
-  } else {
-    console.log("Clint was saves successfully!");
-
-    Usr.findOne({ fname: "Mizuho" })
-      .exec()
-      .then((Usr) => {
-        if (!Usr) {
-          console.log("User could not be found!");
-        } else {
-          console.log(Usr);
-        }
-        process.exit();
-      })
-      .catch((err) => {
-        console.log("There was an error: ${err}");
-      });
-  }
-});
-*/
-//----------------------------------------------------------------------------------------
-/*
-//sequelize(week7)
-const Sequelize = require("sequelize"); //capital S means actual module, lower s means instance module
-const { SequelizeScopeError } = require("sequelize");
-
-//handlebars
-app.engine(".hbs", hbs({ extname: ".hbs" }));
-app.set("view engine", ".hbs");
-
-// set up sequelize to point to our postgres database
-var sequelize = new Sequelize(
-  "d8bu4o6hhd0lhu",
-  "rstyvuzkatrbqo",
-  "bff2e7ea2668ddd31fa05777d3f9bba5b14ce557fbc778ae694647f0f24cee8f",
-  {
-    host: "ec2-54-159-107-189.compute-1.amazonaws.com",
-    dialect: "postgres", //don't change it
-    port: 5432,
-    dialectOptions: {
-      ssl: { rejectUnauthorized: false },
-    },
-  }
-);
-
-sequelize
-  .authenticate()
-  .then(function () {
-    console.log("Connection Successful");
-  })
-  .catch(function (err) {
-    console.log("Connection FAILED: ", err);
-  });
-
-//create a Model "Project"
-var Project = sequelize.define("Project", {
-  //define sequelize model -> the table name is Project
-  //create table means "define"
-  title: Sequelize.STRING(50), //databaseのコラムをpgAdmin内に追加してくれる //data types はweek7を参照
-  description: Sequelize.TEXT, //databaseのコラムをpgAdmin内に追加してくれる
-});
-
-var User = sequelize.define("User", {
-  firstName: Sequelize.STRING(40),
-  lastName: Sequelize.STRING(40),
-  title: Sequelize.STRING(50),
-});
-
-var Task = sequelize.define("Task", {
-  //task assign to Users
-  title: Sequelize.STRING,
-  description: Sequelize.TEXT,
-});
-
-//define relationships (foreign Key)
-Project.hasMany(Task);
-User.hasMany(Task);
-
-//synchronized with database
-sequelize.sync().then(function () {
-  Project.create({
-    //create means insert (CRUD) / "define" is "create table"
-    title: "Project1",
-    description: "Project 1 description here",
-  })
-    .then(function (project) {
-      //instance of the Project model
-      console.log("Project 1 created successfully - ID No: " + project.id);
-
-      User.create({
-        firstName: "Mizuho",
-        lastName: "Okimoto",
-        title: "Student",
-      }).then(function (user) {
-        console.log("User created"); //Do I need catch here??
-
-        Task.create({
-          title: "Task1",
-          description: "Task 1 description",
-          UserId: user.id,
-          ProjectId: project.id,
-        }).then(function () {
-          console.log("Task 1 created"); //Do I need catch here??
-        });
-
-        Task.create({
-          title: "Task2",
-          description: "Task 2 description",
-          UserId: user.id,
-          ProjectId: project.id,
-        }).then(function () {
-          console.log("Task 2 created"); //Do I need catch here??
-        });
-      });
-    })
-    .catch(function () {
-      console.log("FAILURE: something went wrong: " + error);
-    });
-}); //end .then(function (project)...
-
-//注意！
-sequelize.sync().then(function () {
-  Task.findAll({}) //which means select * //whereを使ってデータを指定することもできる
-    .then(function (data) {
-      data = data.map((value) => value.dataValues);
-      console.log("All Records");
-      for (var i = 0; i < data.length; i++) {
-        console.log(data[i].title + " - " + data[i].description + " - " + data[i].UserId);
-      }
-    });
-});
-*/

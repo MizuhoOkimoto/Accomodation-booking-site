@@ -3,7 +3,7 @@
     <div class="container">
 
         <!-- NAVIGATION BAR  -->
-        <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light col-lg-12">
             <!-- LOGO -->
             <a class="navbar-brand" href="/">
                 <img class="header-logo" src="images/logo.png" alt="company_logo" />
@@ -19,73 +19,19 @@
                 <!-- 中央寄せ-->
 
                 <!-- navigation list -->
-                <ul class="navbar-nav" id="list">
+                <ul class="navbar-nav nav nav-pills nav-fill" id="list">
                     <li class="nav-item"><a class="nav-link" href="#about_link">About us</a></li>
                     <li class="nav-item"><a class="nav-link" href="#promo_link">Promotion</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact_link">Contact Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="/listing">Room List</a></li>
+                    <li class="btn btn-outline-success"><a class="nav-link" href="/login">Log in</a></li>
+                    <li class="btn btn-outline-success"><a class="nav-link" href="/signup">Sign up</a></li>
                 </ul>
-                <div class="login_signup">
-                    <button type="button" class="navbtn btn-info btn-md" id="login_myBtn" data-toggle="modal"
-                        data-target="#login_Modal">Log in</button> <!-- (1) data-target -->
 
-                    <button type="button" class="navbtn btn-info btn-md" id="signup_myBtn" data-toggle="modal"
-                        data-target="#signup_Modal">Sign up</button> <!-- (2) data-target -->
-                </div>
                 {{!-- <p>Hello {{username}}</p> --}}
             </div>
         </nav>
     </div>
-
-    <!--- START LOGIN FORM --->
-
-    <!-- log in Modal -->
-    <div class="modal fade" id="login_Modal" role="dialog">
-        <!-- (1) data-target and id have to be the same name -->
-        <div class="modal-dialog">
-
-            <!-- log in Modal content-->
-            <div class="modal-content">
-                <div class="modal-header modal-header_extend" style="padding:35px 50px;">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4><i class="fas fa-lock"></i> Login </h4>
-                </div>
-                <div class="modal-body" style="padding:40px 50px;">
-                    <form id="login-form" method="POST" class="form-horizontal" action="#" role="form"
-                        enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="login_email"> Email </label>
-                            <input type="text" class="form-control" id="login_email" placeholder="Enter email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="psw"> Password </label>
-                            <input type="text" class="form-control" id="psw" name="psw" placeholder="Enter password"
-                                pattern="[0-9a-fA-F]{6,12}" required>
-                            <!--minlength="6" maxlength="12" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,12}$" -->
-                        </div>
-                        <div class="form-group form-check">
-                            <input class="form-check-input" type="checkbox"> Remember me
-                            <label class="form-check-label"></label>
-                        </div>
-                        <button type="submit" class="btn btn-success btn-block"><span
-                                class="glyphicon glyphicon-off"></span> Login </button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <div>
-                        <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span
-                                class="glyphicon glyphicon-remove"></span> Cancel</button>
-                    </div>
-                    <div>
-                        <p>Not a member? <a href="#">Sign Up</a></p>
-                        <p>Forgot<a href="#">Password?</a></p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <!--- END LOGIN FORM -->
 
 
     <!--- START SIGN UP FORM -->
@@ -108,8 +54,8 @@
                             Twitter</a>
                     </div>
 
-                    <p>OR<br>
-                        Please fill in this form to create an account.</p>
+                    <p>OR</p>><br>
+                    <p>Please fill in this form to create an account.</p>
                     <hr>
                 </div>
                 <div class="modal-body" style="padding:40px 50px;">

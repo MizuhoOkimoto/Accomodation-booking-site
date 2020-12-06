@@ -74,13 +74,3 @@ window.onload = function () {
   }
   detailContainer.innerHTML += detail;
 };
-
-//Log in Modal
-$("#login_myBtn").on("click", function () {
-  $("#login_Modal").modal("show");
-});
-
-//Sign up Modal
-$("#signup_myBtn").on("click", function () {
-  $("#signup_Modal").modal("show");
-});

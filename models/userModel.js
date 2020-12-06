@@ -16,7 +16,7 @@ var UserSchema = new Schema({
   username: String,
   f_name: { type: String, required: true },
   l_name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true }, //check user does not exist
   create_psw: { type: String, required: true },
 });
 
@@ -31,8 +31,6 @@ var UserSchema = new Schema({
 //   SIN: 888,
 //   DOB: new Date(),
 // });
-
-//execute insert statement
 
 module.exports = mongoose.model("User", UserSchema);
 

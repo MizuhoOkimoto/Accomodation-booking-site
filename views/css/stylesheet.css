@@ -52,11 +52,15 @@ a {
   float: left;
 }
 .navbar-nav {
-  width: 60%;
+  width: 80%;
   font-size: 20px;
   /* color: #000; */
   justify-content: space-around;
   font-family: "Roboto Slab", serif;
+}
+
+.navbar-nav:hover {
+  color: #1b1653;
 }
 
 .navbtn {
@@ -89,6 +93,10 @@ a {
 }
 .nav li a:visited {
   color: #000;
+}
+
+.btn-outline-success {
+  margin-right: 10px;
 }
 /*----------------------------------------*/
 .header-container {
@@ -124,26 +132,41 @@ header .open {
 /*-------------------------- END HEADER ---------------------------------*/
 
 /*-------------------------- START LOG IN -------------------------------*/
-.modal-header,
-.modal-header h4,
+
+.login-header,
+.login-header h4,
 .close {
   background-color: #5cb85c;
   color: white !important;
   text-align: center;
   font-size: 30px;
 }
-.modal-footer {
+.login-body h2 {
+  margin: 20px;
+}
+
+.login-content {
+  width: 60%;
+  margin: auto;
+  text-align: center;
+}
+.login-content p {
+  text-align: center;
+  margin: auto;
+}
+
+.login-footer {
   background-color: #f9f9f9;
 }
 
 .login_container {
-  float: right;
+  /* float: right; */
   font-family: "Roboto Slab", serif;
   background-color: whitesmoke;
   transition: all 0.5s;
   /* display: none; */
-  width: 80%;
-  margin-right: 70px;
+  width: 50%;
+  /* margin-right: 70px; */
   border: 1px solid #69696934;
   /* padding: 20px; */
 }
@@ -170,7 +193,7 @@ header .open {
 .login_form {
   text-align: center;
 }
-.modal-header_extend {
+.login-header_extend {
   display: block;
 }
 
@@ -188,11 +211,11 @@ header .open {
   border: 1px solid #69696934;
 }*/
 
-.modal-header_extend p {
+.signup-header_extend p {
   font-size: 0.6em;
 }
 
-.modal-content-size {
+.signup-content-size {
   width: 600px;
 }
 
@@ -770,7 +793,7 @@ input[type="email"]:focus {
   color: #625e5e;
   height: calc(2.5em + 0.75rem + 2px) !important;
 }
-.modal-body p {
+.modal-body p {    /* MODAL????? */
   text-align: center;
   margin-bottom: 10px;
 }
