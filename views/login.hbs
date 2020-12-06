@@ -36,10 +36,9 @@
         </div>
         <div class="login-body">
             {{#if errorMsg}}
-            <p>{{errorMsg}}</p>
+            <h3>{{errorMsg}}</h3>
             {{else}}
             <h2>Please login below</h2>
-
             {{/if}}
             <form id="login-form" method="POST" class="form-horizontal" action="/login" role="form"
                 enctype="multipart/form-data">

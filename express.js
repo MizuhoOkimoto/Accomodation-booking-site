@@ -43,7 +43,7 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
-//tell to multer to use the diskStrage function for naming files instead of the default.
+//tell to multer to use the diskStorage function for naming files instead of the default.
 const upload = multer({ storage: storage });
 
 //handlebars --- register handlebars as the rending engine for views
@@ -57,13 +57,13 @@ app.set("view engine", ".hbs");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 
-
+//use cookie method -- client session
 app.use(
   clientSessions({
     cookieName: "session",
     secret: "do not read my cookie",
-    duration: 2 * 60 * 1000, //2mins
-    activeDuration: 1000 * 60, //let user logout automatically after this specific duration
+    duration: 2 * 60 * 1000, //2mins after cookie expires
+    activeDuration: 1000 * 60, //let user logout automatically after this specific duration //it will reset the time when user move 
   })
 );
 
@@ -71,39 +71,47 @@ app.use(
 app.use(bodyParser.json()); //テキストをJSONとして解析し、結果のオブジェクトをreq.bodyに公開
 app.use(bodyParser.urlencoded({ extended: false })); //not use extended feature
 
+//I HAVE TO DELETE IT AFTER CONNECT WITH MONGODB
+const login_user = {
+  login_email: "Mizuho",
+  psw: "Mizuho1121"
+};
+function checkLogin(req, res, next) {
+  if (!req.session.login_user) {
+    res.render("login", { errorMsg: "Unauthorized access, please log in", layout: false });
+  } else {
+    next();
+  }
+};
+
 
 //ROUTES
 app.use(express.static("views"));
 app.use(express.static("public"));
 
 app.get("/", function (req, res) {
-  res.render("main", { layout: false });
+  res.render("main", { login_user: req.session.login_user, layout: false }); //added user: req.session.user
 });
 
 app.get("/listing", function (req, res) {
-  res.render("listing", { layout: false });
+  res.render("listing", { login_user: req.session.login_user, layout: false });
 });
 
 app.get("/room0", function (req, res) {
-  res.render("room0", { layout: false });
+  res.render("room0", { login_user: req.session.login_user, layout: false });
 });
 
 app.get("/login", function (req, res) {
-  res.render("login", { layout: false });
+  res.render("login", { login_user: req.session.login_user, layout: false });
 });
 
 app.get("/signup", function (req, res) {
   res.render("signup", { layout: false });
 });
 
-//I HAVE TO DELETE IT AFTER CONNECT WITH MONGODB
-const login_user = {
-  login_email: "Mizuho",
-  psw: "Mizuho1121"
-};
 
 app.get("/login", function (req, res) {
-  res.render("login", { layout: false });
+  res.render("login", { login_user: req.session.login_user, layout: false });
 });
 
 app.post("/login", function (req, res) { //Do I need to use check???
@@ -112,32 +120,36 @@ app.post("/login", function (req, res) { //Do I need to use check???
   const psw = req.body.psw;
 
   if (login_email === "" || psw === "") {
-    return res.render("login", { errorMsg: "Both email and password are required!", layout: false });
+    return res.render("login", { errorMsg: "Both email and password are required!", login_user: req.session.login_user, layout: false });
   }
-  if (login_email === login_user.login_email && psw === login_user.psw) {  //authenticate
-    req.session.user = {
-      login_email: user.login_email,
-      psw: user.psw
+  if (login_email === login_user.login_email && psw === login_user.psw) {  //authenticate //psw === login_user.pswではなくresult=trueに変更(12/4 week11) 
+    req.session.login_user = {
+      login_email: login_user.login_email,
+      psw: login_user.psw
     };
     res.redirect("/userDashboard");
   }
   else {
-    res.render("login", { errorMsg: "Either the login email or password does not exist", layout: false });
+    res.render("login", { errorMsg: "Either the login email or password does not exist", login_user: req.session.login_user, layout: false });
 
   }
 });
 
-app.get("/logout", (req, res) => {
+app.get("/logout", (req, res) => { //I do not create logout.hbs
   req.session.reset();
   res.redirect("/");
 });
 
 app.get("/registration", function (req, res) {
-  res.render("registration", { layout: false });
+  res.render("registration", { login_user: req.session.login_user, layout: false });
 });
 
-// app.get("/userDashboard", checkLogin, (req, res) => {
-//   res.render('userDashboard', { user: req.session.user, layout: false });
+app.get("/userDashboard", checkLogin, (req, res) => {
+  res.render('userDashboard', { login_user: req.session.login_user, layout: false });
+});
+
+// app.get("/userDashboard", function (req, res) {
+//   res.render("userDashboard", { layout: false });
 // });
 
 app.get("/viewData", function (req, res) {
