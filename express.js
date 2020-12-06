@@ -76,6 +76,7 @@ const login_user = {
   login_email: "Mizuho",
   psw: "Mizuho1121"
 };
+
 function checkLogin(req, res, next) {
   if (!req.session.login_user) {
     res.render("login", { errorMsg: "Unauthorized access, please log in", layout: false });
