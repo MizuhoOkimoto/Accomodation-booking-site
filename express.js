@@ -1,5 +1,4 @@
-//import mongoose from "mongoose";
-//REQUIRED MODULES
+/* #region REQUIRES */
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -18,13 +17,54 @@ require("dotenv").config({ path: ".env" }); //CHANGE DIRECTORY
 const fs = require("fs");
 const PHOTODIRECTORY = "./public/photos";
 
+/* #region CONFIGURATIONS */
+//handlebars --- register handlebars as the rending engine for views
+app.set("views", "./views"); //added it from 11/13 lecture
+app.engine(".hbs", hbs({ extname: ".hbs" }));
+app.set("view engine", ".hbs");
+
 //MODULE INITIALIZATION
 const HTTP_PORT = process.env.PORT || process.env.PORTLocal;
+
+//connect to my mongoDB database
+mongoose.connect(process.env.mongoDB_atlas, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
 
 //START-UP FUNCTIONS --- call this function after the server starts listening for requests ---
 function onHttpStart() {
   console.log("Express http server listening on: " + HTTP_PORT);
 }
+
+//ROUTES
+app.use(express.static("views"));
+app.use(express.static("public"));
+
+//use cookie method -- client session
+app.use(
+  clientSessions({
+    cookieName: "session",
+    secret: "do not read my cookie",
+    duration: 2 * 60 * 1000, //2mins after cookie expires
+    activeDuration: 1000 * 60, //let user logout automatically after this specific duration //it will reset the time when user move 
+  })
+);
+
+//body-parser
+app.use(bodyParser.json()); //テキストをJSONとして解析し、結果のオブジェクトをreq.bodyに公開
+app.use(bodyParser.urlencoded({ extended: false })); //not use extended feature
+
+/* #region SECURITY */
+function checkLogin(req, res, next) {
+  if (!req.session.login_user) {
+    res.render("login", { errorMsg: "Unauthorized access, please log in", layout: false });
+  } else {
+    next();
+  }
+};
+
 
 //make sure the photos folder exists and if not create it
 if (!fs.existsSync(PHOTODIRECTORY)) {
@@ -46,10 +86,7 @@ const storage = multer.diskStorage({
 //tell to multer to use the diskStorage function for naming files instead of the default.
 const upload = multer({ storage: storage });
 
-//handlebars --- register handlebars as the rending engine for views
-app.set("views", "./views"); //added it from 11/13 lecture
-app.engine(".hbs", hbs({ extname: ".hbs" }));
-app.set("view engine", ".hbs");
+
 
 //-----------------------------------------------------------------------------
 
@@ -57,39 +94,21 @@ app.set("view engine", ".hbs");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 
-//use cookie method -- client session
-app.use(
-  clientSessions({
-    cookieName: "session",
-    secret: "do not read my cookie",
-    duration: 2 * 60 * 1000, //2mins after cookie expires
-    activeDuration: 1000 * 60, //let user logout automatically after this specific duration //it will reset the time when user move 
-  })
-);
 
-//body-parser
-app.use(bodyParser.json()); //テキストをJSONとして解析し、結果のオブジェクトをreq.bodyに公開
-app.use(bodyParser.urlencoded({ extended: false })); //not use extended feature
+
+
 
 //I HAVE TO DELETE IT AFTER CONNECT WITH MONGODB
-const login_user = {
+const login_user = [{
   login_email: "Mizuho",
   psw: "Mizuho1121"
-};
-
-function checkLogin(req, res, next) {
-  if (!req.session.login_user) {
-    res.render("login", { errorMsg: "Unauthorized access, please log in", layout: false });
-  } else {
-    next();
-  }
-};
+}];
 
 
-//ROUTES
-app.use(express.static("views"));
-app.use(express.static("public"));
 
+
+
+/* #region ROUTES */
 app.get("/", function (req, res) {
   res.render("main", { login_user: req.session.login_user, layout: false }); //added user: req.session.user
 });
@@ -120,13 +139,27 @@ app.post("/login", function (req, res) { //Do I need to use check???
   const login_email = req.body.login_email;
   const psw = req.body.psw;
 
+  // var isValid = true;
+  // var errorMessage = "";
+  // if (!check) { isValid = false; errorMessage += ""; }
+  // if (!check) { isValid = false; errorMessage += ""; }
+  // if (!check) { isValid = false; errorMessage += ""; }
+  // if (!check) { isValid = false; errorMessage += ""; }
+  // if (!isValid) {
+  //   return res.render("login", { errorMsg: errorMassage, user: req.session.login_user, layout: false });
+  // } else {
+  //   //TO DO
+  // }
+
   if (login_email === "" || psw === "") {
     return res.render("login", { errorMsg: "Both email and password are required!", login_user: req.session.login_user, layout: false });
   }
   if (login_email === login_user.login_email && psw === login_user.psw) {  //authenticate //psw === login_user.pswではなくresult=trueに変更(12/4 week11) 
+    console.log("matched");
     req.session.login_user = {
       login_email: login_user.login_email,
       psw: login_user.psw
+
     };
     res.redirect("/userDashboard");
   }
@@ -149,9 +182,9 @@ app.get("/userDashboard", checkLogin, (req, res) => {
   res.render('userDashboard', { login_user: req.session.login_user, layout: false });
 });
 
-// app.get("/userDashboard", function (req, res) {
-//   res.render("userDashboard", { layout: false });
-// });
+app.get("/userDashboard", function (req, res) {
+  res.render("userDashboard", { layout: false });
+});
 
 app.get("/viewData", function (req, res) {
   var Register = [
@@ -171,7 +204,6 @@ app.get("/viewData", function (req, res) {
   });
 });
 
-//connect to my mongoDB database
 app.post("/for-registration", function (req, res) {
   mongoose
     .connect(process.env.mongoDB_atlas, {
@@ -244,3 +276,5 @@ app.post("/for-registration", function (req, res) {
 
 //TURN ON THE LISTENER
 app.listen(HTTP_PORT, onHttpStart);
+
+/* #region END REGION */
