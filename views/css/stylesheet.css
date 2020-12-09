@@ -806,3 +806,8 @@ input[type="email"]:focus {
 }
 
 /*--------------- END ROOM DETAILS PAGE -------------------------*/
+
+/*register page*/
+.register_container{
+  margin-top: 100px;
+}
