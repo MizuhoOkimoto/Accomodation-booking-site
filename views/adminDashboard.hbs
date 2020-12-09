@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <!-- bootstrap -->
+    <!-- FOR USING Jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <!-- FOR USING BOOTSTRAP -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- FOR custom css file -->
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+
+    <!-- FOR LOADING ICONS -->
+    <script src="https://kit.fontawesome.com/39ea4545e9.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+    <title>-ANY- Online Photo Album</title>
+</head>
+
+<body>
+    <div style="text-align: center">
+        <h3>Welcome to my online photo album</h3>
+    </div>
+    <div>
+        <a href="/add-photo" class="button">Upload a photo</a>
+    </div>
+    <div>
+        {{#if hasPhotos }} {{#each photos}}
+        <div class="photo-tile">
+            <div>{{this.name}} ({{this.email}})</div>
+            <div>
+                <img src="/photos/{{filename}}" style="width:100%;" />
+            </div>
+            <div class="caption">Caption: {{caption}}</div>
+            <div class="upload-date"><i>Uploaded: {{uploadDate}}</i></div>
+            <div class="remove" title="Remove photo">
+                <form action="/remove-photo/{{filename}}" method="post">
+                    <button type="submit">
+                        <img src="/images/removephoto_icon.png" width="10" />
+                    </button>
+                </form>
+            </div>
+        </div>
+        {{/each}} {{else}}
+        <p>
+            You have no photos uploaded yet
+        </p>
+        {{/if}}
+    </div>
+
+</body>
+
+</html>

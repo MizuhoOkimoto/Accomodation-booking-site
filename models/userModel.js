@@ -32,4 +32,4 @@ var UserSchema = new Schema({
 //   DOB: new Date(),
 // });
 
-module.exports = mongoose.model("User", UserSchema); //"User" will be the collection name
+module.exports = mongoose.model("User", UserSchema); //What is "User" ???

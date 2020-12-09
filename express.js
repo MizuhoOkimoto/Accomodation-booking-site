@@ -9,17 +9,20 @@ const nodemailer = require("nodemailer");
 const clientSessions = require("client-sessions");
 const mongoose = require("mongoose");
 const userModel = require("./models/userModel");
+const PhotoModel = require("./models/photoModel"); //to connect photoModel.js
+const PHOTODIRECTORY = ("./public/photos/");
 const Schema = mongoose.Schema;
 mongoose.Promise = require("bluebird"); //use bluebird promise library with mongoose
 // const dotenv = require("dotenv").config(); //dotenv
 const bcrypt = require("bcryptjs"); //bcrypt
 require("dotenv").config({ path: ".env" }); //CHANGE DIRECTORY
 const fs = require("fs");
-const PHOTODIRECTORY = "./public/photos";
+const _ = require('underscore');
+
 
 /* #region CONFIGURATIONS */
 //handlebars --- register handlebars as the rending engine for views
-//app.set("views", "./views"); //added it from 11/13 lecture
+app.set("views", "./views"); //added it from 11/13 lecture
 app.engine(".hbs", hbs({ extname: ".hbs" }));
 app.set("view engine", ".hbs");
 
@@ -31,6 +34,11 @@ mongoose.connect(process.env.mongoDB_atlas, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
+});
+
+// log when the DB is connected
+mongoose.connection.on("open", () => {
+  console.log("Database connection open.");
 });
 
 //START-UP FUNCTIONS --- call this function after the server starts listening for requests ---
@@ -64,7 +72,6 @@ function ensureLogin(req, res, next) {
   }
 };
 
-
 //make sure the photos folder exists and if not create it
 if (!fs.existsSync(PHOTODIRECTORY)) {
   fs.mkdirSync(PHOTODIRECTORY);
@@ -79,7 +86,7 @@ const storage = multer.diskStorage({
     //in a large web service this world possibly cause a problem if two people
     //upload an image at the exact same time. A better way would be to use GUID's for filename
     //this is a simple example
-    cb(null, Date.now() + path.extname(file.originalname));
+    cb(null, Date.now() + path.extname(file.originalname)); //rename the file but keep the same extension name
   },
 });
 //tell to multer to use the diskStorage function for naming files instead of the default.
@@ -158,9 +165,89 @@ app.post("/login", function (req, res) { //Do I need to use check???
   }
   else {
     res.render("login", { errorMsg: "Either the login email or password does not exist", login_user: req.session.login_user, layout: false });
-
   }
 });
+/* #region ADMIN DASHBOARD*/
+app.get("/adminDashboard", (req, res) => {
+  PhotoModel.find().lean()
+    .exec()
+    .then((photos) => {
+      // underscore ( _ ) is a common library full of utility methods you can use
+      // to make certain tasks a lot easier on yourself. Here we use underscore to
+      // loop through the photos and and for each photo, set the uploadDate to a 
+      // more user friendly date format. http://underscorejs.org/#each
+      _.each(photos, (photo) => {
+        photo.uploadDate = new Date(photo.createdOn).toDateString();
+        //photo.caption = new String(photo.caption);
+      });
+
+      // send the html view with our form to the client
+      res.render("adminDashboard", { photos: photos, hasPhotos: !!photos.length, layout: false });
+    });
+});
+
+//upload photo
+app.get("/add-photo", (req, res) => {
+  // send the html view with our form to the client
+  res.render("add-photo", {
+    layout: false // do not use the default Layout (main.hbs)
+  });
+});
+
+app.post("/add-photo", upload.single("photo"), (req, res) => {
+  // setup a PhotoModel object and save it
+  const locals = {
+    message: "Your photo was uploaded successfully",
+    layout: false // do not use the default Layout (main.hbs)
+  };
+
+  const photoMetadata = new PhotoModel({
+    name: req.body.name,
+    email: req.body.email,
+    caption: req.body.caption,
+    filename: req.file.filename
+  });
+
+  photoMetadata.save()
+    .then(() => {　　　//deleted response in the brackets
+      res.render("add-photo", locals);
+    })
+    .catch((err) => {
+      locals.message = "There was an error uploading your photo";
+
+      console.log(err);
+
+      res.render("add-photo", locals);
+    });
+});
+
+app.post("/remove-photo/:filename", (req, res) => {
+  // we are using the url itself to contain the filename of the photo we
+  // want to remove. The :filename part of the url is a dynamic parameter
+  // req.params holds the dynamic parameters of a url
+  const filename = req.params.filename;
+
+  // remove the photo
+  PhotoModel.remove({ filename: filename })
+    .then(() => {
+      // now remove the file from the file system.
+      fs.unlink(PHOTODIRECTORY + filename, (err) => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log("Removed file : " + filename);
+      });
+      // redirect to home page once the removal is done.
+      return res.redirect("/adminDashboard");
+    }).catch((err) => {
+      // if there was an error removing the photo, log it, and redirect.
+      console.log(err);
+      return res.redirect("/adminDashboard");
+    });
+});
+
+
+//-----------------------------------------------------------------------------------------
 
 app.get("/logout", (req, res) => { //I do not create logout.hbs
   req.session.reset();
