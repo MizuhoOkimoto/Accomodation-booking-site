@@ -40,8 +40,8 @@
             {{else}}
             <h2>Please login below</h2>
             {{/if}}
-            <form id="login-form" method="POST" class="form-horizontal" action="/login" role="form"
-                enctype="multipart/form-data">
+            <form id="login-form" method="POST" class="form-horizontal" action="/login">
+                {{!--role="form"   enctype="multipart/form-data" --}}
                 <div class="form-group">
                     <label for="login_email"> Login Email </label>
                     <input type="text" class="form-control" name="login_email" id="login_email"

@@ -33,14 +33,14 @@
         <div class="photo-tile">
             <div>{{this.name}} ({{this.email}})</div>
             <div>
-                <img src="/photos/{{filename}}" style="width:100%;" />
+                <img src="/photos/{{filename}}" style="width:20%;" />
             </div>
             <div class="caption">Caption: {{caption}}</div>
             <div class="upload-date"><i>Uploaded: {{uploadDate}}</i></div>
             <div class="remove" title="Remove photo">
                 <form action="/remove-photo/{{filename}}" method="post">
                     <button type="submit">
-                        <img src="/images/removephoto_icon.png" width="10" />
+                        <img src="/images/removephoto_icon.png" width="20" />
                     </button>
                 </form>
             </div>

@@ -23,13 +23,12 @@
 
 <body>
 
-  {{> header login_user}} --}}
+  {{> header }}
 
   <h1>DASHBOARD</h1>
-  <h3>Hello {{login_user}}</h3>
-  <p>Welcome to your dashboard</p>
-  <p>Here is the information we have on file for you:</p>
-  <h4>email: {{login_user.login_email}}</h4>
+  <h2>Welcome to your dashboard</h2>
+  <p>Login Email: {{login_email}}</p>
+  <h4>email: {{user.login_email}}</h4>
 
 
   <h1>Cars</h1>

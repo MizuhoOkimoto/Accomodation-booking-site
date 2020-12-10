@@ -18,6 +18,7 @@ const bcrypt = require("bcryptjs"); //bcrypt
 require("dotenv").config({ path: ".env" }); //CHANGE DIRECTORY
 const fs = require("fs");
 const _ = require('underscore');
+const { model } = require("./models/userModel");
 
 
 /* #region CONFIGURATIONS */
@@ -65,7 +66,7 @@ app.use(bodyParser.urlencoded({ extended: false })); //not use extended feature
 
 /* #region SECURITY */
 function ensureLogin(req, res, next) {
-  if (!req.session.login_user) {
+  if (!req.session.user) {
     res.render("login", { errorMsg: "Unauthorized access, please log in", layout: false });
   } else {
     next();
@@ -100,27 +101,44 @@ const upload = multer({ storage: storage });
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 //I HAVE TO DELETE IT AFTER CONNECT WITH MONGODB
-const login_user = [{
+const user = [{
   login_email: "Mizuho",
   psw: "Mizuho1121"
 }];
 
 /* #region ROUTES */
 app.get("/", function (req, res) {
-  res.render("main", { login_user: req.session.login_user, layout: false }); //added user: req.session.user
+  res.render("main", { user: req.session.user, layout: false }); //added user: req.session.user
 });
 
 app.get("/listing", function (req, res) {
-  res.render("listing", { login_user: req.session.login_user, layout: false });
+  res.render("listing", { user: req.session.user, layout: false });
 });
 
-app.get("/room0", function (req, res) {
-  res.render("room0", { login_user: req.session.login_user, layout: false });
+//作り変える必要あり//
+app.get("/listing", (req, res) => { model.find(); });
+app.get("/listing/:filter", (req, res) => {
+  const cityFilter = req.params.filter;
+  model.find({ location: cityFilter })
 });
 
-app.get("/login", function (req, res) {
-  res.render("login", { login_user: req.session.login_user, layout: false });
+//   res.render("listing", { user: req.session.user, layout: false });
+// });
+
+
+app.get("/roomDetail", function (req, res) {
+  res.render("roomDetail", { user: req.session.user, layout: false });
 });
+
+app.get("/roomDetail/roomid", function (req, res) {
+  res.render("roomDetail", { user: req.session.user, layout: false });
+});
+
+//後で使う！！！！！
+// app.get("/login", function (req, res) {
+//   model.find({ roomID: roomID });
+//   res.render("login", { user: req.session.user, layout: false });
+// });
 
 app.get("/signup", function (req, res) {
   res.render("signup", { layout: false });
@@ -128,9 +146,10 @@ app.get("/signup", function (req, res) {
 
 
 app.get("/login", function (req, res) {
-  res.render("login", { login_user: req.session.login_user, layout: false });
+  res.render("login", { user: req.session.user, layout: false });
 });
 
+/*
 app.post("/login", function (req, res) { //Do I need to use check???
 
   const login_email = req.body.login_email;
@@ -145,7 +164,7 @@ app.post("/login", function (req, res) { //Do I need to use check???
   // if (!check) { isValid = false; errorMessage += ""; }
   // if (!check) { isValid = false; errorMessage += ""; }
   // if (!isValid) {
-  //   return res.render("login", { errorMsg: errorMassage, user: req.session.login_user, layout: false });
+  //   return res.render("login", { errorMsg: errorMassage, user: req.session.user, layout: false });
   // } else {
   //
   //   //TO DO
@@ -153,22 +172,50 @@ app.post("/login", function (req, res) { //Do I need to use check???
   // }
 
   if (login_email === "" || psw === "") {
-    return res.render("login", { errorMsg: "Both email and password are required!", login_user: req.session.login_user, layout: false });
+    return res.render("login", { errorMsg: "Both email and password are required!", layout: false });
   }
-  if (login_email === login_user.login_email && psw === login_user.psw) {  //authenticate //psw === login_user.pswではなくresult=trueに変更(12/4 week11) 
+  if (login_email === user.login_email && psw === user.psw) {  //authenticate //psw === user.pswではなくresult=trueに変更(12/4 week11) 
     console.log("matched");
-    req.session.login_user = {
-      login_email: login_user.login_email,
-      psw: login_user.psw
+    req.session.user = {
+      login_email: user.login_email,
+      //psw: user.psw
     };
     res.redirect("/userDashboard");
   }
   else {
-    res.render("login", { errorMsg: "Either the login email or password does not exist", login_user: req.session.login_user, layout: false });
+    res.render("login", { errorMsg: "Either the login email or password does not exist", layout: false });
   }
 });
+*/
+app.post("/login", function (req, res) {
+  console.log(req.body);
+  userModel.findOne({ email: req.body.login_email })
+    .exec()
+    .then((user) => {
+      if (!user) {
+        //console.log('it stops after if');
+        res.render("login", { errorMsg: "login does not exist!", layout: false });
+      } else {
+        //console.log('it stops after else');
+        // THIS MEANS THE USER EXISTS:
+        if (req.body.login_email === user.email && req.body.psw === user.create_psw) {
+          console.log('matched');
+          req.session.user = {
+            login_email: user.email
+          };
+          res.redirect('/userDashboard');
+
+        } else {
+          //console.log('it stops after second else');
+          res.render("login", { errorMsg: "login and password does not match!", layout: false });
+        };
+      };
+    })
+});
+
+
 /* #region ADMIN DASHBOARD*/
-app.get("/adminDashboard", (req, res) => {
+app.get("/adminDashboard", (req, res) => {　//findの結果が/then(photos)に入るようになる
   PhotoModel.find().lean()
     .exec()
     .then((photos) => {
@@ -228,7 +275,7 @@ app.post("/remove-photo/:filename", (req, res) => {
   const filename = req.params.filename;
 
   // remove the photo
-  PhotoModel.remove({ filename: filename })
+  PhotoModel.deleteOne({ filename: filename })
     .then(() => {
       // now remove the file from the file system.
       fs.unlink(PHOTODIRECTORY + filename, (err) => {
@@ -246,22 +293,22 @@ app.post("/remove-photo/:filename", (req, res) => {
     });
 });
 
-
 //-----------------------------------------------------------------------------------------
 
 app.get("/logout", (req, res) => { //I do not create logout.hbs
   req.session.reset();
   res.redirect("/");
 });
+//----------------------------------------------------------------------------------------
 
 
 /* #region PROFILES */
 app.get("/Profile", ensureLogin, (req, res) => {
-  res.render("Profile", { login_user: req.session.login_user, layout: false });
+  res.render("Profile", { user: req.session.user, layout: false });
 });
 
 app.get("/Profile/Edit", ensureLogin, (req, res) => {
-  res.render("ProfileEdit", { login_user: req.session.login_user, layout: false });
+  res.render("ProfileEdit", { user: req.session.user, layout: false });
 });
 
 app.post("/Profile/Edit", ensureLogin, (req, res) => {
@@ -283,7 +330,7 @@ app.post("/Profile/Edit", ensureLogin, (req, res) => {
     }
   ).exec()
     .then(() => {
-      req.session.login_user = {
+      req.session.user = {
         username: username,
         email: Email,
         firstName: firstName,
@@ -306,11 +353,15 @@ app.post("/Profile/Edit", ensureLogin, (req, res) => {
 });
 
 app.get("/userDashboard", ensureLogin, (req, res) => {
-  res.render('userDashboard', { login_user: req.session.login_user, layout: false });
+  res.render('userDashboard', { user: req.session.user, layout: false });
 });
 
 app.get("/userDashboard", function (req, res) {
-  res.render("userDashboard", { layout: false });
+  res.render("userDashboard", {
+    user: req.session.user,
+    user: req.session.login_email,
+    layout: false
+  });
 });
 
 app.get("/viewData", function (req, res) {
@@ -334,7 +385,7 @@ app.get("/viewData", function (req, res) {
 /* #region REGISTRATION */
 app.get("/registration", function (req, res) {
   res.render("registration", { layout: false });
-  //res.render("registration", { login_user: req.session.login_user, layout: false });
+  //res.render("registration", { user: req.session.user, layout: false });
 });
 
 app.post("/registration", function (req, res) {
@@ -351,18 +402,18 @@ app.post("/registration", function (req, res) {
   const Form_data = req.body;
 
   //Mongo Atlasに表示されてる名前
-  const user = {
+  const users = {
     f_name: Form_data.f_name,
     l_name: Form_data.l_name,
     email: Form_data.email,
     create_psw: Form_data.create_psw, //keep it in privacy
   };
 
-  const newUser = new userModel(user);
+  const newUser = new userModel(users);
 
   newUser.save()
-    .then(user => {
-      console.log(`User Created ${user}`);
+    .then(users => {
+      console.log(`User Created ${users}`);
     })
     .catch(err => {
       console.log(`There is an error: ${err}`);
