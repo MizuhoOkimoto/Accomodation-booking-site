@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <!-- bootstrap -->
+  <!-- FOR USING Jquery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <!-- FOR USING BOOTSTRAP -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <!-- FOR custom css file -->
+  <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+
+  <!-- FOR LOADING ICONS -->
+  <script src="https://kit.fontawesome.com/39ea4545e9.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+  <title>Room List for admin</title>
+</head>
+
+<body>
+  {{> header user}}
+  <div class="rooms">
+    <h1>Room List</h1>
+    <p><a href="/roomEdit">Add New Room</a></p>
+    {{#if hasRooms}}
+    <table border="1">
+      <thead>
+
+        <tr>
+          <td>&nbsp;</td>
+          <td>ID</td>
+          <td>Title</td>
+          <td>Description</td>
+          <td>Location</td>
+          <td>Price</td>
+          <td>&nbsp;</td>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each rooms}}
+        <tr>
+          <td><a href="/roomEdit/{{_id}}">Edit</a></td>
+          <td>{{@index}}: {{_id}}</td>
+          <td>{{title}}</td>
+          <td>{{description}}</td>
+          <td>{{location}}</td>
+          <td>{{price}}</td>
+          <td><a href="/admin_RoomList/Delete/{{_id}}">Delete</a></td>
+        </tr>
+        {{else}}
+        <tr>
+          <td colspan="8">No room was found</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{else}}
+    There is no Rooms
+    {{/if}}
+  </div>
+  <!--end rooms class -->
+</body>
+{{>footer}}
+
+</html>

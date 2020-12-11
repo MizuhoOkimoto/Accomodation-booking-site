@@ -1,10 +1,10 @@
 //-----------------------------------------------------------------------------------------------
 var mongoose = require("mongoose"); //create document database
 var Schema = mongoose.Schema; //schema is object like a database
-const bcrypt = require("bcryptjs");
+//const bcrypt = require("bcryptjs");
 mongoose.Promise = require("bluebird"); // making asynchronous nature and use 'bluebird' library
 
-const connStr = "mongodb://localhost/web322_week8";
+//const connStr = "mongodb://localhost/web322_week8";
 
 //create user collection
 //user schema

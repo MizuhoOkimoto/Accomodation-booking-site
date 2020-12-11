@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <!-- bootstrap -->
+    <!-- FOR USING Jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <!-- FOR USING BOOTSTRAP -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- FOR custom css file -->
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+
+    <!-- FOR LOADING ICONS -->
+    <script src="https://kit.fontawesome.com/39ea4545e9.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+    <title>Room Edit page</title>
+</head>
+
+<body>
+    {{> header user}}
+    <div class="roomEdit">
+        <h1>Room Editor</h1>
+        <form method="POST" action="/admin_RoomList">
+            {{#if room._id}}
+            <input type="hidden" name="ID" value="{{room._id}}" />
+            <input type="hidden" name="edit" value="1" />
+            <h4>Editing Room ID: {{room._id}}</h4>
+            {{else}}
+            <input type="hidden" name="edit" value="0" />
+            <label class="fixedlabel">ID</label><input type="number" name="ID" /><br />
+            {{/if}}
+            <label class="fixedlabel">Title</label><input type="text" name="title" value="{{room.title}}" /><br />
+            <label class="fixedlabel">Description</label><input type="text" name="description"
+                value="{{room.description}}" /><br />
+            <label class="fixedlabel">Location</label><input type="text" name="location"
+                value="{{room.location}}" /><br />
+            <label class="fixedlabel">Price</label><input type="text" name="price" value="{{room.price}}" /><br />
+            <label class="fixedlabel"></label><button type="submit" name="submit">Submit</button>
+        </form>
+    </div>
+    {{> footer user}}
+</body>
+
+</html>

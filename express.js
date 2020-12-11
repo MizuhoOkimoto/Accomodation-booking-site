@@ -10,6 +10,7 @@ const clientSessions = require("client-sessions");
 const mongoose = require("mongoose");
 const userModel = require("./models/userModel");
 const PhotoModel = require("./models/photoModel"); //to connect photoModel.js
+const roomModel = require("./models/roomModel");
 const PHOTODIRECTORY = ("./public/photos/");
 const session = require('express-session');
 const Schema = mongoose.Schema;
@@ -99,6 +100,13 @@ function ensureLogin(req, res, next) {
     next();
   }
 };
+function ensureAdmin(req, res, next) {
+  if (!req.session.user) {
+    res.redirect("/login");
+  } else {
+    next();
+  }
+};
 
 //body-parser
 app.use(bodyParser.json()); //テキストをJSONとして解析し、結果のオブジェクトをreq.bodyに公開
@@ -156,7 +164,7 @@ app.get("/roomDetail", function (req, res) {
   res.render("roomDetail", { user: req.session.user, layout: false });
 });
 
-app.get("/roomDetail/roomid", function (req, res) {
+app.get("/roomDetail/:roomid", function (req, res) {
   res.render("roomDetail", { user: req.session.user, layout: false });
 });
 
@@ -213,9 +221,15 @@ app.post("/login", function (req, res) {
     .catch((err) => { console.log("An error occurred: ${err}") });
 });
 
+/* #region USER DASHBOARD*/
+app.get("/userDashboard", ensureLogin, (req, res) => {
+  console.log("Getting user dashboard " + req.session.user);
+  res.render('userDashboard', { user: req.session.user, layout: false });
+});
+
 
 /* #region ADMIN DASHBOARD*/
-app.get("/adminDashboard", ensureLogin, (req, res) => {　//findの結果が/then(photos)に入るようになる
+app.get("/adminDashboard", ensureAdmin, (req, res) => {　//findの結果が/then(photos)に入るようになる
   PhotoModel.find().lean()
     .exec()
     .then((photos) => {
@@ -299,9 +313,79 @@ app.get("/logout", (req, res) => { //I do not create logout.hbs
   req.session.destroy();
   res.redirect("/");
 });
-//----------------------------------------------------------------------------------------
 
+/* #region ROOMS */
+app.get("/admin_RoomList", ensureLogin, (req, res) => {
+  roomModel.find()
+    .lean()
+    .exec()
+    .then((rooms) => {
+      res.render("admin_RoomList", { rooms: rooms, hasRooms: !!rooms.length, user: req.session.user, layout: false }); // !! can convert ot boolean
+    });
+})
 
+app.get("/roomEdit", ensureLogin, (req, res) => {
+  res.render("roomEdit", { user: req.session.user, layout: false });
+})
+
+app.get("/roomEdit/:roomid", ensureLogin, (req, res) => {
+  const roomid = req.params.roomid;
+
+  roomModel.findOne({ _id: roomid })
+    .lean() //convert to JavaScript object
+    .exec()
+    .then((room) => {
+      res.render("roomEdit", { user: req.session.user, room: room, editmode: true, layout: false })
+      //.catch(() => { }); //TO DO!!!!!!!!!
+    });
+});
+
+app.get("/admin_RoomList/Delete/:roomid", ensureLogin, (req, res) => {
+  const roomid = req.params.roomid;
+  roomModel.deleteOne({ _id: roomid })
+    .then(() => {
+      res.redirect("/admin_RoomList");
+    });
+})
+
+app.post("/roomEdit", ensureLogin, (req, res) => {
+  const room = new roomModel({
+    _id: req.body.ID,
+    title: req.body.title,
+    description: req.body.description,
+    location: req.body.location,
+    price: req.body.price
+  });
+
+  if (req.body.edit === "1") {
+    // editing
+    roomModel.updateOne({ _id: room._id },
+      {
+        $set: {
+          title: room.title,
+          description: room.description,
+          location: room.location,
+          price: room.price
+        }
+      }
+    ).exec().then((err) => {
+      console.log("Something went wrong: "); //このエラーハンドリングでいい????? CHECK!!!
+      res.redirect("/");　//エラーハンドリング追加????? CHECK!!!
+    });
+
+  } else {
+    //adding
+    room.save((err) => {
+      console.log("Something went wrong: check duplicate ID"); //このエラーハンドリングでいい????? CHECK!!!
+      res.redirect("/admin_RoomList");
+    });
+  };
+
+  res.redirect("/admin_RoomList");
+
+});
+/* #end region */
+//-----------------------------------------------------------------------------------------
 /* #region PROFILES */
 app.get("/Profile", ensureLogin, (req, res) => {
   res.render("Profile", { user: req.session.user, layout: false });
@@ -351,11 +435,6 @@ app.post("/Profile/Edit", ensureLogin, (req, res) => {
           console.log("ERROR: " + err);
       });
   */
-});
-
-app.get("/userDashboard", ensureLogin, (req, res) => {
-  console.log("Getting userdashboard " + req.session.user);
-  res.render('userDashboard', { user: req.session.user, layout: false });
 });
 
 app.get("/viewData", function (req, res) {

@@ -824,3 +824,12 @@ input[type="email"]:focus {
   width: 70%;
   margin:25px;
 }
+.rooms {
+  width: 70%;
+  margin:25px;
+}
+.roomEdit {
+  width: 70%;
+  margin:100px 40px 40px 40px;
+
+}
