@@ -23,25 +23,26 @@
 
 <body>
 
-  {{> header }}
+  {{> header user}}
+  <div class="userDashboard">
+    <h1>DASHBOARD</h1>
+    <h2>Welcome to your dashboard</h2>
+    <p>Login Name: {{user.f_name}}</p>
+    <h4>Login Email:{{user.login_email}}</h4>
 
-  <h1>DASHBOARD</h1>
-  <h2>Welcome to your dashboard</h2>
-  <p>Login Email: {{login_email}}</p>
-  <h4>email: {{user.login_email}}</h4>
+    <a href="/">Log out</a> | <a href="/">Home</a>
 
-  <a href="/">Log out</a> | <a href="/">Home</a>
-
-  <!-- FOR USING JavaScript and Bootstrap -->
-  <script type="text/javascript" src="/js/script.js"></script>
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-    crossorigin="anonymous"></script>
+    <!-- FOR USING JavaScript and Bootstrap -->
+    <script type="text/javascript" src="/js/script.js"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"></script>
+  </div>
 </body>
 
 {{> footer}}

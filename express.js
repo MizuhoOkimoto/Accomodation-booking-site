@@ -11,6 +11,7 @@ const mongoose = require("mongoose");
 const userModel = require("./models/userModel");
 const PhotoModel = require("./models/photoModel"); //to connect photoModel.js
 const PHOTODIRECTORY = ("./public/photos/");
+const session = require('express-session');
 const Schema = mongoose.Schema;
 mongoose.Promise = require("bluebird"); //use bluebird promise library with mongoose
 // const dotenv = require("dotenv").config(); //dotenv
@@ -23,12 +24,31 @@ const { model } = require("./models/userModel");
 
 /* #region CONFIGURATIONS */
 //handlebars --- register handlebars as the rending engine for views
-app.set("views", "./views"); //added it from 11/13 lecture
+//app.set("views", "./views"); //added it from 11/13 lecture
 app.engine(".hbs", hbs({ extname: ".hbs" }));
 app.set("view engine", ".hbs");
 
 //MODULE INITIALIZATION
 const HTTP_PORT = process.env.PORT || 8080;
+
+//express.session ????????? ----------
+// app.use(
+//   session({
+//     secret: `${process.env.SECRET_KEY}`,
+//     resave: false,
+//     saveUninitialized: true,
+//     // cookie: { secure: true },
+//     cookie: { maxAge: 180 * 60 * 1000 },
+//     store: new MongoStore({ mongooseConnection: mongoose.connection }),
+//   })
+// );
+
+// app.use((req, res, next) => {
+//   res.locals.user = req.session.userInfo;
+//   res.locals.session = req.session;
+//   next();
+// });
+//----------------------------------
 
 //connect to my mongoDB database
 mongoose.connect(process.env.mongoDB_atlas, {
@@ -60,18 +80,30 @@ app.use(clientSessions({
 })
 );
 
-//body-parser
-app.use(bodyParser.json()); //テキストをJSONとして解析し、結果のオブジェクトをreq.bodyに公開
-app.use(bodyParser.urlencoded({ extended: false })); //not use extended feature
+//-------------------------------------------------
+// const ensureLogin = (req, res, next) => {
+//   req.session.user ? next() : res.redirect("/login");
+// };
 
-/* #region SECURITY - stranger can't access to logged in page*/
+// const dashBoardLoader = (req, res) => {
+//   req.session.user.type == "Admin"
+//     ? res.render("user/admin-dashboard")
+//     : res.render("user/user-dashboard");
+// };
+//---------------------------------------------------
+
 function ensureLogin(req, res, next) {
   if (!req.session.user) {
-    res.render("login", { errorMsg: "Unauthorized access, please log in", user: req.session.user, layout: false });
+    res.redirect("/login");
   } else {
     next();
   }
 };
+
+//body-parser
+app.use(bodyParser.json()); //テキストをJSONとして解析し、結果のオブジェクトをreq.bodyに公開
+app.use(bodyParser.urlencoded({ extended: false })); //not use extended feature
+
 
 //make sure the photos folder exists and if not create it
 if (!fs.existsSync(PHOTODIRECTORY)) {
@@ -99,12 +131,6 @@ const upload = multer({ storage: storage });
 
 // body-parser モジュールを使えるようにセット
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
-
-//I HAVE TO DELETE IT AFTER CONNECT WITH MONGODB
-// const user = [{
-//   login_email: "Mizuho",
-//   psw: "Mizuho1121"
-// }];
 
 /* #region ROUTES */
 app.get("/", function (req, res) {
@@ -150,6 +176,11 @@ app.get("/login", function (req, res) {
 });
 
 app.post("/login", function (req, res) {
+
+  if (req.body.login_email === "" || req.body.psw === "") {
+    return res.render("login", { errorMsg: "Both user email and password are required,", user: req.session.user, layout: false });
+  }
+
   userModel.findOne({ email: req.body.login_email })
     .exec()
     .then((user) => {
@@ -157,39 +188,34 @@ app.post("/login", function (req, res) {
       if (!user) {
         res.render("login", { errorMsg: "login does not exist!", user: req.session.user, layout: false });
       }
-      // var isValid = true;
-      // var errorMessage = "";
-      // if (!check) { isValid = false; errorMessage += ""; }
-      // if (!check) { isValid = false; errorMessage += ""; }
-      // if (!check) { isValid = false; errorMessage += ""; }
-      // if (!check) { isValid = false; errorMessage += ""; }
-      // if (!isValid) {
-      //   return res.render("login", { errorMsg: errorMassage, user: req.session.user, layout: false });
-      // } else {
-
-      if (req.body.login_email === "" || req.body.psw === "") {
-        return res.render("login", { errorMsg: "Both user email and password are required,", user: req.session.user, layout: false });
-      }
-      else {
+      else { //when user exists
         if (req.body.login_email === user.email && req.body.psw === user.create_psw) {
           console.log('matched');
           req.session.user = {
             login_email: user.email,
-            isAdmin: true
+            isAdmin: true, //or user.isAdmin???
+            username: user.username,
+            f_name: user.f_name,
+            l_name: user.l_name,
           };
-          res.redirect('/userDashboard');
+          if (user.isAdmin) {
+            console.log('this account is admin');
+            return res.redirect('adminDashboard');
+          }
+          return res.redirect('userDashboard');
         }
         else {
-          //console.log('it stops after second else');
+          // console.log('it stops after second else');
           res.render("login", { errorMsg: "login and password does not match!", user: req.session.user, layout: false });
         };
       };
     })
+    .catch((err) => { console.log("An error occurred: ${err}") });
 });
 
 
 /* #region ADMIN DASHBOARD*/
-app.get("/adminDashboard", (req, res) => {　//findの結果が/then(photos)に入るようになる
+app.get("/adminDashboard", ensureLogin, (req, res) => {　//findの結果が/then(photos)に入るようになる
   PhotoModel.find().lean()
     .exec()
     .then((photos) => {
@@ -208,7 +234,7 @@ app.get("/adminDashboard", (req, res) => {　//findの結果が/then(photos)に�
 });
 
 //upload photo
-app.get("/add-photo", (req, res) => {
+app.get("/add-photo", ensureLogin, (req, res) => {
   // send the html view with our form to the client
   res.render("add-photo", {
     layout: false // do not use the default Layout (main.hbs)
@@ -270,7 +296,7 @@ app.post("/remove-photo/:filename", (req, res) => {
 //-----------------------------------------------------------------------------------------
 
 app.get("/logout", (req, res) => { //I do not create logout.hbs
-  req.session.reset();
+  req.session.destroy();
   res.redirect("/");
 });
 //----------------------------------------------------------------------------------------
@@ -286,6 +312,7 @@ app.get("/Profile/Edit", ensureLogin, (req, res) => {
 });
 
 app.post("/Profile/Edit", ensureLogin, (req, res) => {
+
   const username = req.body.username;
   const firstName = req.body.firstname;
   const lastName = req.body.lastname;
@@ -327,14 +354,8 @@ app.post("/Profile/Edit", ensureLogin, (req, res) => {
 });
 
 app.get("/userDashboard", ensureLogin, (req, res) => {
+  console.log("Getting userdashboard " + req.session.user);
   res.render('userDashboard', { user: req.session.user, layout: false });
-});
-
-app.get("/userDashboard", function (req, res) {
-  res.render("userDashboard", {
-    login_email: user.email,
-    layout: false
-  });
 });
 
 app.get("/viewData", function (req, res) {

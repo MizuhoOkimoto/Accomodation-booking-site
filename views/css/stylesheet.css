@@ -811,3 +811,16 @@ input[type="email"]:focus {
 .register_container{
   margin-top: 100px;
 }
+
+/*adminDashboard page*/
+.adminDashboard {
+  margin-top: 100px;
+}
+.photoalbum {
+  width: 70%;
+  margin:25px;
+}
+.userDashboard {
+  width: 70%;
+  margin:25px;
+}
