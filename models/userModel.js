@@ -9,12 +9,12 @@ const connStr = "mongodb://localhost/web322_week8";
 //create user collection
 //user schema
 var UserSchema = new Schema({
-  username: String,
+  username: { type: String, required: true },
   f_name: { type: String, required: true },
   l_name: { type: String, required: true },
   email: { type: String, required: true, unique: true }, //check user does not exist //unique: trueを後で戻す
   create_psw: { type: String, required: true },
-  admin: { type: Boolean, default: false },
+  isAdmin: { type: Boolean, default: false },
   type: { type: String, default: "User" },
 });
 

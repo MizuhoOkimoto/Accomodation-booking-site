@@ -64,10 +64,10 @@ app.use(clientSessions({
 app.use(bodyParser.json()); //テキストをJSONとして解析し、結果のオブジェクトをreq.bodyに公開
 app.use(bodyParser.urlencoded({ extended: false })); //not use extended feature
 
-/* #region SECURITY */
+/* #region SECURITY - stranger can't access to logged in page*/
 function ensureLogin(req, res, next) {
   if (!req.session.user) {
-    res.render("login", { errorMsg: "Unauthorized access, please log in", layout: false });
+    res.render("login", { errorMsg: "Unauthorized access, please log in", user: req.session.user, layout: false });
   } else {
     next();
   }
@@ -101,10 +101,10 @@ const upload = multer({ storage: storage });
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 //I HAVE TO DELETE IT AFTER CONNECT WITH MONGODB
-const user = [{
-  login_email: "Mizuho",
-  psw: "Mizuho1121"
-}];
+// const user = [{
+//   login_email: "Mizuho",
+//   psw: "Mizuho1121"
+// }];
 
 /* #region ROUTES */
 app.get("/", function (req, res) {
@@ -141,7 +141,7 @@ app.get("/roomDetail/roomid", function (req, res) {
 // });
 
 app.get("/signup", function (req, res) {
-  res.render("signup", { layout: false });
+  res.render("signup", { user: req.session.user, layout: false });
 });
 
 
@@ -149,65 +149,39 @@ app.get("/login", function (req, res) {
   res.render("login", { user: req.session.user, layout: false });
 });
 
-/*
-app.post("/login", function (req, res) { //Do I need to use check???
-
-  const login_email = req.body.login_email;
-  const psw = req.body.psw;
-
-  //TO DO
-
-  // var isValid = true;
-  // var errorMessage = "";
-  // if (!check) { isValid = false; errorMessage += ""; }
-  // if (!check) { isValid = false; errorMessage += ""; }
-  // if (!check) { isValid = false; errorMessage += ""; }
-  // if (!check) { isValid = false; errorMessage += ""; }
-  // if (!isValid) {
-  //   return res.render("login", { errorMsg: errorMassage, user: req.session.user, layout: false });
-  // } else {
-  //
-  //   //TO DO
-  //
-  // }
-
-  if (login_email === "" || psw === "") {
-    return res.render("login", { errorMsg: "Both email and password are required!", layout: false });
-  }
-  if (login_email === user.login_email && psw === user.psw) {  //authenticate //psw === user.pswではなくresult=trueに変更(12/4 week11) 
-    console.log("matched");
-    req.session.user = {
-      login_email: user.login_email,
-      //psw: user.psw
-    };
-    res.redirect("/userDashboard");
-  }
-  else {
-    res.render("login", { errorMsg: "Either the login email or password does not exist", layout: false });
-  }
-});
-*/
 app.post("/login", function (req, res) {
-  console.log(req.body);
   userModel.findOne({ email: req.body.login_email })
     .exec()
     .then((user) => {
+
       if (!user) {
-        //console.log('it stops after if');
-        res.render("login", { errorMsg: "login does not exist!", layout: false });
-      } else {
-        //console.log('it stops after else');
-        // THIS MEANS THE USER EXISTS:
+        res.render("login", { errorMsg: "login does not exist!", user: req.session.user, layout: false });
+      }
+      // var isValid = true;
+      // var errorMessage = "";
+      // if (!check) { isValid = false; errorMessage += ""; }
+      // if (!check) { isValid = false; errorMessage += ""; }
+      // if (!check) { isValid = false; errorMessage += ""; }
+      // if (!check) { isValid = false; errorMessage += ""; }
+      // if (!isValid) {
+      //   return res.render("login", { errorMsg: errorMassage, user: req.session.user, layout: false });
+      // } else {
+
+      if (req.body.login_email === "" || req.body.psw === "") {
+        return res.render("login", { errorMsg: "Both user email and password are required,", user: req.session.user, layout: false });
+      }
+      else {
         if (req.body.login_email === user.email && req.body.psw === user.create_psw) {
           console.log('matched');
           req.session.user = {
-            login_email: user.email
+            login_email: user.email,
+            isAdmin: true
           };
           res.redirect('/userDashboard');
-
-        } else {
+        }
+        else {
           //console.log('it stops after second else');
-          res.render("login", { errorMsg: "login and password does not match!", layout: false });
+          res.render("login", { errorMsg: "login and password does not match!", user: req.session.user, layout: false });
         };
       };
     })
@@ -229,7 +203,7 @@ app.get("/adminDashboard", (req, res) => {　//findの結果が/then(photos)に�
       });
 
       // send the html view with our form to the client
-      res.render("adminDashboard", { photos: photos, hasPhotos: !!photos.length, layout: false });
+      res.render("adminDashboard", { user: req.session.user, photos: photos, hasPhotos: !!photos.length, layout: false });
     });
 });
 
@@ -358,8 +332,7 @@ app.get("/userDashboard", ensureLogin, (req, res) => {
 
 app.get("/userDashboard", function (req, res) {
   res.render("userDashboard", {
-    user: req.session.user,
-    user: req.session.login_email,
+    login_email: user.email,
     layout: false
   });
 });
@@ -384,8 +357,8 @@ app.get("/viewData", function (req, res) {
 
 /* #region REGISTRATION */
 app.get("/registration", function (req, res) {
-  res.render("registration", { layout: false });
-  //res.render("registration", { user: req.session.user, layout: false });
+  //res.render("registration", { layout: false });
+  res.render("registration", { user: req.session.users, layout: false });
 });
 
 app.post("/registration", function (req, res) {
@@ -402,14 +375,14 @@ app.post("/registration", function (req, res) {
   const Form_data = req.body;
 
   //Mongo Atlasに表示されてる名前
-  const users = {
+  const user = {
     f_name: Form_data.f_name,
     l_name: Form_data.l_name,
     email: Form_data.email,
     create_psw: Form_data.create_psw, //keep it in privacy
   };
 
-  const newUser = new userModel(users);
+  const newUser = new userModel(user);
 
   newUser.save()
     .then(users => {
@@ -461,8 +434,34 @@ app.post("/registration", function (req, res) {
 
   res.render("registration", { user: user, layout: false });
 });
+/* #region END REGION */
+
+
+app.get("/firstrunsetup", (req, res) => {
+  /*
+  var Clint = new userModel({
+    username: 'Create Admin info',
+    f_name: 'clint',
+    l_name: 'MacDonald',
+    email: 'mizuho.tiho@gmail.com',
+    create_psw: 'mypassword',
+    isAdmin: true,
+    type: 'Admin'
+  });
+  Clint.save((err) => {
+    console.log("Error: " + err + ';');
+    if (err) {
+      console.log("There was an error creating Clint: " + err);
+    } else {
+      console.log("Admin was created");
+    }
+  });
+  console.log("Success");
+  */
+  res.redirect("/");
+})
+
 
 //TURN ON THE LISTENER
 app.listen(HTTP_PORT, onHttpStart);
 
-/* #region END REGION */
