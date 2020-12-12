@@ -145,12 +145,14 @@ app.get("/", function (req, res) {
   res.render("main", { user: req.session.user, layout: false }); //added user: req.session.user
 });
 
-app.get("/listing", function (req, res) {
-  res.render("listing", { user: req.session.user, layout: false });
-});
+// app.get("/listing", function (req, res) {
+//   res.render("listing", { user: req.session.user, layout: false });
+// });
 
 //作り変える必要あり//
-app.get("/listing", (req, res) => { model.find(); });
+// app.get("/listing", (req, res) => {
+//   model.find();
+// });
 app.get("/listing/:filter", (req, res) => {
   const cityFilter = req.params.filter;
   model.find({ location: cityFilter })
@@ -161,27 +163,38 @@ app.get("/listing/:filter", (req, res) => {
 
 /*#region ROOM LISTING PAGE */
 app.get("/listing", function (req, res) {
-  var room = roomImport.roomModel
+  PhotoModel
     .find()
     .lean()
     .exec()
     .then((rooms) => {
-      if (rooms) {
-        return res.render("listing", { rooms: rooms, hasRooms: !!rooms.length, user: req.session.user, layout: false })
-      }
-      else {
-        return res.render("listing", { rooms: rooms, hasRooms: !!rooms.length, user: req.session.user, layout: false });
-      }
+      _.each(rooms, (photo) => {
+        photo.uploadDate = new Date(photo.createdOn).toDateString();
+      });
+
+      res.render("listing", { rooms: rooms, hasRooms: !!rooms.length, user: req.session.user, layout: false })
+
     });
 });
 //-------------------------------------------
 
-app.get("/roomDetail", function (req, res) {
-  res.render("roomDetail", { user: req.session.user, layout: false });
-});
+// app.get("/roomDetail", function (req, res) {
+//   res.render("roomDetail", { user: req.session.user, layout: false });
+// });
 
-app.get("/roomDetail/:roomid", function (req, res) {
-  res.render("roomDetail", { user: req.session.user, layout: false });
+// app.get("/roomDetail/:roomid", function (req, res) {
+//   res.render("roomDetail", { user: req.session.user, layout: false });
+// });
+app.get("/:id", function (req, res) {
+  let id_url = req.params.id;
+  PhotoModel
+    .find({ _id: id_url })
+    .lean()
+    .exec()
+    .then((photos) => {
+      res.render("roomDetail", { photos: photos, hasPhotos: !!photos.length, layout: false });
+
+    });
 });
 
 //後で使う！！！！！
@@ -217,7 +230,7 @@ app.post("/login", function (req, res) {
           console.log('matched');
           req.session.user = {
             login_email: user.email,
-            isAdmin: true, //or user.isAdmin???
+            isAdmin: true, //or user.isAdmin??? Just put {{#if isAdmin}}
             username: user.username,
             f_name: user.f_name,
             l_name: user.l_name,
@@ -480,14 +493,14 @@ app.get("/registration", function (req, res) {
 });
 
 app.post("/registration", function (req, res) {
-  mongoose.connect(process.env.mongoDB_atlas, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
-    .then(() => {
-      console.log("Connected to MongoDB");
-    });
+  // mongoose.connect(process.env.mongoDB_atlas, {
+  //   useNewUrlParser: true,
+  //   useUnifiedTopology: true,
+  //   useCreateIndex: true,
+  // })
+  //   .then(() => {
+  //     console.log("Connected to MongoDB");
+  //   });
 
   //FORM_DATA
   const Form_data = req.body;

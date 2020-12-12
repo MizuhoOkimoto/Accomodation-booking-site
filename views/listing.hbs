@@ -18,34 +18,45 @@
   <!-- FOR LOADING ICONS -->
   <script src="https://kit.fontawesome.com/39ea4545e9.js" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
-  <title>-ANY- House/Room List</title>
+  <title>-ANY- Online Photo Album</title>
 </head>
 
 <body>
+  <div class="photoalbum">
+    {{> header }}
 
-  {{> header data}}
+    <div class="roomlisting">
+      {{#if user}}
+      <h3>Welcome, {{user.f_name}} {{user.l_name}}</h3>
+      {{else}}
+      <h3>Welcome to Room List</h3>
+      {{/if}}
+    </div>
 
 
-  <!-- ROOM LISTING  -->
-  <div class="container">
+    <div style="text-align: center, margin-top:50px"> </div>
+    <div>
+      {{#if hasRooms }} {{#each rooms}}
 
-    <h1 class="listing_title">Find the property that suits you best</h1>
-    <div class="result_list" id="search-result"> </div>
+      <div class="photo-tile" style="width:300px;border:1px dashed #6495de;padding:16px;">
+        <div>
+          <img src="/photos/{{filename}}" style="width:80%;" />
+        </div>
 
+        <div class="roomid">Title: {{title}}</div>
+        <div class="roomid">Description: {{description}}</div>
+        <div class="roomid">Location: {{location}}</div>
+        <div class="roomid">Price: {{price}}</div>
+        <a href="/{{_id}}">Get to Room Description</a>
+      </div> {{!-- end photo-title class--}}
+      {{/each}} {{else}}
+      <p>
+        There is no Rooms
+      </p>
+      {{/if }}
+    </div>
+    <a href="/logout">Log out </a> | <a href="/admin_RoomList">Room List </a>
   </div>
-
-  <script type="text/javascript" src="js/listingScript.js"></script>
-
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-    crossorigin="anonymous"></script>
 </body>
-
-<!-- Site footer -->
-{{> footer}}
 
 </html>

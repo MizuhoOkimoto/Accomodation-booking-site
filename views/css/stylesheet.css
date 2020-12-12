@@ -429,15 +429,21 @@ signup:hover {
 input::placeholder {
   font-size: 1.3em;
 }
-.search-field {
+/* .search-field {
   height: 5px;
   padding: 20px;
   border: 0.8px solid #808080;
   outline: none;
   width: 500px;
-}
-.location {
+} */
+#location {
   width: 500px;
+  height: 5px;
+  padding: 20px;
+  border: 0.8px solid #808080;
+  outline: none;
+  width: 500px;
+  margin: auto;
 }
 .search-btn {
   height: 43px;

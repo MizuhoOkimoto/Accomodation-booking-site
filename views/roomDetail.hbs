@@ -25,140 +25,50 @@
 
   {{> header data}}
 
+  <div class="roomdetail">
+    {{#if user}}
+    <h3>Welcome, {{user.f_name}} {{user.l_name}}</h3>
+    {{else}}
+    <h3>Welcome to Room List</h3>
+    {{/if}}
+  </div>
+
   <!-- RUN JavaScript / DETAILS PICTURE -->
   <div class="container">
     <div class="booking">
-      <div class="result_list"></div>
-
-
-
-
-
-
-
-      {{!-- <!--- BOOKING --->
-      <div class="form_container">
-        <h2 class="heading">Booking Now</h2>
-        <form action="" class="room_detail_form">
-          <!-- START FORM GROUP -->
-          <div class="booknow_form">
-            <div class="row">
-              <div class="form-group col-sm">
-                <label for="fname"><span class="text-danger">*</span> First Name</label>
-                <input class="form-control" id="fname" name="fname" autocomplete="given-name" type="text" autofocus
-                  tabindex="1" required>
-              </div>
-              <div class="form-group col-sm">
-                <label for="lname"><span class="text-danger">*</span> Last Name</label>
-                <input class="form-control" id="lname" name="lname" autocomplete="family-name" type="text" tabindex="2"
-                  required>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="form-group col-sm">
-                <label for="email"><span class="text-danger">*</span> Email Address</label>
-                <input id="email" class="form-control" name="email" autocomplete="email" type="text" tabindex="4"
-                  required>
-              </div>
-              <div class="form-group col-sm">
-                <label for="phone"><span class="text-danger">*</span>Phone Number</label>
-                <input id="phone" class="form-control" name="phone" autocomplete="tel" type="tel" tabindex="5" required>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="form-group col-sm">
-                <label for="address"><span class="text-danger">*</span> Street Address</label>
-                <input id="address" class="form-control" name="address" autocomplete="street-address" type="text"
-                  tabindex="6" required>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="form-group col-sm">
-                <label for="city"><span class="text-danger">*</span> City</label>
-                <input id="city" class="form-control" name="city" autocomplete="address-level2" type="text" tabindex="7"
-                  required>
-              </div>
-              <div class="form-group col-sm">
-                <label for="province"><span class="text-danger">*</span> Province</label>
-                <select id="province" class="form-control" name="province" autocomplete="address-level1" tabindex="8">
-                  <option>Alberta</option>
-                  <option>British Columbia</option>
-                  <option>Manitoba</option>
-                  <option>New Brunswick</option>
-                  <option>Newfoundland and Labrador</option>
-                  <option>Northwest Territories</option>
-                  <option>Nova Scotia</option>
-                  <option>Nunavut</option>
-                  <!-- Make Ontario the default selected option ??? -->
-                  <option selected>Ontario</option>
-                  <option>Prince Edward Island</option>
-                  <option>Quebec</option>
-                  <option>Saskatchewan</option>
-                  <option>Yukon</option>
-                </select>
-              </div>
-              <div class="form-group col-sm">
-                <label for="postal-code"><span class="text-danger">*</span> Postal Code</label>
-                <input id="postal-code" class="form-control" name="post-code" autocomplete="postal-code" type="text"
-                  tabindex="9" placeholder="M4R 1C7" pattern="^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$" required>
-                <div class="invalid-feedback">
-                  Enter a valid Canadian Postal Code
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- end booknow_form -->
-
-          <!--  Details -->
-          <h2 class="heading">Details</h2>
-
-          <div class="form-group">
-            <i class="fa fa-sort"></i>
-            <label for="people"><i class="fa fa-male" id="people"></i>&nbsp;&nbsp;Number of guests</label>
-            <select class="people">
-              <option value="blank"></option>
-              <option value="1">1</option>
-              <option value="2" selected>2</option>
-              <option value="3">3</option>
-            </select>
+      <div class="result_list">
+        {{#if hasPhotos}}
+        {{#each photos}}
+        <div class="photo-tile" style="width:300px;border:1px dashed #6495de;padding:16px;">
+          <div>
+            <img src="/photos/{{filename}}" style="width:80%;" />
           </div>
 
-          <div class="form-group">
-            <label for="arrive" class="label-date"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Arrive</label>
-            <input type="date" id="arrive" class="floatLabel" name="arrive" value="<?php echo date('Y-m-d'); ?>">
-          </div>
+          <div class="roomid">Title: {{title}}</div>
+          <div class="roomid">Description: {{description}}</div>
+          <div class="roomid">Location: {{location}}</div>
+          <div class="roomid">Price: {{price}}</div>
 
-          <div class="form-group">
-            <label for="depart" class="label-date"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Depart</label>
-            <input type="date" id="depart" class="floatLabel" name="depart" value="<?php echo date('Y-m-d'); ?>" />
-          </div>
+        </div>
+        {{/each}}
+        {{/if}}
 
-          <div class="book_now comment_section">
-            <label class="comment_label" for="comments">Comments</label>
-            <textarea name="comments" id="comments"></textarea>
-          </div>
-          <button type="submit" value="Submit" class="bookbtn">Book Now</button>
-          <!-- END FORM -->
-        </form>
-      </div> --}}
-      <!--end form_container-->
-      {{!-- <!-- END class="booking"--> --}}
+
+
+
+      </div>
+      <!--end container-->
     </div>
-    <!--end container-->
-  </div>
 
-  <script type="text/javascript" src="js/roomDetailScript.js"></script>
-  <!-- FOR USING JavaScript and Bootstrap -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-    crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/roomDetailScript.js"></script>
+    <!-- FOR USING JavaScript and Bootstrap -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"></script>
 </body>
 
 {{> footer}}

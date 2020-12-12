@@ -53,9 +53,19 @@
     <!-- START SEARCH ENGINE -->
     <div class="search-engine">
       <!-- 3. SEARCH ENGINE  -->
-      <h2>Explore</h2>
+      <h2>Search Room List From Location</h2>
       <div class="search-box">
-        <input type="text" class="search-field location" placeholder="search location">
+        {{!-- <input type="text" class="search-field location" placeholder="search location"> --}}
+        <div>
+          <select class="form-control" id="location" name="location">
+            <option value="null"></option>
+            <option value="Vancouver">Vancouver</option>
+            <option value="Toronto">Toronto</option>
+            <option value="Edmonton">Edmonton</option>
+            <option value="Montreal">Montreal</option>
+            <option value="Ottawa">Ottawa</option>
+          </select>
+        </div><br>
         <button class="search-btn" type="button">Search</button>
       </div>
     </div>

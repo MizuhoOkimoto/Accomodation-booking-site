@@ -20,10 +20,10 @@ var details = [
 //   roomtitle.innerHTML += titles;
 // };
 
-window.onload = function () {
-  var detailContainer = document.querySelector(".result_list");
-  var detail = "";
-  for (var i = 0; i < details.length; i++) {
+// window.onload = function () {
+//   var detailContainer = document.querySelector(".result_list");
+//   var detail = "";
+//   for (var i = 0; i < details.length; i++) {
     // detail +=
     //   // '<h1 class="title">' +
     //   // details[i].title +
@@ -46,31 +46,31 @@ window.onload = function () {
     //   details[i].hostName +
     //   '</h4>';
 
-    detail +=
-      '<div class="room_detail">' +
-      '<h2 class="title">' +
-      details[i].title +
-      "</h2>" +
-      "<img src=" +
-      details[i].main +
-      " />" +
-      "<img src=" +
-      details[i].sub1 +
-      " />" +
-      "<img src=" +
-      details[i].sub2 +
-      " />" +
-      '<p class="category">' +
-      details[i].category +
-      "</p>" +
-      '<p class="hostName">' +
-      details[i].hostName +
-      "</p>" +
-      '<p class="price">' +
-      details[i].price +
-      " per night" +
-      "</p>" +
-      "</div>";
-  }
-  detailContainer.innerHTML += detail;
-};
+//     detail +=
+//       '<div class="room_detail">' +
+//       '<h2 class="title">' +
+//       details[i].title +
+//       "</h2>" +
+//       "<img src=" +
+//       details[i].main +
+//       " />" +
+//       "<img src=" +
+//       details[i].sub1 +
+//       " />" +
+//       "<img src=" +
+//       details[i].sub2 +
+//       " />" +
+//       '<p class="category">' +
+//       details[i].category +
+//       "</p>" +
+//       '<p class="hostName">' +
+//       details[i].hostName +
+//       "</p>" +
+//       '<p class="price">' +
+//       details[i].price +
+//       " per night" +
+//       "</p>" +
+//       "</div>";
+//   }
+//   detailContainer.innerHTML += detail;
+// };
