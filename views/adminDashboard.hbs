@@ -25,14 +25,19 @@
     <div class="photoalbum">
         {{> header }}
 
+        <h1>{{user.isAdmin}}</h1>
+
         <div class="adminDashboard">
+            {{#if user}}
             <h3>Welcome, {{user.f_name}} {{user.l_name}}</h3>
+            {{else}}
+            <h3>Welcome to Room List</h3>
+            {{/if}}
         </div>
 
 
-        <div style="text-align: center, margin-top:50px">
-            <h3>online photo album</h3>
-        </div>
+        <div style="text-align: center, margin-top:50px"> </div>
+
         <div>
             <a href="/add-photo" class="button">Upload a new room</a>
         </div>
@@ -43,6 +48,7 @@
                 <div>
                     <img src="/photos/{{filename}}" style="width:80%;" />
                 </div>
+
 
                 <div class="roomid">ID: {{_id}}</div>
                 <div class="roomid">Title: {{title}}</div>
@@ -61,12 +67,11 @@
                 <div class="editRoom"><a href="/roomEdit/{{_id}}">Edit</a></div>
 
             </div> {{!-- end photo-title class--}}
-
             {{/each}} {{else}}
             <p>
                 There is no Rooms
             </p>
-            {{/if}}
+            {{/if }}
         </div>
         <a href="/logout">Log out </a> | <a href="/admin_RoomList">Room List </a>
     </div>
