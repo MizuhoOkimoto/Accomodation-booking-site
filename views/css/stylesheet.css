@@ -75,19 +75,6 @@ a {
   background-color: rgba(45, 45, 124, 0.596);
 }
 
-/* nav {
-  width: 100%;
-} */
-/* #list {
-  display: flex;
-} */
-/* .nav li {
-  font-family: 'Roboto Slab', serif;
-  padding: 20px 30px 16px 60px;
-  list-style: none;
-  color: #000;
-  /* justify-content: center; 
-} */
 .nav li:hover {
   opacity: 0.5;
 }
@@ -722,18 +709,7 @@ text-align: center;
 .heading {
   margin-bottom: 20px;
 }
-/* .booking {
-  display: inline-block;
-  text-align: center;
-  align-items: center;
-} */
-/* .room_detail_form {
-  display: flex;
-  justify-content: center;
-} */
-/* .form-group input {
-  margin-right: 10px;
-} */
+
 .form_container {
   width: 80%;
   margin: 0 auto;
@@ -846,7 +822,6 @@ input[type="email"]:focus {
 .listing_container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
 }
 .photo-tile {
   margin-left:30px;
@@ -861,4 +836,13 @@ input[type="email"]:focus {
 
 .signup {
   margin-top: 40px;
+}
+
+.adminDashboard_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.register_container {
+  text-align: center;
 }

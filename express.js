@@ -212,25 +212,6 @@ app.get("/userDashboard", ensureLogin, ensureAdmin, (req, res) => {
   res.render('userDashboard', { user: req.session.user, layout: false });
 });
 
-/* #region ADMIN DASHBOARD*/
-// app.get("/adminDashboard", ensureAdmin, (req, res) => {　//findの結果が/then(photos)に入るようになる
-//   PhotoModel.find().lean()
-//     .exec()
-//     .then((photos) => {
-//       // underscore ( _ ) is a common library full of utility methods you can use
-//       // to make certain tasks a lot easier on yourself. Here we use underscore to
-//       // loop through the photos and and for each photo, set the uploadDate to a 
-//       // more user friendly date format. http://underscorejs.org/#each
-//       _.each(photos, (photo) => {
-//         photo.uploadDate = new Date(photo.createdOn).toDateString();
-//         //photo.caption = new String(photo.caption);
-//       });
-
-//       // send the html view with our form to the client
-//       res.render("adminDashboard", { user: req.session.user, photos: photos, hasPhotos: !!photos.length, layout: false });
-//     });
-// });
-
 app.get("/adminDashboard", ensureAdmin, (req, res) => {　//findの結果が/then(photos)に入るようになる
   PhotoModel.find().lean()
     .exec()
@@ -371,19 +352,20 @@ app.post("/roomEdit", ensureAdmin, (req, res) => {
         }
       }
     ).exec().then((err) => {
-      console.log("Something went wrong: "); //このエラーハンドリングでいい????? CHECK!!!
-      res.redirect("/admin_RoomList");　//エラーハンドリング追加????? CHECK!!!
+      console.log("Something went wrong:"); //このエラーハンドリングでいい????? CHECK!!!
+      res.render("/adminDashboard");　//エラーハンドリング追加????? CHECK!!!
     });
 
   } else {
     //adding
     room.save((err) => {
       console.log("Something went wrong: check duplicate ID"); //このエラーハンドリングでいい????? CHECK!!!
-      res.redirect("/admin_RoomList");
+      res.redirect("/adminDashboard");
     });
+    console.log("the room was created");
+    res.render("/adminDashboard");
   };
-  console.log("the room was created");
-  res.redirect("/adminDashboard");
+
 
 });
 /* #end region */

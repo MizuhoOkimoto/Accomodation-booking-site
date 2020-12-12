@@ -26,25 +26,24 @@
         {{> header }}
 
         <div class="adminDashboard">
-            {{#if user}}
-            <h3>Welcome, {{user.f_name}} {{user.l_name}}</h3>
-            {{else}}
-            <h3>Welcome to Room List</h3>
-            {{/if}}
+
+            <h3>Welcome {{user.f_name}} {{user.l_name}}, How are you today?</h3></br>
+            <h3>Room List</h3></br>
         </div>
 
 
         <div style="text-align: center, margin-top:50px"> </div>
 
         <div>
-            <a href="/add-photo" class="button">Upload a new room</a>
+            <h4><a href="/add-photo" class="button">Upload a new room</h4>
         </div>
-        <div>
+        <div class="adminDashboard_container">
             {{#if hasPhotos }} {{#each photos}}
 
-            <div class="photo-tile" style="width:300px;border:1px dashed #6495de;padding:16px margin-left:50px;">
+            <div class="photo-tile col-md-4"
+                style="width:300px;border:1px dashed #6495de;padding:16px margin-left:50px;">
                 <div>
-                    <img src="/photos/{{filename}}" style="width:80%;" />
+                    <img src="/photos/{{filename}}" style="width:100%;" />
                 </div>
 
 
@@ -62,7 +61,7 @@
                         </button>
                     </form>
                 </div>
-                <div class="editRoom"><a href="/roomEdit/{{_id}}">Edit</a></div>
+                <div class="editRoom" style="text-align: center;"><a href="/roomEdit/{{_id}}">Edit</a></div>
 
             </div> {{!-- end photo-title class--}}
             {{/each}} {{else}}

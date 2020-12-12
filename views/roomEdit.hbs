@@ -23,13 +23,13 @@
 
 <body>
     {{> header user}}
-    <div class="roomEdit">
-        <h1>Room Editor</h1>
+    <div class="roomEdit" style="margin-top:100px;">
+        <h1>Room Editor</h1></br>
         <form method="POST" action="/roomEdit">
             {{#if room._id}}
             <input type="hidden" name="ID" value="{{room._id}}" />
             <input type="hidden" name="edit" value="1" />
-            <h4>Editing Room ID: {{room._id}}</h4>
+            <h4>Editing Room ID: {{room._id}}</h4></br>
             {{else}}
             <input type="hidden" name="edit" value="0" />
             <label class="fixedlabel">ID</label><input type="number" name="ID" /><br />
@@ -40,6 +40,7 @@
             <label class="fixedlabel">Location</label><input type="text" name="location"
                 value="{{room.location}}" /><br />
             <label class="fixedlabel">Price</label><input type="text" name="price" value="{{room.price}}" /><br />
+
             <label class="fixedlabel"></label><button type="submit" name="submit">Submit</button>
         </form>
     </div>

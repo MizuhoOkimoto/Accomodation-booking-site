@@ -8,6 +8,7 @@
         "dbconn",
         "endregion",
         "firstrunsetup",
+        "fixedlabel",
         "fname",
         "form",
         "formgroup",

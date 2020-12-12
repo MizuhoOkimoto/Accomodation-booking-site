@@ -27,7 +27,7 @@
 
     <div class="roomlisting">
       {{#if user}}
-      <h3>Welcome, {{user.f_name}} {{user.l_name}}</h3>
+      <h3>Welcome, {{user.f_name}} {{user.l_name}}</h3></br>
       {{else}}
       <h3>Welcome to Room List</h3>
       {{/if}}
@@ -59,17 +59,18 @@
           <div class="roomid">Price: {{price}}</div>
           <a href="/roomDetail/{{_id}}">Get to Room Detail</a>
         </div> {{!-- end photo-title class--}}
+
         {{/each}} {{else}}
+
         <p>
           There is no Rooms
-          <a href="/listing">Back to list </a>
         </p>
         {{/if }}
         {{#if isAdmin}}
         <a href="/adminDashboard">Edit/Create rooms</a>
         {{/if}}
       </div>
-
+      <a href="/listing">Back to list </a>
     </div>
 </body>
 

@@ -23,22 +23,22 @@
 
 <body>
     {{> header }}
-    <main class="bookingnow">
+    <main class="bookingnow" style="margin: 100px 100px">
         <div class="booking_title">
             <h2>Booking</h2>
         </div>
         <fieldset>
-            <div class="bookingform">
-                <div class="section">
+            <div class="bookingform" style="padding:30px;">
+                <div class="form-group">
                     <label for="checkin">Check-in Date <sup>*</sup></label>
                     <input type="date" id="checkin" name="checkin" required />
                 </div>
-                <div class="section">
+                <div class="form-group">
                     <label for="checkout">Check-out Date <sup>*</sup></label>
                     <input type="date" id="checkout" name="checkout" required />
                 </div>
 
-                <div class="section">
+                <div class="form-group">
                     <label for="guests">guests<sup>*</sup></label><br />
                     <input list="guests" id="guests" name="guests" placeholder="Number of Guests" required />
 
@@ -48,9 +48,12 @@
                         <option value="3"></option>
                         <option value="4"></option>
                         <option value="5"></option>
-                    </datalist>
+                    </datalist></br>
+
+                    <button class="confirm" type="button"><a href="/booking">Booking Confirm</a></button>
 
                 </div>
+
             </div>
         </fieldset>
     </main>
