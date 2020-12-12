@@ -19,16 +19,16 @@ var UserSchema = new Schema({
 });
 
 //後で追加！！！
-UserSchema.pre("save", function (next) {
+// UserSchema.pre("save", function (next) {
 
-  bcrypt.genSalt(10)
-    .then(salt => {
-      bcrypt.hash(this.create_psw, salt)
-        .then(hash => {
-          this.create_psw = hash
-          next();
-        })
-    })
-})
+//   bcrypt.genSalt(10)
+//     .then(salt => {
+//       bcrypt.hash(this.create_psw, salt)
+//         .then(hash => {
+//           this.create_psw = hash
+//           next();
+//         })
+//     })
+// })
 
 module.exports = mongoose.model("User", UserSchema); //What is "User" ???

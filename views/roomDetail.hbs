@@ -39,15 +39,17 @@
       <div class="result_list">
         {{#if hasPhotos}}
         {{#each photos}}
-        <div class="photo-tile" style="width:300px;border:1px dashed #6495de;padding:16px;">
+        <div class="photo-tile" style="width:600px; border:1px dashed #6495de;padding:16px;">
           <div>
-            <img src="/photos/{{filename}}" style="width:80%;" />
+            <img src="/photos/{{filename}}" style="width:100%;" />
           </div>
 
-          <div class="roomid">Title: {{title}}</div>
-          <div class="roomid">Description: {{description}}</div>
-          <div class="roomid">Location: {{location}}</div>
-          <div class="roomid">Price: {{price}}</div>
+          <div class="roomid">{{title}}</div> </br>
+          <div class="roomid">Description: {{description}}</div> </br>
+          <div class="roomid">Location: {{location}}</div> </br>
+          <div class="roomid">Price: {{price}}</div> </br></br>
+          <p>Please login or signup to book</p>
+          <a href="/login">Log in</a> | <a href="/signup">Sign up</a>
           {{/each}}
           {{/if}}
           {{#if user}}

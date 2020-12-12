@@ -31,43 +31,42 @@
       {{else}}
       <h3>Welcome to Room List</h3>
       {{/if}}
+      <nav class="bar_search">
+        <form class="example" action="/search" method="POST">
+          <input list="Location" id="location" type="text" placeholder="Search location" name="location">
+          <datalist id="Location">
+            <option value="japan"></option>
+            <option value="Toronto"></option>
+            <option value="Mexico"></option>
+
+          </datalist>
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+      </nav>
+
+      <div style="text-align: center, margin-top:50px"> </div>
+      <div class="listing_container">
+        {{#if hasRooms }} {{#each rooms}}
+
+        <div class="photo-tile" style="width:300px;border:1px dashed #6495de;padding:16px">
+          <div>
+            <img src="/photos/{{filename}}" style="width:80%;" />
+          </div>
+
+          <div class="roomid">Title: {{title}}</div>
+          <div class="roomid">Description: {{description}}</div>
+          <div class="roomid">Location: {{location}}</div>
+          <div class="roomid">Price: {{price}}</div>
+          <a href="/roomDetail/{{_id}}">Get to Room Description</a>
+        </div> {{!-- end photo-title class--}}
+        {{/each}} {{else}}
+        <p>
+          There is no Rooms
+        </p>
+        {{/if }}
+      </div>
+      <a href="/listing">Back to list </a>
     </div>
-    <nav class="bar_search">
-      <form class="example" action="/search" method="POST">
-        <input list="Location" id="location" type="text" placeholder="Search Location" name="location">
-        <datalist id="Location">
-          <option value="japan"></option>
-          <option value="Toronto"></option>
-          <option value="Mexico"></option>
-
-        </datalist>
-        <button type="submit"><i class="fa fa-search"></i></button>
-      </form>
-    </nav>
-
-    <div style="text-align: center, margin-top:50px"> </div>
-    <div class="listing_container">
-      {{#if hasRooms }} {{#each rooms}}
-
-      <div class="photo-tile" style="width:300px;border:1px dashed #6495de;padding:16px">
-        <div>
-          <img src="/photos/{{filename}}" style="width:80%;" />
-        </div>
-
-        <div class="roomid">Title: {{title}}</div>
-        <div class="roomid">Description: {{description}}</div>
-        <div class="roomid">Location: {{location}}</div>
-        <div class="roomid">Price: {{price}}</div>
-        <a href="/roomDetail/{{_id}}">Get to Room Description</a>
-      </div> {{!-- end photo-title class--}}
-      {{/each}} {{else}}
-      <p>
-        There is no Rooms
-      </p>
-      {{/if }}
-    </div>
-    <a href="/listing">Back to list </a>
-  </div>
 </body>
 
 </html>

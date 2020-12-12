@@ -131,6 +131,7 @@ app.post("/search", (req, res, next) => {
     });
 });
 
+
 /*#region ROOM LISTING PAGE */
 app.get("/listing", function (req, res) {
   PhotoModel
