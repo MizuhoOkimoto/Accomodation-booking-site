@@ -22,7 +22,6 @@ const fs = require("fs");
 const _ = require('underscore');
 const { model } = require("./models/userModel");
 
-
 /* #region CONFIGURATIONS */
 //handlebars --- register handlebars as the rending engine for views
 //app.set("views", "./views"); //added it from 11/13 lecture
@@ -31,25 +30,6 @@ app.set("view engine", ".hbs");
 
 //MODULE INITIALIZATION
 const HTTP_PORT = process.env.PORT || 8080;
-
-//express.session ????????? ----------
-// app.use(
-//   session({
-//     secret: `${process.env.SECRET_KEY}`,
-//     resave: false,
-//     saveUninitialized: true,
-//     // cookie: { secure: true },
-//     cookie: { maxAge: 180 * 60 * 1000 },
-//     store: new MongoStore({ mongooseConnection: mongoose.connection }),
-//   })
-// );
-
-// app.use((req, res, next) => {
-//   res.locals.user = req.session.userInfo;
-//   res.locals.session = req.session;
-//   next();
-// });
-//----------------------------------
 
 //connect to my mongoDB database
 mongoose.connect(process.env.mongoDB_atlas, {
@@ -76,22 +56,10 @@ app.use(express.static("public"));
 app.use(clientSessions({
   cookieName: "session",
   secret: "do not read my cookie",
-  duration: 8 * 60 * 1000, //2mins after cookie expires
+  duration: 2 * 60 * 1000, //2mins after cookie expires
   activeDuration: 1000 * 60, //let user logout automatically after this specific duration //it will reset the time when user move 
-})//back to duration: 2 * 60 * 1000/
+})
 );
-
-//-------------------------------------------------
-// const ensureLogin = (req, res, next) => {
-//   req.session.user ? next() : res.redirect("/login");
-// };
-
-// const dashBoardLoader = (req, res) => {
-//   req.session.user.type == "Admin"
-//     ? res.render("user/admin-dashboard")
-//     : res.render("user/user-dashboard");
-// };
-//---------------------------------------------------
 
 function ensureLogin(req, res, next) {
   if (!req.session.user) {
@@ -111,7 +79,6 @@ function ensureAdmin(req, res, next) {
 //body-parser
 app.use(bodyParser.json()); //テキストをJSONとして解析し、結果のオブジェクトをreq.bodyに公開
 app.use(bodyParser.urlencoded({ extended: false })); //not use extended feature
-
 
 //make sure the photos folder exists and if not create it
 if (!fs.existsSync(PHOTODIRECTORY)) {
@@ -133,8 +100,6 @@ const storage = multer.diskStorage({
 //tell to multer to use the diskStorage function for naming files instead of the default.
 const upload = multer({ storage: storage });
 
-
-
 //-----------------------------------------------------------------------------
 
 // body-parser モジュールを使えるようにセット
@@ -145,21 +110,26 @@ app.get("/", function (req, res) {
   res.render("main", { user: req.session.user, layout: false }); //added user: req.session.user
 });
 
-// app.get("/listing", function (req, res) {
-//   res.render("listing", { user: req.session.user, layout: false });
-// });
-
-//作り変える必要あり//
-// app.get("/listing", (req, res) => {
-//   model.find();
-// });
 app.get("/listing/:filter", (req, res) => {
   const cityFilter = req.params.filter;
   model.find({ location: cityFilter })
 });
 
-//   res.render("listing", { user: req.session.user, layout: false });
-// });
+app.post("/search", (req, res, next) => {
+  var location_id = req.body.location.toLowerCase();
+  console.log(req.body.location);
+  PhotoModel.find({ location: location_id }).lean()
+    .exec()
+    .then((roomdata) => {
+      console.log(roomdata);
+
+      res.render('listing', { layout: false, hasRooms: !!roomdata.length, rooms: roomdata, userInfo: req.session.userInfo });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+});
 
 /*#region ROOM LISTING PAGE */
 app.get("/listing", function (req, res) {
@@ -171,37 +141,25 @@ app.get("/listing", function (req, res) {
       _.each(rooms, (photo) => {
         photo.uploadDate = new Date(photo.createdOn).toDateString();
       });
-
       res.render("listing", { rooms: rooms, hasRooms: !!rooms.length, user: req.session.user, layout: false })
-
     });
 });
 //-------------------------------------------
-
-// app.get("/roomDetail", function (req, res) {
-//   res.render("roomDetail", { user: req.session.user, layout: false });
-// });
-
-// app.get("/roomDetail/:roomid", function (req, res) {
-//   res.render("roomDetail", { user: req.session.user, layout: false });
-// });
-app.get("/:id", function (req, res) {
+app.get("/roomDetail/:id", function (req, res) {
   let id_url = req.params.id;
   PhotoModel
     .find({ _id: id_url })
     .lean()
     .exec()
     .then((photos) => {
-      res.render("roomDetail", { photos: photos, hasPhotos: !!photos.length, layout: false });
-
+      res.render("roomDetail", { user: req.session.user, photos: photos, hasPhotos: !!photos.length, layout: false });
     });
 });
 
-//後で使う！！！！！
-// app.get("/login", function (req, res) {
-//   model.find({ roomID: roomID });
-//   res.render("login", { user: req.session.user, layout: false });
-// });
+app.get("/booking", function (req, res) {
+  res.render("booking", { user: req.session.user, layout: false });
+
+});
 
 app.get("/signup", function (req, res) {
   res.render("signup", { user: req.session.user, layout: false });
@@ -255,7 +213,6 @@ app.get("/userDashboard", ensureLogin, (req, res) => {
   console.log("Getting user dashboard " + req.session.user);
   res.render('userDashboard', { user: req.session.user, layout: false });
 });
-
 
 /* #region ADMIN DASHBOARD*/
 app.get("/adminDashboard", ensureAdmin, (req, res) => {　//findの結果が/then(photos)に入るようになる

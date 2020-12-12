@@ -701,8 +701,9 @@ footer p {
 /* -------------- END FOOTER SOCIAL MEDIA ICONS ------------------ */
 /*--------------- END FOOTER --------------------------------------*/
 /*--------------- START ROOM DETAILS PAGE -------------------------*/
-.room_detail {
-  margin: 40px 40px;
+.roomdetail {
+  margin: 100px 40px;
+text-align: center;
 }
 .room_detail img {
   width: 250px; /*画像の大きさを統一するため*/
@@ -841,4 +842,12 @@ input[type="email"]:focus {
 }
 .photo-tile {
   margin-top:50px;
+}
+.listing_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.photo-tile {
+  margin-left:30px;
 }
