@@ -70,18 +70,11 @@
                     <div class="form-group">
                         <label for="create_psw"> Password </label>
                         <input type="password" class="form-control" id="create_psw" name="create_psw"
-                            placeholder="Create Password" required>
+                            placeholder="Create Password" pattern="(?=.*[a-z])(?=.*[A-Z]).{6,12}" required>
                         {{!-- pattern="[0-9a-fA-F]{6,12}" --}}
                         <small class="form-text text-muted">*6 to 12 characters and the password must have letters
                             and numbers only</small>
                     </div>
-
-                    {{!-- <div class="form-group">
-                            <label for="psw-repeat"> Repeat Password
-                            </label>
-                            <input type="text" class="form-control" id="psw-repeat" placeholder="Repeat Password"
-                                required>
-                        </div> --}}
 
                     <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms&Privacy</a>.
                     </p>
@@ -92,9 +85,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span
-                        class="glyphicon glyphicon-remove"></span> Cancel </button>
-                <p>Already A Member? <a href="#"> Log in </a></p>
+                <p>Already A Member? <a href="/login"> Log in </a></p>
             </div>
         </div>
     </div>

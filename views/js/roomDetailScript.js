@@ -1,15 +1,15 @@
 //--- DETAIL PAGE -----------------------------------------------------------------//
-var details = [
-  {
-    title: "Modern house with a big pool",
-    category: "Category: " + "Entire house",
-    main: "/images/room_image/house1.jpg",
-    sub1: "/images//room_image/room6.jpg",
-    sub2: "/images//room_image/room7.jpg",
-    hostName: "Host: " + "Mizuho Okimoto",
-    price: "Price: $ " + "100",
-  },
-];
+// var details = [
+//   {
+//     title: "Modern house with a big pool",
+//     category: "Category: " + "Entire house",
+//     main: "/images/room_image/house1.jpg",
+//     sub1: "/images//room_image/room6.jpg",
+//     sub2: "/images//room_image/room7.jpg",
+//     hostName: "Host: " + "Mizuho Okimoto",
+//     price: "Price: $ " + "100",
+//   },
+// ];
 
 // window.onload = function () {
 //   var roomtitle = document.querySelector('.title');

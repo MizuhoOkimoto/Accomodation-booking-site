@@ -22,40 +22,52 @@
 </head>
 
 <body>
-    {{ >header }}
-    <div class="booking_title">
-        <h3>Booking</h3>
-    </div>
-    <fieldset>
-        <legend>Book Searching</legend>
-        <div class="arrange">
-            <div class="section">
-                <label for="checkin">Check-in Date <sup>*</sup></label>
-                <input id="checkin" type="date" name="checkin" required />
-            </div>
-            <div class="section">
-                <label for="checkout">Check-out Date <sup>*</sup></label>
-                <input id="checkout" type="date" name="checkout" required />
-            </div>
-
-            <div class="section">
-                <label for="guests_label">guests<sup>*</sup></label><br />
-                <input list="guests" id="guests_label" name="guests" placeholder="Number of Guests" required />
-
-                <datalist id="guests">
-                    <option value="1"></option>
-                    <option value="2"></option>
-                    <option value="3"></option>
-                    <option value="4"></option>
-                </datalist>
-
-            </div>
+    {{> header }}
+    <main class="bookingnow">
+        <div class="booking_title">
+            <h2>Booking</h2>
         </div>
-    </fieldset>
+        <fieldset>
+            <div class="bookingform">
+                <div class="section">
+                    <label for="checkin">Check-in Date <sup>*</sup></label>
+                    <input type="date" id="checkin" name="checkin" required />
+                </div>
+                <div class="section">
+                    <label for="checkout">Check-out Date <sup>*</sup></label>
+                    <input type="date" id="checkout" name="checkout" required />
+                </div>
 
-    <div class="submit-block">
-    </div>
-    </form>
-    </div>
-    </div>
-    </div>
+                <div class="section">
+                    <label for="guests">guests<sup>*</sup></label><br />
+                    <input list="guests" id="guests" name="guests" placeholder="Number of Guests" required />
+
+                    <datalist id="numofguests">
+                        <option value="1"></option>
+                        <option value="2"></option>
+                        <option value="3"></option>
+                        <option value="4"></option>
+                        <option value="5"></option>
+                    </datalist>
+
+                </div>
+            </div>
+        </fieldset>
+    </main>
+    <!-- FOR USING JavaScript and Bootstrap -->
+    <script type="text/javascript" src="/js/script.js"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+</body>
+
+<!-- START FOOTER -->
+
+{{> footer}}
+
+</html>

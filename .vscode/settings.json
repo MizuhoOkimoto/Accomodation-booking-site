@@ -6,6 +6,8 @@
         "cancelbtn",
         "crossorigin",
         "dbconn",
+        "endregion",
+        "firstrunsetup",
         "fname",
         "form",
         "formgroup",

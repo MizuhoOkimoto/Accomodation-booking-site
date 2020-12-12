@@ -149,6 +149,7 @@ header .open {
   width: 60%;
   margin: auto;
   text-align: center;
+  padding: 45px 45px;
 }
 .login-content p {
   text-align: center;
@@ -157,6 +158,16 @@ header .open {
 
 .login-footer {
   background-color: #f9f9f9;
+}
+
+.login-body {
+
+}
+
+.login_btn {
+  width: 450px;
+  height: 50px; 
+  margin: auto; 
 }
 
 .login_container {
@@ -179,17 +190,7 @@ header .open {
   color: white;
   padding: 0px 25px;
 }
-/* .loginbtn {
-  background-color: #530f0f;
-  color: white;
-  text-align: center;
-  line-height: 30px;
-  width: 100px;
-  margin-left: 30px;
-}
-.loginbtn:hover {
-  opacity: 0.5;
-} */
+
 .login_form {
   text-align: center;
 }
@@ -266,7 +267,6 @@ header .open {
 .signup_form input[type="text"],
 input[type="password"],
 input[type="email"] {
-  width: 50%;
   padding: 15px;
   margin: 5px 0 22px 0;
   display: inline-block;
@@ -850,4 +850,11 @@ input[type="email"]:focus {
 }
 .photo-tile {
   margin-left:30px;
+}
+
+.bookingnow {
+  margin-top: 80px;
+}
+.photoalbum {
+  margin-top: 80px;
 }

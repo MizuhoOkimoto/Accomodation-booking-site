@@ -21,10 +21,9 @@ require("dotenv").config({ path: ".env" }); //CHANGE DIRECTORY
 const fs = require("fs");
 const _ = require('underscore');
 const { model } = require("./models/userModel");
+//#endregion
 
 /* #region CONFIGURATIONS */
-//handlebars --- register handlebars as the rending engine for views
-//app.set("views", "./views"); //added it from 11/13 lecture
 app.engine(".hbs", hbs({ extname: ".hbs" }));
 app.set("view engine", ".hbs");
 
@@ -56,11 +55,12 @@ app.use(express.static("public"));
 app.use(clientSessions({
   cookieName: "session",
   secret: "do not read my cookie",
-  duration: 2 * 60 * 1000, //2mins after cookie expires
+  duration: 10 * 60 * 1000, //2mins after cookie expires duration: 2 * 60 * 1000
   activeDuration: 1000 * 60, //let user logout automatically after this specific duration //it will reset the time when user move 
 })
 );
 
+//#region AUTHENTICATION
 function ensureLogin(req, res, next) {
   if (!req.session.user) {
     res.redirect("/login");
@@ -75,6 +75,7 @@ function ensureAdmin(req, res, next) {
     next();
   }
 };
+//#endregion
 
 //body-parser
 app.use(bodyParser.json()); //テキストをJSONとして解析し、結果のオブジェクトをreq.bodyに公開
@@ -85,6 +86,7 @@ if (!fs.existsSync(PHOTODIRECTORY)) {
   fs.mkdirSync(PHOTODIRECTORY);
 }
 
+//#region MULTER
 //multer requires a few options to be setup to store files with file extensions
 //by default it won't store extensions for security reasons
 const storage = multer.diskStorage({
@@ -99,8 +101,7 @@ const storage = multer.diskStorage({
 });
 //tell to multer to use the diskStorage function for naming files instead of the default.
 const upload = multer({ storage: storage });
-
-//-----------------------------------------------------------------------------
+//#endregion
 
 // body-parser モジュールを使えるようにセット
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -128,7 +129,6 @@ app.post("/search", (req, res, next) => {
     .catch((err) => {
       console.log(err);
     });
-
 });
 
 /*#region ROOM LISTING PAGE */
@@ -144,7 +144,7 @@ app.get("/listing", function (req, res) {
       res.render("listing", { rooms: rooms, hasRooms: !!rooms.length, user: req.session.user, layout: false })
     });
 });
-//-------------------------------------------
+
 app.get("/roomDetail/:id", function (req, res) {
   let id_url = req.params.id;
   PhotoModel
@@ -156,15 +156,13 @@ app.get("/roomDetail/:id", function (req, res) {
     });
 });
 
-app.get("/booking", function (req, res) {
+app.get("/booking", ensureLogin, function (req, res) {
   res.render("booking", { user: req.session.user, layout: false });
-
 });
 
 app.get("/signup", function (req, res) {
   res.render("signup", { user: req.session.user, layout: false });
 });
-
 
 app.get("/login", function (req, res) {
   res.render("login", { user: req.session.user, layout: false });
@@ -209,12 +207,30 @@ app.post("/login", function (req, res) {
 });
 
 /* #region USER DASHBOARD*/
-app.get("/userDashboard", ensureLogin, (req, res) => {
+app.get("/userDashboard", ensureLogin, ensureAdmin, (req, res) => {
   console.log("Getting user dashboard " + req.session.user);
   res.render('userDashboard', { user: req.session.user, layout: false });
 });
 
 /* #region ADMIN DASHBOARD*/
+// app.get("/adminDashboard", ensureAdmin, (req, res) => {　//findの結果が/then(photos)に入るようになる
+//   PhotoModel.find().lean()
+//     .exec()
+//     .then((photos) => {
+//       // underscore ( _ ) is a common library full of utility methods you can use
+//       // to make certain tasks a lot easier on yourself. Here we use underscore to
+//       // loop through the photos and and for each photo, set the uploadDate to a 
+//       // more user friendly date format. http://underscorejs.org/#each
+//       _.each(photos, (photo) => {
+//         photo.uploadDate = new Date(photo.createdOn).toDateString();
+//         //photo.caption = new String(photo.caption);
+//       });
+
+//       // send the html view with our form to the client
+//       res.render("adminDashboard", { user: req.session.user, photos: photos, hasPhotos: !!photos.length, layout: false });
+//     });
+// });
+
 app.get("/adminDashboard", ensureAdmin, (req, res) => {　//findの結果が/then(photos)に入るようになる
   PhotoModel.find().lean()
     .exec()
@@ -233,8 +249,8 @@ app.get("/adminDashboard", ensureAdmin, (req, res) => {　//findの結果が/the
     });
 });
 
-//upload photo
-app.get("/add-photo", ensureLogin, (req, res) => {
+/* #region UPLOAD PHOTO*/
+app.get("/add-photo", ensureAdmin, ensureLogin, (req, res) => {
   // send the html view with our form to the client
   res.render("add-photo", {
     layout: false // do not use the default Layout (main.hbs)
@@ -295,15 +311,13 @@ app.post("/remove-photo/:filename", (req, res) => {
     });
 });
 
-//-----------------------------------------------------------------------------------------
-
 app.get("/logout", (req, res) => { //I do not create logout.hbs
   req.session.destroy();
   res.redirect("/");
 });
 
 /* #region ROOMS */
-app.get("/admin_RoomList", ensureLogin, (req, res) => {
+app.get("/admin_RoomList", ensureAdmin, (req, res) => {
   roomModel.find()
     .lean()
     .exec()
@@ -312,11 +326,11 @@ app.get("/admin_RoomList", ensureLogin, (req, res) => {
     });
 });
 
-app.get("/roomEdit", ensureLogin, (req, res) => {
+app.get("/roomEdit", ensureAdmin, (req, res) => {
   res.render("roomEdit", { user: req.session.user, layout: false });
 });
 
-app.get("/roomEdit/:roomid", ensureLogin, (req, res) => {
+app.get("/roomEdit/:roomid", ensureAdmin, (req, res) => {
   const roomid = req.params.roomid;
 
   PhotoModel.findOne({ _id: roomid })
@@ -328,7 +342,7 @@ app.get("/roomEdit/:roomid", ensureLogin, (req, res) => {
     });
 });
 
-app.get("/admin_RoomList/Delete/:roomid", ensureLogin, (req, res) => {
+app.get("/admin_RoomList/Delete/:roomid", ensureAdmin, (req, res) => {
   const roomid = req.params.roomid;
   roomModel.deleteOne({ _id: roomid })
     .then(() => {
@@ -336,7 +350,7 @@ app.get("/admin_RoomList/Delete/:roomid", ensureLogin, (req, res) => {
     });
 })
 
-app.post("/roomEdit", ensureLogin, (req, res) => {
+app.post("/roomEdit", ensureAdmin, (req, res) => {
   const room = new roomModel({
     _id: req.body.ID,
     title: req.body.title,
@@ -369,79 +383,10 @@ app.post("/roomEdit", ensureLogin, (req, res) => {
     });
   };
   console.log("the room was created");
-  res.redirect("/admin_RoomList");
+  res.redirect("/adminDashboard");
 
 });
 /* #end region */
-//-----------------------------------------------------------------------------------------
-/* #region PROFILES */
-app.get("/Profile", ensureLogin, (req, res) => {
-  res.render("Profile", { user: req.session.user, layout: false });
-});
-
-app.get("/Profile/Edit", ensureLogin, (req, res) => {
-  res.render("ProfileEdit", { user: req.session.user, layout: false });
-});
-
-app.post("/Profile/Edit", ensureLogin, (req, res) => {
-
-  const username = req.body.username;
-  const firstName = req.body.firstname;
-  const lastName = req.body.lastname;
-  const Email = req.body.email;
-  const isAdmin = (req.body.isAdmin === "on");
-
-  userModel.updateOne(
-    { username: username },
-    {
-      $set: {
-        firstName: firstName,
-        lastName: lastName,
-        email: Email,
-        isAdmin: isAdmin
-      }
-    }
-  ).exec()
-    .then(() => {
-      req.session.user = {
-        username: username,
-        email: Email,
-        firstName: firstName,
-        lastName: lastName,
-        isAdmin: isAdmin
-      };
-      res.redirect("/Profile");
-    });
-  /*    .then((err) => {
-          if (err) {
-              console.log("An error occurred while updating the profile: " + err);
-          } else {
-              console.log("Profile " + req.body.username + " updated successfully");
-          }
-      })
-      .catch((err) => {
-          console.log("ERROR: " + err);
-      });
-  */
-});
-
-app.get("/viewData", function (req, res) {
-  var Register = [
-    {
-      fname: "Mizuho",
-      lname: "Okimoto",
-      email: "mokimoto@myseneca.ca",
-      password: "Mizuho1121",
-      visible: true,
-    },
-  ];
-  res.render("viewData", {
-    //ファイル名と同じ名前にしなきゃいけない
-    //got some objects send it in data attributes of the render method, viewData is a template for rendering
-    data: Register,
-    layout: false,
-  });
-});
 
 /* #region REGISTRATION */
 app.get("/registration", function (req, res) {
@@ -450,14 +395,6 @@ app.get("/registration", function (req, res) {
 });
 
 app.post("/registration", function (req, res) {
-  // mongoose.connect(process.env.mongoDB_atlas, {
-  //   useNewUrlParser: true,
-  //   useUnifiedTopology: true,
-  //   useCreateIndex: true,
-  // })
-  //   .then(() => {
-  //     console.log("Connected to MongoDB");
-  //   });
 
   //FORM_DATA
   const Form_data = req.body;
@@ -480,18 +417,6 @@ app.post("/registration", function (req, res) {
       console.log(`There is an error: ${err}`);
       process.exit(1); //stop running and return error message
     });
-  /*
-  const DATA_OUTPUT =
-    "<p style='text-align:center;'>" + // JSON.stringify(FORM_DATA) + ????
-    "<p style='text-align:center;'> Welcome <strong>" +
-    Form_data.f_name +
-    " " +
-    Form_data.l_name +
-    "</strong> Thank you for your registration!";
- 
-  res.send(DATA_OUTPUT);
-*/
-  //res.render("registration", { data: DATA_OUTPUT, layout: false });
 
   //sending email
   var transporter = nodemailer.createTransport({

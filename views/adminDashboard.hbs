@@ -25,8 +25,6 @@
     <div class="photoalbum">
         {{> header }}
 
-        <h1>{{user.isAdmin}}</h1>
-
         <div class="adminDashboard">
             {{#if user}}
             <h3>Welcome, {{user.f_name}} {{user.l_name}}</h3>
@@ -44,7 +42,7 @@
         <div>
             {{#if hasPhotos }} {{#each photos}}
 
-            <div class="photo-tile" style="width:300px;border:1px dashed #6495de;padding:16px;">
+            <div class="photo-tile" style="width:300px;border:1px dashed #6495de;padding:16px margin-left:50px;">
                 <div>
                     <img src="/photos/{{filename}}" style="width:80%;" />
                 </div>
@@ -73,7 +71,7 @@
             </p>
             {{/if }}
         </div>
-        <a href="/logout">Log out </a> | <a href="/admin_RoomList">Room List </a>
+        <a href="/logout">Log out </a> | <a href="/adminDashboard">Room List </a>
     </div>
 </body>
 
