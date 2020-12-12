@@ -15,7 +15,6 @@ const PHOTODIRECTORY = ("./public/photos/");
 const session = require('express-session');
 const Schema = mongoose.Schema;
 mongoose.Promise = require("bluebird"); //use bluebird promise library with mongoose
-// const dotenv = require("dotenv").config(); //dotenv
 const bcrypt = require("bcryptjs"); //bcrypt
 require("dotenv").config({ path: ".env" }); //CHANGE DIRECTORY
 const fs = require("fs");
@@ -251,14 +250,14 @@ app.get("/adminDashboard", ensureAdmin, (req, res) => {　//findの結果が/the
 });
 
 /* #region UPLOAD PHOTO*/
-app.get("/add-photo", ensureAdmin, ensureLogin, (req, res) => {
+app.get("/add-photo", ensureLogin, (req, res) => {
   // send the html view with our form to the client
   res.render("add-photo", {
     layout: false // do not use the default Layout (main.hbs)
   });
 });
 
-app.post("/add-photo", upload.single("photo"), (req, res) => {
+app.post("/add-photo", upload.single("file"), (req, res) => {
   // setup a PhotoModel object and save it
   const locals = {
     message: "New room was uploaded successfully",
