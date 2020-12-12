@@ -34,17 +34,23 @@
             <h3>online photo album</h3>
         </div>
         <div>
-            <a href="/add-photo" class="button">Upload a photo</a>
+            <a href="/add-photo" class="button">Upload a new room</a>
         </div>
         <div>
             {{#if hasPhotos }} {{#each photos}}
-            <div class="photo-tile">
-                <div>{{this.name}} ({{this.email}})</div>
+
+            <div class="photo-tile" style="width:300px;border:1px dashed #6495de;padding:16px;">
                 <div>
-                    <img src="/photos/{{filename}}" style="width:30%;" />
+                    <img src="/photos/{{filename}}" style="width:80%;" />
                 </div>
-                <div class="caption">Caption: {{caption}}</div>
+
+                <div class="roomid">ID: {{_id}}</div>
+                <div class="roomid">Title: {{title}}</div>
+                <div class="roomid">Description: {{description}}</div>
+                <div class="roomid">Location: {{location}}</div>
+                <div class="roomid">Price: {{price}}</div>
                 <div class="upload-date"><i>Uploaded: {{uploadDate}}</i></div>
+
                 <div class="remove" title="Remove photo">
                     <form action="/remove-photo/{{filename}}" method="post">
                         <button type="submit">
@@ -52,10 +58,13 @@
                         </button>
                     </form>
                 </div>
-            </div>
+                <div class="editRoom"><a href="/roomEdit/{{_id}}">Edit</a></div>
+
+            </div> {{!-- end photo-title class--}}
+
             {{/each}} {{else}}
             <p>
-                You have no photos uploaded yet
+                There is no Rooms
             </p>
             {{/if}}
         </div>

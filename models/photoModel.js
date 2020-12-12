@@ -7,13 +7,17 @@ mongoose.Promise = require("bluebird");
 
 // define the photo schema
 const photoSchema = new Schema({
+    "_id": {
+        type: Number
+    },
     "filename": {
         type: String,
         unique: true
     },
-    "name": String,
-    "email": String,
-    "caption": String,
+    "title": String,
+    "description": String,
+    "location": String,
+    "price": Number,
     "createdOn": {
         type: Date,
         default: Date.now

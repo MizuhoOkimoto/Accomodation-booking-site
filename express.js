@@ -76,9 +76,9 @@ app.use(express.static("public"));
 app.use(clientSessions({
   cookieName: "session",
   secret: "do not read my cookie",
-  duration: 2 * 60 * 1000, //2mins after cookie expires
+  duration: 8 * 60 * 1000, //2mins after cookie expires
   activeDuration: 1000 * 60, //let user logout automatically after this specific duration //it will reset the time when user move 
-})
+})//back to duration: 2 * 60 * 1000/
 );
 
 //-------------------------------------------------
@@ -159,6 +159,22 @@ app.get("/listing/:filter", (req, res) => {
 //   res.render("listing", { user: req.session.user, layout: false });
 // });
 
+/*#region ROOM LISTING PAGE */
+app.get("/listing", function (req, res) {
+  var room = roomImport.roomModel
+    .find()
+    .lean()
+    .exec()
+    .then((rooms) => {
+      if (rooms) {
+        return res.render("listing", { rooms: rooms, hasRooms: !!rooms.length, user: req.session.user, layout: false })
+      }
+      else {
+        return res.render("listing", { rooms: rooms, hasRooms: !!rooms.length, user: req.session.user, layout: false });
+      }
+    });
+});
+//-------------------------------------------
 
 app.get("/roomDetail", function (req, res) {
   res.render("roomDetail", { user: req.session.user, layout: false });
@@ -258,14 +274,16 @@ app.get("/add-photo", ensureLogin, (req, res) => {
 app.post("/add-photo", upload.single("photo"), (req, res) => {
   // setup a PhotoModel object and save it
   const locals = {
-    message: "Your photo was uploaded successfully",
+    message: "New room was uploaded successfully",
     layout: false // do not use the default Layout (main.hbs)
   };
 
   const photoMetadata = new PhotoModel({
-    name: req.body.name,
-    email: req.body.email,
-    caption: req.body.caption,
+    _id: req.body.ID,
+    title: req.body.title,
+    description: req.body.description,
+    location: req.body.location,
+    price: req.body.price,
     filename: req.file.filename
   });
 
@@ -322,16 +340,16 @@ app.get("/admin_RoomList", ensureLogin, (req, res) => {
     .then((rooms) => {
       res.render("admin_RoomList", { rooms: rooms, hasRooms: !!rooms.length, user: req.session.user, layout: false }); // !! can convert ot boolean
     });
-})
+});
 
 app.get("/roomEdit", ensureLogin, (req, res) => {
   res.render("roomEdit", { user: req.session.user, layout: false });
-})
+});
 
 app.get("/roomEdit/:roomid", ensureLogin, (req, res) => {
   const roomid = req.params.roomid;
 
-  roomModel.findOne({ _id: roomid })
+  PhotoModel.findOne({ _id: roomid })
     .lean() //convert to JavaScript object
     .exec()
     .then((room) => {
@@ -370,7 +388,7 @@ app.post("/roomEdit", ensureLogin, (req, res) => {
       }
     ).exec().then((err) => {
       console.log("Something went wrong: "); //このエラーハンドリングでいい????? CHECK!!!
-      res.redirect("/");　//エラーハンドリング追加????? CHECK!!!
+      res.redirect("/admin_RoomList");　//エラーハンドリング追加????? CHECK!!!
     });
 
   } else {
@@ -380,7 +398,7 @@ app.post("/roomEdit", ensureLogin, (req, res) => {
       res.redirect("/admin_RoomList");
     });
   };
-
+  console.log("the room was created");
   res.redirect("/admin_RoomList");
 
 });
@@ -500,7 +518,7 @@ app.post("/registration", function (req, res) {
     " " +
     Form_data.l_name +
     "</strong> Thank you for your registration!";
-
+ 
   res.send(DATA_OUTPUT);
 */
   //res.render("registration", { data: DATA_OUTPUT, layout: false });
@@ -559,7 +577,7 @@ app.get("/firstrunsetup", (req, res) => {
   console.log("Success");
   */
   res.redirect("/");
-})
+});
 
 
 //TURN ON THE LISTENER

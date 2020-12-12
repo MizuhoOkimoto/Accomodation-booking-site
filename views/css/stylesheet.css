@@ -833,3 +833,6 @@ input[type="email"]:focus {
   margin:100px 40px 40px 40px;
 
 }
+.photo-tile {
+  margin-top:50px;
+}
