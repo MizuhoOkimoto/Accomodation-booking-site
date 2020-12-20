@@ -20,6 +20,8 @@ require("dotenv").config({ path: ".env" }); //CHANGE DIRECTORY
 const fs = require("fs");
 const _ = require('underscore');
 const { model } = require("./models/userModel");
+const { response } = require("express");
+const { result } = require("underscore");
 //#endregion
 
 /* #region CONFIGURATIONS */
@@ -160,6 +162,17 @@ app.get("/booking", ensureLogin, function (req, res) {
   res.render("booking", { user: req.session.user, layout: false });
 });
 
+app.post("/booking", function (req, res) {
+  const roomid = req.params.roomid;
+  PhotoModel.findOne({ _id: roomid })
+    .lean() //convert to JavaScript object
+    .exec()
+    .then((room) => {
+      estimate = result * price;
+    })
+  res.render("booking", { user: req.session.user, room: room, editmode: true, layout: false });
+});
+
 app.get("/signup", function (req, res) {
   res.render("signup", { user: req.session.user, layout: false });
 });
@@ -178,33 +191,47 @@ app.post("/login", function (req, res) {
     .exec()
     .then((user) => {
 
-      if (!user) {
+      if (!user) { //メールアドレスが存在しない場合
         res.render("login", { errorMsg: "login does not exist!", user: req.session.user, layout: false });
       }
-      else { //when user exists
-        if (req.body.login_email === user.email && req.body.psw === user.create_psw) {
-          console.log('matched');
-          req.session.user = {
-            login_email: user.email,
-            isAdmin: true, //or user.isAdmin??? Just put {{#if isAdmin}}
-            username: user.username,
-            f_name: user.f_name,
-            l_name: user.l_name,
-          };
-          if (user.isAdmin) {
-            console.log('this account is admin');
-            return res.redirect('adminDashboard');
+
+      else {　//メールアドレスが存在する場合
+
+        bcrypt.compare(req.body.psw, user.create_psw).then((result) => {
+
+          if (result) { //パスワードがマッチする場合
+
+            console.log('matched');
+            req.session.user = {
+              login_email: user.email,
+              isAdmin: true, //or user.isAdmin??? Just put {{#if isAdmin}}
+              username: user.username,
+              f_name: user.f_name,
+              l_name: user.l_name,
+            };
+
+            if (user.isAdmin) { //パスワードがadminのパスワードと一致する場合はAdminDashboardにリダイレクト
+              console.log('this account is admin');
+              return res.redirect('adminDashboard');
+            }
+
+            return res.redirect('userDashboard');　//Adminじゃないパスワードの場合はuserDashboardにリダイレクト
           }
-          return res.redirect('userDashboard');
-        }
-        else {
-          // console.log('it stops after second else');
-          res.render("login", { errorMsg: "login and password does not match!", user: req.session.user, layout: false });
-        };
-      };
-    })
-    .catch((err) => { console.log("An error occurred: ${err}") });
-});
+
+          else { //ログイン情報がマッチしない場合
+            // console.log('it stops after second else');
+            res.render("login", { errorMsg: "login and password does not match!", user: req.session.user, layout: false });
+
+          };//end line 209
+
+        })//end line 190
+          .catch((err) => { console.log(`An error occurred: ${err}`) });
+      };//end bcrypt.compare
+
+    }) //end else
+    .catch((err) => { console.log(`Something went wrong: ${err}`) });
+}); //end app.post
+
 
 /* #region USER DASHBOARD*/
 app.get("/userDashboard", ensureLogin, ensureAdmin, (req, res) => {
@@ -297,20 +324,11 @@ app.get("/logout", (req, res) => { //I do not create logout.hbs
   res.redirect("/");
 });
 
-/* #region ROOMS */
-app.get("/admin_RoomList", ensureAdmin, (req, res) => {
-  roomModel.find()
-    .lean()
-    .exec()
-    .then((rooms) => {
-      res.render("admin_RoomList", { rooms: rooms, hasRooms: !!rooms.length, user: req.session.user, layout: false }); // !! can convert ot boolean
-    });
-});
-
+//--------------------------------------------------------------------------------------------------
 app.get("/roomEdit", ensureAdmin, (req, res) => {
   res.render("roomEdit", { user: req.session.user, layout: false });
 });
-
+//--------------------------------------------------------------------------------------------------
 app.get("/roomEdit/:roomid", ensureAdmin, (req, res) => {
   const roomid = req.params.roomid;
 
@@ -319,20 +337,12 @@ app.get("/roomEdit/:roomid", ensureAdmin, (req, res) => {
     .exec()
     .then((room) => {
       res.render("roomEdit", { user: req.session.user, room: room, editmode: true, layout: false })
-      //.catch(() => { }); //TO DO!!!!!!!!!
-    });
+    })
+    .catch((err) => { console.log(`Something went wrong: ${err}`) }); //TO DO!!!!!!!!!
 });
-
-app.get("/admin_RoomList/Delete/:roomid", ensureAdmin, (req, res) => {
-  const roomid = req.params.roomid;
-  roomModel.deleteOne({ _id: roomid })
-    .then(() => {
-      res.redirect("/admin_RoomList");
-    });
-})
-
+//--------------------------------------------------------------------------------------------------
 app.post("/roomEdit", ensureAdmin, (req, res) => {
-  const room = new roomModel({
+  const room = new PhotoModel({
     _id: req.body.ID,
     title: req.body.title,
     description: req.body.description,
@@ -342,7 +352,7 @@ app.post("/roomEdit", ensureAdmin, (req, res) => {
 
   if (req.body.edit === "1") {
     // editing
-    roomModel.updateOne({ _id: room._id },
+    PhotoModel.updateOne({ _id: room._id },
       {
         $set: {
           title: room.title,
@@ -350,24 +360,36 @@ app.post("/roomEdit", ensureAdmin, (req, res) => {
           location: room.location,
           price: room.price
         }
-      }
-    ).exec().then((err) => {
-      console.log("Something went wrong:"); //このエラーハンドリングでいい????? CHECK!!!
-      res.render("/adminDashboard");　//エラーハンドリング追加????? CHECK!!!
-    });
-
-  } else {
+      })
+      .exec()
+      .then(() => {
+        console.log("The room was updated successfully");
+        //return res.render("adminDashboard", { user: req.session.user, room: room, editmode: true, layout: false });
+        res.redirect("/adminDashboard");
+      })
+      .catch((err) => {
+        console.log(`Something went wrong: ${err}`);
+      });
+  }
+  else {
     //adding
     room.save((err) => {
       console.log("Something went wrong: check duplicate ID"); //このエラーハンドリングでいい????? CHECK!!!
-      res.redirect("/adminDashboard");
+      res.render("adminDashboard");
     });
-    console.log("the room was created");
-    res.render("/adminDashboard");
+    // console.log("the room was created", { user: req.session.user, layout: false }); //remove room: room, editmode: true, but does not matter
+    // res.render("adminDashboard", { user: req.session.user, room: room, editmode: true, layout: false });
   };
-
-
 });
+//--------------------------------------------------------------------------------------------------
+
+app.get("/admin_RoomList/Delete/:roomid", ensureAdmin, (req, res) => {
+  const roomid = req.params.roomid;
+  PhotoModel.deleteOne({ _id: roomid })
+    .then(() => {
+      res.redirect("/admin_RoomList");
+    });
+})
 /* #end region */
 
 /* #region REGISTRATION */
@@ -434,24 +456,24 @@ app.post("/registration", function (req, res) {
 
 app.get("/firstrunsetup", (req, res) => {
   /*
-  var Clint = new userModel({
-    username: 'Create Admin info',
-    f_name: 'clint',
-    l_name: 'MacDonald',
-    email: 'mizuho.tiho@gmail.com',
-    create_psw: 'mypassword',
-    isAdmin: true,
-    type: 'Admin'
-  });
-  Clint.save((err) => {
-    console.log("Error: " + err + ';');
-    if (err) {
-      console.log("There was an error creating Clint: " + err);
-    } else {
-      console.log("Admin was created");
-    }
-  });
-  console.log("Success");
+    var Clint = new userModel({
+      username: 'Create Admin info',
+      f_name: 'clint',
+      l_name: 'MacDonald',
+      email: 'mizuho.tiho@gmail.com',
+      create_psw: 'mypassword',
+      isAdmin: true,
+      type: 'Admin'
+    });
+    Clint.save((err) => {
+      console.log("Error: " + err + ';');
+      if (err) {
+        console.log("There was an error creating Clint: " + err);
+      } else {
+        console.log("Admin was created");
+      }
+    });
+    console.log("Success");
   */
   res.redirect("/");
 });

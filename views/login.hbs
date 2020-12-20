@@ -40,7 +40,8 @@
             {{else}}
             <h2>Please login below</h2>
             {{/if}}
-            <form id="login-form" method="POST" class="form-horizontal" action="/login" style="width: 40rem;">
+            <form id="login-form" method="POST" class="form-horizontal" action="/login"
+                style="width: 80% margin: auto;">
                 {{!--role="form"   enctype="multipart/form-data" --}}
                 <div class="form-group">
                     <label for="login_email"> Login Email </label>
@@ -54,9 +55,9 @@
                     <!--minlength="6" maxlength="12" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,12}$" or (?=.*[a-z])(?=.*[A-Z]).{6,12}-->
                 </div>
 
-                <button type="submit" class="login_btn btn btn-success btn-block"><span
+                <button type="submit" class="login_btn btn btn-success btn-block" style="width:40%;"><span
                         class="glyphicon glyphicon-off"></span>
-                    Login </button>
+                    Login </button></br>
             </form>
         </div>
         <div class="login-footer">

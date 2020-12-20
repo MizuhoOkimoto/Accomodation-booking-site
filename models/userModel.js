@@ -21,6 +21,11 @@ var UserSchema = new Schema({
 //後で追加！！！
 UserSchema.pre("save", function (next) {
 
+  // bcrypt.hash(this.create_psw, saltRounds).then(function (hash) {
+  //   // Store hash in your password DB.
+  // });
+
+  ///////////////////////////////////////
   bcrypt.genSalt(10)
     .then(salt => {
       bcrypt.hash(this.create_psw, salt)
@@ -29,6 +34,8 @@ UserSchema.pre("save", function (next) {
           next();
         })
     })
+  //////////////////////////////////////
+
 })
 
 module.exports = mongoose.model("User", UserSchema); //What is "User" ???

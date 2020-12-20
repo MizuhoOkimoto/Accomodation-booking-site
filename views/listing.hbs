@@ -29,7 +29,7 @@
       {{#if user}}
       <h3>Welcome, {{user.f_name}} {{user.l_name}}</h3></br>
       {{else}}
-      <h3>Welcome to Room List</h3>
+      <h3>Welcome to Room List</h3></br>
       {{/if}}
       <nav class="bar_search">
         <form class="example" action="/search" method="POST">
@@ -62,15 +62,13 @@
 
         {{/each}} {{else}}
 
-        <p>
-          There is no Rooms
-        </p>
+        <p>There is no Rooms</p>
         {{/if }}
         {{#if isAdmin}}
         <a href="/adminDashboard">Edit/Create rooms</a>
         {{/if}}
       </div>
-      <a href="/listing">Back to list </a>
+      </br><a href="/listing">Back to list </a>
     </div>
 </body>
 
