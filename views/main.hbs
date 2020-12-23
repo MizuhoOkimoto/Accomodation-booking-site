@@ -54,20 +54,33 @@
     <div class="search-engine">
       <!-- 3. SEARCH ENGINE  -->
       <h2>Search Room List From Location</h2>
-      <div class="search-box">
-        {{!-- <input type="text" class="search-field location" placeholder="search location"> --}}
-        <div>
-          <select class="form-control" id="location" name="location">
-            <option value="null"></option>
-            <option value="Vancouver">Vancouver</option>
-            <option value="Toronto">Toronto</option>
-            <option value="Edmonton">Edmonton</option>
-            <option value="Montreal">Montreal</option>
-            <option value="Ottawa">Ottawa</option>
-          </select>
-        </div><br>
-        <button class="search-btn" type="button">Search</button>
-      </div>
+
+      <nav class="bar_search">
+        <form class="example" action="/search" method="POST">
+          <input list="Location" id="location" type="text" placeholder="Search location" name="location">
+          <datalist id="Location">
+            <option value="japan"></option>
+            <option value="toronto"></option>
+            <option value="mexico"></option>
+          </datalist>
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+      </nav>
+
+      {{!-- <div class="search-box"> --}}
+      {{!-- <input type="text" class="search-field location" placeholder="search location"> --}}
+      {{!-- <div>
+        <select class="form-control" id="location" name="location">
+          <option value="null"></option>
+          <option value="Vancouver">Vancouver</option>
+          <option value="Toronto">Toronto</option>
+          <option value="Edmonton">Edmonton</option>
+          <option value="Montreal">Montreal</option>
+          <option value="Ottawa">Ottawa</option>
+        </select>
+      </div><br>
+      <button class="search-btn" type="button">Search</button>
+    </div> --}}
     </div>
     <!-- END SEARCH ENGINE -->
 

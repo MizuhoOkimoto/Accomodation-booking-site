@@ -120,11 +120,11 @@ app.get("/listing/:filter", (req, res) => {
 app.post("/search", (req, res, next) => {
   var location_id = req.body.location.toLowerCase();
   console.log(req.body.location);
-  PhotoModel.find({ location: location_id }).lean()
+  PhotoModel.find({ location: location_id })
+    .lean()
     .exec()
     .then((roomdata) => {
       console.log(roomdata);
-
       res.render('listing', { layout: false, hasRooms: !!roomdata.length, rooms: roomdata, userInfo: req.session.userInfo });
     })
     .catch((err) => {
