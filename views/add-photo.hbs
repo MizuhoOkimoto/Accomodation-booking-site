@@ -23,16 +23,16 @@
 
 <body>
     {{> header user}}
-    <div class="roomEdit" style="text-align: center">
+    <div class="roomEdit" style="margin-bottom:5px margin-left:20px">
         <h3>Room Editor</h3>
     </div>
-    <div style="margin-bottom:12px;">
+    <div style="margin-bottom:8px; margin-left:20px">
         <a href="/adminDashboard" class="button">Back to the Room List</a>
     </div>
     <div>
         <p>{{ message }}</p>
     </div>
-    <div style="width:400px;border:1px dashed #6495de;padding:16px;">
+    <div class="addroom_container">
 
         <form action="/add-photo" method="POST" enctype="multipart/form-data">
             {{!-- it's POST/ actionは同じページになってるからページが変わらない--}}
@@ -41,17 +41,34 @@
             <input type="hidden" name="edit" value="1" />
             <h4>Editing Room ID: {{room._id}}</h4>
             {{else}}
-            <input type="hidden" name="edit" value="0" />
-            <label class="fixedlabel">ID</label><input type="number" name="ID" /><br />
+            <div class="form-group">
+                <input type="hidden" name="edit" value="0" />
+                <label class="control-label col-sm-2">ID</label>
+                <input class="col-sm-10" type="number" name="ID" /><br />
+            </div>
             {{/if}}
-            <label class="fixedlabel">Title</label><input type="text" name="title" value="{{room.title}}" /><br />
-            <label class="fixedlabel">Description</label><input type="text" name="description"
-                value="{{room.description}}" /><br />
-            <label class="fixedlabel">Location</label><input type="text" name="location"
-                value="{{room.location}}" /><br />
-            <label class="fixedlabel">Price</label><input type="text" name="price" value="{{room.price}}" /><br />
-            <label class="fixedlabel">Photo</label><input type="file" name="file" value="{{room.filename}}" /><br />
-            <label class="fixedlabel"></label><button type="submit" name="submit">Submit</button>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Title</label>
+                <input class="col-sm-10" type="text" name="title" value="{{room.title}}" /><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Description</label>
+                <input class="col-sm-10" type="text" name="description" value="{{room.description}}" /><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Location</label>
+                <input class="col-sm-10" type="text" name="location" value="{{room.location}}" /><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Price</label>
+                <input class="col-sm-10" type="text" name="price" value="{{room.price}}" /><br />
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Photo</label>
+                <input class="col-sm-10" type="file" name="file" value="{{room.filename}}" /><br />
+            </div>
+            <label class="control-label col-sm-2"></label>
+            <button type="submit" name="submit">Submit</button>
 
         </form>
     </div>

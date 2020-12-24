@@ -117,7 +117,7 @@ app.get("/listing/:filter", (req, res) => {
   model.find({ location: cityFilter })
 });
 
-app.post("/search", (req, res, next) => {
+app.post("/search", (req, res, next) => { //I have problem here!!!
   var location_id = req.body.location.toLowerCase();
   console.log(req.body.location);
   PhotoModel.find({ location: location_id })

@@ -1,34 +1,14 @@
-//HOME SECTION ---------------------------------------------------------------------//
-// var sections = [
-//   { caption: "Share room / Room rent", url: "/images/room_image/room2.jpg" },
-//   { caption: "Enjoy with a pool", url: "/images/room_image/house3.jpg" },
-//   { caption: "Resort / Unique houses", url: "/images/room_image/house6.jpg" },
-// ];
-// var sectionContainer = document.querySelector(".section");
-// var section = "";
-// for (var i = 0; i < sections.length; i++) {
-//   section +=
-//     '<div class="section_item">' +
-//     '<a href="/listing">' +
-//     "<img src=" +
-//     sections[i].url +
-//     " />" +
-//     '<h2 class="caption">' +
-//     sections[i].caption +
-//     "</h2>" +
-//     "</div>";
-// }
-// sectionContainer.innerHTML += section;
+// when click hamburger menu
+document.querySelector('.navbar-toggler').onclick = function () {
+    // if menu is opening, close menu
+    if (document.getElementById('navbarNav').classList.contains('show')) {
+        document.querySelector('#navbarNav').classList.remove('show');
+    } else {
+        document.querySelector('#navbarNav').classList.add('show');
+    }
+}
 
-//Booking price calculation
-// $("#calculate").on("click", function () {
-//     let checkIn = req.body.checkIn;
-//     // let checkOut = req.body.checkOut;
-//     // let days = checkOut.diff(checkIn, 'days');
-//     // let price = days * req.body.price
-//     // console.log("price:" + price);
-//     console.log('checkIn');
-// })
+
 function daysDifference(perDayPrice) {
     //define two variables and fetch the input from HTML form  
     var dateI1 = document.getElementById("checkin").value;
