@@ -1,4 +1,4 @@
-// when click hamburger menu
+// when click hamburger menu //need to modify
 document.querySelector('.navbar-toggler').onclick = function () {
     // if menu is opening, close menu
     if (document.getElementById('navbarNav').classList.contains('show')) {
